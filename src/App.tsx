@@ -17,6 +17,7 @@ function App() {
           <Route path="/resume" element={<Resume />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/admin" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </div>
