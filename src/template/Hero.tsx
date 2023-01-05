@@ -1,4 +1,4 @@
-import { Stars, Text } from "@react-three/drei";
+import { OrbitControls, Stars, Text } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
 const Hero = () => {
@@ -6,7 +6,7 @@ const Hero = () => {
     <section id="hero">
       <Canvas>
         {/* <OrbitControls /> */}
-        <Stars />
+        <Stars factor={2} />
         <Text scale={[0.5, 0.5, 0.5]} color="white" anchorX="center" anchorY="middle">
           argSea
         </Text>

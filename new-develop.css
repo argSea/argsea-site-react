@@ -29,7 +29,6 @@ body {
 section {
   min-height: 100vh;
   height: 100vh;
-  /* padding-top: 100px; */
 }
 
 #content {
@@ -66,6 +65,7 @@ header {
   padding-top: 15px;
   margin-bottom: 0;
   /* position: fixed; */
+  position:sticky;
   display: flex;
   top: 0;
   width: 100%;

@@ -23,10 +23,10 @@ const Header = () => {
             <a href="/blog">Blog</a>
           </div>
         </div>
-        <div id="logo">{<FaHome size={50} />}</div>
+        <div id="logo">{<FaHome size={30} />}</div>
         <div id="hamburger">
           {/* <Hamburger direction="left" color="#FFF" rounded /> */}
-          {<FaBars size={50} />}
+          {<FaBars size={30} />}
         </div>
       </nav>
     </header>
