@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Squash as Hamburger } from "hamburger-react";
+import { FaBars, FaHamburger, FaHome } from "react-icons/fa";
 
 const Header = () => {
   return (
@@ -22,8 +23,10 @@ const Header = () => {
             <a href="/blog">Blog</a>
           </div>
         </div>
+        <div id="logo">{<FaHome size={50} />}</div>
         <div id="hamburger">
-          <Hamburger direction="left" color="#FFF" rounded />
+          {/* <Hamburger direction="left" color="#FFF" rounded /> */}
+          {<FaBars size={50} />}
         </div>
       </nav>
     </header>
