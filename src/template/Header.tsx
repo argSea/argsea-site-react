@@ -3,6 +3,10 @@ import { Squash as Hamburger } from "hamburger-react";
 import { FaBars, FaHamburger, FaHome } from "react-icons/fa";
 
 const Header = () => {
+  const testFunc = () => {
+    console.log("Test");
+  };
+
   return (
     <header>
       <nav>
@@ -23,10 +27,15 @@ const Header = () => {
             <a href="/blog">Blog</a>
           </div>
         </div>
-        <div id="logo">{<FaHome size={30} />}</div>
-        <div id="hamburger">
-          {/* <Hamburger direction="left" color="#FFF" rounded /> */}
-          {<FaBars size={30} />}
+        <div id="logo">
+          <Link to="/">{<FaHome size={30} />}</Link>
+        </div>
+        <div id="hamburger" onClick={testFunc}>
+          <svg viewBox="0 0 100 100" width={"100"}>
+            <line id="line-top" x1={"10"} x2={"90"} y1={"30"} y2={"30"} />
+            <line id="line-mid" x1={"10"} x2={"90"} y1={"50"} y2={"50"} />
+            <line id="line-bottom" x1={"10"} x2={"90"} y1={"70"} y2={"70"} />
+          </svg>
         </div>
       </nav>
     </header>

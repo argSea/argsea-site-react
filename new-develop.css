@@ -1,7 +1,8 @@
 :root {
   --background: #f8f8f8;
   --dark: #303032;
-  --nav-height: 150px;
+  --nav-height: 50px;
+  --menu-item-color: #3671cb;
 }
 
 * {
@@ -31,66 +32,14 @@ section {
   height: 100vh;
 }
 
-#content {
-  margin-left: 50px;
-  margin-right: 50px;
-}
-
-#welcomeaaaa {
-  width: 100%;
-  height: 100vh;
-  /* background-color: #034b75; */
-  /* background-color:rgb(17, 17, 17); */
-  display: flex;
-  order: 1;
-  position: relative;
-
-  align-items: center;
-  justify-content: center;
-  /* background: var(--background); */
-
-  background: radial-gradient(ellipse at bottom, #19334d 0%, #010314 100%);
-  overflow: hidden;
-}
-
-#welcomeaaaa #canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-}
-
 header {
   padding-top: 15px;
   margin-bottom: 0;
   /* position: fixed; */
-  position:sticky;
+  position: sticky;
   display: flex;
   top: 0;
   width: 100%;
-}
-
-#navBar {
-  display: none;
-  gap: 15px;
-  justify-content: center;
-  /* background-color: red; */
-}
-
-.navItem {
-  gap: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border: 1px solid blue;
-  border-radius: 20%;
-  flex: 2 1 auto;
-  text-align: center;
-}
-
-.navItem a {
-  text-decoration: none;
-  color: white;
 }
 
 nav {
@@ -99,11 +48,42 @@ nav {
   width: 100%;
 }
 
+#content {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+#navBar {
+  display: none;
+  width: 100%;
+  gap: 10px;
+  justify-content: center;
+  background-color: #1d3c63;
+}
+
+.navItem {
+  padding-top: 10px;
+  border-radius: 20%;
+  flex: 2 1 auto;
+  text-align: center;
+  background-color: #303032;
+}
+
+.navItem a {
+  text-decoration: none;
+  color: white;
+}
+
 #logo {
   flex-direction: left;
   margin-right: auto;
   color: white;
   padding-left: 20px;
+  cursor: pointer;
+}
+
+#logo a {
+  color: var(--menu-item-color);
 }
 
 #hamburger {
@@ -111,6 +91,18 @@ nav {
   margin-left: auto;
   color: white;
   padding-right: 20px;
+  cursor: pointer;
+}
+
+#hamburger svg {
+  border: 1px solid white;
+  fill: white;
+}
+
+#hamburger svg line {
+  stroke: var(--menu-item-color);
+  stroke-width: 10;
+  stroke-linecap: round;
 }
 
 #bio {
