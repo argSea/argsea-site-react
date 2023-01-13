@@ -3,6 +3,9 @@
   --dark: #303032;
   --nav-height: 50px;
   --menu-item-color: #3671cb;
+  --burger-anim-2-delay: 0.5s;
+  --burger-anim-1-len: 0.5s;
+  --burger-anim-2-len: 1s;
 }
 
 * {
@@ -103,6 +106,97 @@ nav {
   stroke: var(--menu-item-color);
   stroke-width: 10;
   stroke-linecap: round;
+  stroke-dasharray: 80;
+  stroke-dashoffset: 0;
+}
+
+#hamburger svg line {
+  /* animation: hamburger-close 1s forwards; */
+  transform-origin: center;
+}
+
+#hamburger:hover #line-top {
+  animation: burger-top-open var(--burger-anim-2-len) forwards;
+  transform-origin: center;
+}
+
+#hamburger:hover #line-mid {
+  animation: burger-mid-open var(--burger-anim-2-len) forwards;
+  transform-origin: center;
+}
+
+#hamburger:hover #line-bottom {
+  animation: burger-bottom-open var(--burger-anim-2-len) forwards;
+  transform-origin: center;
+}
+
+@keyframes burger-top-open {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  40% {
+    stroke-dashoffset: 79.9;
+    transform: translate(0px, 0px);
+    rotate: none;
+  }
+  60% {
+    stroke-dashoffset: 79.9;
+    transform: translate(0px, 20px);
+    rotate: none;
+  }
+  80% {
+    stroke-dashoffset: 79.9;
+    transform: translate(0px, 20px);
+    rotate: 45deg;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    transform: translate(0px, 20px);
+    rotate: 45deg;
+  }
+}
+
+@keyframes burger-mid-open {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  40% {
+    stroke-dashoffset: 79.9;
+    transform: rotate(0) translate(-80px, 0px);
+  }
+  60% {
+    stroke-dashoffset: 79.9;
+    transform: rotate(120deg) translate(-30px, 40px);
+  }
+  100% {
+    stroke-dashoffset: 79.9;
+    transform: rotate(120deg) translate(-30px, 40px);
+  }
+}
+
+@keyframes burger-bottom-open {
+  0% {
+  }
+  100% {
+    transform: translate(40px, -20px);
+  }
+}
+
+@keyframes hamburger-close {
+  0% {
+    stroke-dashoffset: 0;
+    rotate: 180deg;
+  }
+  40% {
+    stroke-dashoffset: 79.9;
+    rotate: 180deg;
+  }
+  60% {
+    stroke-dashoffset: 79.9;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 #bio {

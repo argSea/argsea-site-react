@@ -32,9 +32,9 @@ const Header = () => {
         </div>
         <div id="hamburger" onClick={testFunc}>
           <svg viewBox="0 0 100 100" width={"100"}>
-            <line id="line-top" x1={"10"} x2={"90"} y1={"30"} y2={"30"} />
-            <line id="line-mid" x1={"10"} x2={"90"} y1={"50"} y2={"50"} />
-            <line id="line-bottom" x1={"10"} x2={"90"} y1={"70"} y2={"70"} />
+            <line id="line-top" x1={"50"} x2={"90"} y1={"30"} y2={"30"} />
+            <line id="line-mid" x1={"90"} x2={"30"} y1={"50"} y2={"50"} />
+            {/* <line id="line-bottom" x1={"10"} x2={"90"} y1={"70"} y2={"70"} /> */}
           </svg>
         </div>
       </nav>
