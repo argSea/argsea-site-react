@@ -3,9 +3,15 @@
   --dark: #303032;
   --nav-height: 50px;
   --menu-item-color: #3671cb;
+  --highligh-color: #5c9ddf;
   --burger-anim-2-delay: 0.5s;
-  --burger-anim-1-len: 0.5s;
+  --burger-anim-1-len: 1s;
   --burger-anim-2-len: 1s;
+  --burger-line-top-offset: 0;
+  --burger-line-mid-offset: 20;
+  --burger-line-bot-offset: 0;
+  --burger-line-offset: 0;
+  --burger-dashoffset: 79.9;
 }
 
 * {
@@ -86,7 +92,7 @@ nav {
 }
 
 #logo a {
-  color: var(--menu-item-color);
+  color: var(--highligh-color);
 }
 
 #hamburger {
@@ -97,105 +103,80 @@ nav {
   cursor: pointer;
 }
 
-#hamburger svg {
-  border: 1px solid white;
-  fill: white;
-}
-
 #hamburger svg line {
-  stroke: var(--menu-item-color);
-  stroke-width: 10;
+  stroke: var(--highligh-color);
+  stroke-width: 5;
   stroke-linecap: round;
   stroke-dasharray: 80;
   stroke-dashoffset: 0;
 }
 
-#hamburger svg line {
-  /* animation: hamburger-close 1s forwards; */
+#hamburger #line-top {
+  stroke-dashoffset: var(--burger-line-top-offset);
+}
+
+#hamburger #line-mid {
+  stroke-dashoffset: var(--burger-line-mid-offset);
+}
+
+#hamburger #line-bottom {
+  stroke-dashoffset: var(--burger-line-bot-offset);
+}
+
+#hamburger[aria-expanded="false"] #line-top {
+  --burger-line-offset: var(--burger-line-top-offset);
+  animation: burger-close var(--burger-anim-1-len) forwards;
+}
+
+#hamburger[aria-expanded="false"] #line-mid {
+  --burger-line-offset: var(--burger-line-mid-offset);
+  animation: burger-close var(--burger-anim-1-len) forwards;
+}
+
+#hamburger[aria-expanded="false"] #line-bottom {
+  --burger-line-offset: var(--burger-line-bot-offset);
+  animation: burger-close var(--burger-anim-1-len) forwards;
+}
+
+#hamburger[aria-expanded="true"] #line-top {
+  --burger-line-offset: var(--burger-line-top-offset);
+  animation: burger-open var(--burger-anim-2-len) forwards;
   transform-origin: center;
 }
 
-#hamburger:hover #line-top {
-  animation: burger-top-open var(--burger-anim-2-len) forwards;
+#hamburger[aria-expanded="true"] #line-mid {
+  --burger-line-offset: var(--burger-line-mid-offset);
+  animation: burger-open var(--burger-anim-2-len) forwards;
   transform-origin: center;
 }
 
-#hamburger:hover #line-mid {
-  animation: burger-mid-open var(--burger-anim-2-len) forwards;
+#hamburger[aria-expanded="true"] #line-bottom {
+  --burger-line-offset: var(--burger-line-bot-offset);
+  animation: burger-open var(--burger-anim-2-len) forwards;
   transform-origin: center;
 }
 
-#hamburger:hover #line-bottom {
-  animation: burger-bottom-open var(--burger-anim-2-len) forwards;
-  transform-origin: center;
+@keyframes burger-open {
+  0% {
+    stroke-dashoffset: var(--burger-line-offset);
+  }
+  40% {
+    stroke-dashoffset: var(--burger-dashoffset);
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
-@keyframes burger-top-open {
+@keyframes burger-close {
   0% {
     stroke-dashoffset: 0;
   }
   40% {
-    stroke-dashoffset: 79.9;
-    transform: translate(0px, 0px);
-    rotate: none;
-  }
-  60% {
-    stroke-dashoffset: 79.9;
-    transform: translate(0px, 20px);
-    rotate: none;
-  }
-  80% {
-    stroke-dashoffset: 79.9;
-    transform: translate(0px, 20px);
-    rotate: 45deg;
+    stroke-dashoffset: var(--burger-dashoffset);
   }
   100% {
-    stroke-dashoffset: 0;
-    transform: translate(0px, 20px);
-    rotate: 45deg;
-  }
-}
-
-@keyframes burger-mid-open {
-  0% {
-    stroke-dashoffset: 0;
-  }
-  40% {
-    stroke-dashoffset: 79.9;
-    transform: rotate(0) translate(-80px, 0px);
-  }
-  60% {
-    stroke-dashoffset: 79.9;
-    transform: rotate(120deg) translate(-30px, 40px);
-  }
-  100% {
-    stroke-dashoffset: 79.9;
-    transform: rotate(120deg) translate(-30px, 40px);
-  }
-}
-
-@keyframes burger-bottom-open {
-  0% {
-  }
-  100% {
-    transform: translate(40px, -20px);
-  }
-}
-
-@keyframes hamburger-close {
-  0% {
-    stroke-dashoffset: 0;
-    rotate: 180deg;
-  }
-  40% {
-    stroke-dashoffset: 79.9;
-    rotate: 180deg;
-  }
-  60% {
-    stroke-dashoffset: 79.9;
-  }
-  100% {
-    stroke-dashoffset: 0;
+    stroke-dashoffset: var(--burger-line-offset);
   }
 }
 
@@ -203,7 +184,7 @@ nav {
   display: block;
   justify-content: center;
   text-align: left;
-  color: #5c9ddf;
+  color: var(--highligh-color);
   padding-top: calc(var(--nav-height) + 30px);
   min-height: auto;
 }
@@ -226,7 +207,7 @@ nav {
 }
 
 #titleHighlight {
-  color: #5c9ddf;
+  color: var(--highligh-color);
   font-size: 1.9rem;
 }
 
@@ -241,7 +222,7 @@ nav {
   overflow: hidden;
   position: relative;
   border-radius: 100%;
-  border: 5px #5c9ddf;
+  border: 5px var(--highligh-color);
   border-style: ridge;
   justify-content: center;
   margin: auto;

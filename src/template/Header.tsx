@@ -3,8 +3,11 @@ import { Squash as Hamburger } from "hamburger-react";
 import { FaBars, FaHamburger, FaHome } from "react-icons/fa";
 
 const Header = () => {
-  const testFunc = () => {
-    console.log("Test");
+  const openBurger = (e: any) => {
+    e.preventDefault();
+    let target = e.currentTarget;
+    let invertExpanded = target.getAttribute("aria-expanded") === "true" ? "false" : "true";
+    target.setAttribute("aria-expanded", invertExpanded);
   };
 
   return (
@@ -30,11 +33,11 @@ const Header = () => {
         <div id="logo">
           <Link to="/">{<FaHome size={30} />}</Link>
         </div>
-        <div id="hamburger" onClick={testFunc}>
-          <svg viewBox="0 0 100 100" width={"100"}>
-            <line id="line-top" x1={"50"} x2={"90"} y1={"30"} y2={"30"} />
-            <line id="line-mid" x1={"90"} x2={"30"} y1={"50"} y2={"50"} />
-            {/* <line id="line-bottom" x1={"10"} x2={"90"} y1={"70"} y2={"70"} /> */}
+        <div id="hamburger" aria-expanded="false" onClick={openBurger}>
+          <svg viewBox="0 0 100 100" width={35} preserveAspectRatio={"none"}>
+            <line id="line-top" x1={"90"} x2={"10"} y1={"20"} y2={"20"} />
+            <line id="line-mid" x1={"90"} x2={"10"} y1={"50"} y2={"50"} />
+            <line id="line-bottom" x1={"90"} x2={"10"} y1={"80"} y2={"80"} />
           </svg>
         </div>
       </nav>
