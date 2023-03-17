@@ -23,7 +23,7 @@ const Hero = () => {
   return (
     <section id="hero">
       <Canvas>
-        <OrbitControls />
+        {/* <OrbitControls /> */}
         <Stars factor={2} />
         {/* <Text scale={[0.5, 0.5, 0.5]} color="white" anchorX="center" anchorY="middle">
           Justin Smith
