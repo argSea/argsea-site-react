@@ -38,9 +38,9 @@ const Hero = () => {
   const homeBackground = backgroundImagesMobile[imageSeed];
   return (
     <section id="hero">
-      <div id="background1">
+      {/* <div id="background1">
         <img src={homeBackground} />
-      </div>
+      </div> */}
       <Canvas>
         <mesh position={jsmithPos}>
           <textGeometry args={["Justin Smith", jsmithTextOpts]} />
@@ -49,6 +49,9 @@ const Hero = () => {
           <textGeometry args={["Systems Architect", saTextOpts]} />
         </mesh>
       </Canvas>
+      <div id="background_container">
+        <div id="hero_background" style={{ backgroundImage: "url(" + homeBackground + ")" }}></div>
+      </div>
     </section>
   );
 };
