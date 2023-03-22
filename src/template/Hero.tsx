@@ -4,6 +4,8 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import Audiowide from "../assets/audiowide.json";
 import { Vector3 } from "three";
+import { FaChevronCircleDown } from "react-icons/fa";
+import { FaChevronDown } from "react-icons/fa";
 
 extend({ TextGeometry });
 
@@ -15,8 +17,8 @@ const Hero = () => {
     height: 0.1,
   };
 
-  const jsmithPos = new Vector3(-25, -30, -50);
-  const saPos = new Vector3(-15, -35, -50);
+  const jsmithPos = new Vector3(-25, -25, -50);
+  const saPos = new Vector3(-15, -30, -50);
 
   const saTextOpts = {
     font,
@@ -41,6 +43,9 @@ const Hero = () => {
       {/* <div id="background1">
         <img src={homeBackground} />
       </div> */}
+      <div id="hero_down_arrow_container">
+        <FaChevronDown size={75} id="hero_down_arrow" />
+      </div>
       <Canvas>
         <mesh position={jsmithPos}>
           <textGeometry args={["Justin Smith", jsmithTextOpts]} />

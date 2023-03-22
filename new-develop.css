@@ -82,6 +82,32 @@ nav {
   overflow: hidden;
 }
 
+#hero_down_arrow_container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 90vh;
+  z-index: 1;
+}
+
+#hero_down_arrow_container svg {
+  /* fill: rgba(255, 255, 255, 0.1); */
+  fill: none;
+  display: block;
+  margin: 0 auto;
+  /* stroke: rgba(233, 133, 241, 1); */
+  stroke: white;
+  stroke-width: 20px;
+  stroke-dasharray: 25;
+  stroke-linejoin: round;
+  stroke-linecap: butt;
+}
+
+#hero_down_arrow_container svg:hover {
+  transform: scale(1.15);
+  animation: arrow-effect 3.5s infinite;
+}
+
 #hero #background_container {
   position: absolute;
   top: 0;
@@ -195,6 +221,24 @@ nav {
   --burger-line-offset: var(--burger-line-bot-offset);
   animation: burger-open var(--burger-anim-2-len) forwards;
   transform-origin: center;
+}
+
+@keyframes arrow-effect {
+  0% {
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dashoffset: 100;
+  }
+
+  75% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes burger-open {
