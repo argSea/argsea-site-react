@@ -7,40 +7,21 @@
       content="GYjegyIw25VjYSjfJW-J6grk11ZVSZYwTqaJW5ZEWuE"
     /> -->
     <meta name="viewport" content="initial-scale=1" />
-    <meta
-      name="description"
-      content="Personal Portfolio Site for Justin Smith, Software Developer in Pittsburgh"
-    />
-    <meta
-      name="keywords"
-      content="developer, programmer, Justin Smith, Pittsburgh, coding"
-    />
+    <meta name="description" content="Personal Portfolio Site for Justin Smith, Software Developer in Pittsburgh" />
+    <meta name="keywords" content="developer, programmer, Justin Smith, Pittsburgh, coding" />
     <meta property="og:title" content="Justin Smith - Software Developer" />
     <meta property="og:description" content="Software Developer" />
     <meta property="og:url" content="https://jsmith-develop.com/" />
     <meta property="og:type" content="portfolio" />
-    <meta
-      property="og:image"
-      content="https://jsmith-develop.com/media/style/banner.jpg"
-    />
+    <meta property="og:image" content="https://jsmith-develop.com/media/style/banner.jpg" />
     <title>Justin Smith - Systems Architect</title>
     <link rel="icon" href="/sword.png" type="image/gif" />
     <link rel="stylesheet" type="text/css" href="new-develop.css" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Audiowide"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet" type="text/css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
-      rel="stylesheet"
-    />
-    <script
-      async
-      src="https://ga.jspm.io/npm:es-module-shims@1.5.13/dist/es-module-shims.js"
-    ></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.13/dist/es-module-shims.js"></script>
     <script type="x-shader/x-vertex" id="vertexshader">
       attribute float size;
       attribute vec3 customColor;
@@ -66,7 +47,10 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <canvas id="canvas" style="min-height:100vh; min-width:100vw"></canvas>
+    <div id="root">
+      
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

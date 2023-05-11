@@ -7,6 +7,7 @@ import { Vector3 } from "three";
 import { FaChevronDown } from "react-icons/fa";
 import ParticleName from "./ParticleName";
 import Magic from "../tests/intParticle";
+import RunParticles from "../scripts/hero";
 
 extend({ TextGeometry });
 
@@ -39,6 +40,9 @@ const Hero = ({ user: user }: { user: any }) => {
 
   const imageSeed = Math.round(Math.random() * (backgroundImagesMobile.length - 1));
   const homeBackground = backgroundImagesMobile[imageSeed];
+  const canvas = document.getElementById("canvas");
+
+  RunParticles(canvas);
   return (
     <section id="hero">
       {/* <Magic /> */}

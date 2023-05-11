@@ -28,59 +28,73 @@ import { useRef } from "react";
 import { domToReact } from "html-react-parser";
 import { Canvas } from "@react-three/fiber";
 
+export default function RunParticles(canvas: any) {
+  const font = new FontLoader().parse(Audiowide);
+  const canvasRef = useRef<HTMLCanvasElement>(canvas);
+  const particle = new TextureLoader().load("https://res.cloudinary.com/dfvtkoboz/image/upload/v1605013866/particle_a64uzf.png");
+
+  const environment = new Environment(font, particle, canvas);
+}
+
 class Environment {
   font: Font;
   particle: any;
   container: any;
   scene: any;
-  // camera: any;
-  // renderer: any;
+  camera: any;
+  renderer: any;
   createParticles: any;
 
   constructor(font: Font, particle: any, container: any) {
+    console.log("Environment");
     this.font = font;
     this.particle = particle;
     this.container = container;
     this.scene = new Scene();
-    // this.createCamera();
-    // this.createRenderer();
+    this.createCamera();
+    this.createRenderer();
     this.setup();
     this.bindEvents();
+
+    console.log(this);
   }
 
   bindEvents() {
-    // window.addEventListener("resize", this.onWindowResize.bind(this));
+    window.addEventListener("resize", this.onWindowResize.bind(this));
   }
 
   setup() {
-    // this.createParticles = new CreateParticles(this.scene, this.font, this.particle, this.camera, this.renderer);
+    let mouse = new Vector2(-200, 200);
+    let colorChange = new Color();
+    let raycaster = new Raycaster();
+    this.createParticles = new CreateParticles(this.scene, this.font, this.particle, this.camera, raycaster, this.renderer, mouse, colorChange);
   }
 
   render() {
     this.createParticles.render();
-    // this.renderer.render(this.scene, this.camera);
+    this.renderer.render(this.scene, this.camera);
   }
 
   createCamera() {
-    // this.camera = new PerspectiveCamera(65, this.container.clientWidth / this.container.clientHeight, 1, 10000);
-    // this.camera.position.set(0, 0, 100);
+    this.camera = new PerspectiveCamera(65, this.container.clientWidth / this.container.clientHeight, 1, 10000);
+    this.camera.position.set(0, 0, 100);
   }
 
   createRenderer() {
-    // this.renderer = new WebGLRenderer();
-    // this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-    // this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    // this.renderer.outputEncoding = sRGBEncoding;
-    // this.container.appendChild(this.renderer.domElement);
-    // this.renderer.setAnimationLoop(() => {
-    //   this.render();
-    // });
+    this.renderer = new WebGLRenderer();
+    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.outputEncoding = sRGBEncoding;
+    this.container.appendChild(this.renderer.domElement);
+    this.renderer.setAnimationLoop(() => {
+      this.render();
+    });
   }
 
   onWindowResize() {
-    // this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
-    // this.camera.updateProjectionMatrix();
-    // this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+    this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
   }
 }
 
@@ -109,12 +123,12 @@ class CreateParticles {
   textMesh: any;
   geometryCopy: any;
 
-  constructor(font: Font, particleImg: Texture, camera: any, raycaster: any, mouse: any, colorChange: any) {
-    // this.scene = scene;
+  constructor(scene: any, font: Font, particleImg: Texture, camera: any, raycaster: any, renderer: any, mouse: any, colorChange: any) {
+    this.scene = scene;
     this.font = font;
     this.particleImg = particleImg;
     this.camera = camera;
-    // this.renderer = renderer;
+    this.renderer = renderer;
 
     // this.raycaster = new Raycaster();
     this.raycaster = raycaster;
@@ -137,7 +151,9 @@ class CreateParticles {
     };
 
     this.setup();
-    // this.bindEvents();
+    this.bindEvents();
+
+    console.log(this);
   }
 
   createPlaneGeometry() {
@@ -349,7 +365,7 @@ class CreateParticles {
     });
 
     this.particles = new Points(geoParticles, material);
-    // this.scene.add(this.particles);
+    this.scene.add(this.particles);
 
     this.geometryCopy = new BufferGeometry();
     this.geometryCopy.copy(this.particles.geometry);
