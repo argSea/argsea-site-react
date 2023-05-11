@@ -16,7 +16,7 @@
     "dompurify": "^2.4.3",
     "hamburger-react": "^2.5.0",
     "html-react-parser": "^3.0.7",
-    "prettier": "^2.8.2",
+    "prettier": "^2.8.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",

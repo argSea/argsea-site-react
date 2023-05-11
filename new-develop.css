@@ -28,6 +28,10 @@ html {
   -ms-overflow-style: none;
 }
 
+*, html {
+  scroll-behavior: smooth !important;
+}
+
 html::-webkit-scrollbar {
   width: 0 !important;
 }
@@ -66,11 +70,13 @@ nav {
 
 #abscanvas {
   position: absolute;
-  top: 75vh;
+  /* top: 75vh; */
   left: 0;
   min-width: 100vw;
-  min-height: calc(100% - 75vh);
-  height: calc(100% - 75vh);
+  min-height:100vh;
+  height:100vh;
+  /* min-height: calc(100% - 75vh); */
+  /* height: calc(100% - 75vh); */
   margin: 0;
 }
 
@@ -78,15 +84,66 @@ nav {
   position: relative;
   min-height: 100vh;
   height: 100vh;
+  min-width:100vw;
   width: 100vw;
   overflow: hidden;
+  justify-content: center;
+}
+
+#bio_wrap {
+  display:flex;
+  height:100vh;
+  width:100vw;
+  align-items: center;
+  justify-content: center;
+}
+
+#hero_bio {
+  margin-top:15vh;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  color:white;
+  min-height: calc(100vh - 15vh);
+  height: calc(100vh - 15vh);
+}
+
+#hero_bio_intro {
+  font-size: 2.0rem;
+  display:none;
+}
+
+#hero_bio_name {
+  color: #fff;
+  font-size: 2rem;
+  margin-left:10px;
+}
+
+#hero_three_name {
+  width:100%;
+  height:100%;
+  top:12vh;
+  position:absolute;
+}
+
+#hero_bio_title {
+  color: #bbb;
+  font-size: 1.9rem;
+  margin-top:13vh;
+  display:none;
+}
+
+#hero_bio_titleHighlight {
+  color: var(--highligh-color);
+  font-size: 1.9rem;
 }
 
 #hero_down_arrow_container {
   width: 100%;
   height: 100%;
   position: absolute;
-  top: 90vh;
+  top: 80vh;
   z-index: 1;
 }
 
@@ -156,6 +213,8 @@ nav {
   color: white;
   padding-left: 20px;
   cursor: pointer;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 #logo a {
@@ -168,6 +227,8 @@ nav {
   color: white;
   padding-right: 20px;
   cursor: pointer;
+  margin-right: 10px;
+  margin-top: 10px;
 }
 
 #hamburger svg line {
@@ -265,36 +326,24 @@ nav {
   }
 }
 
-#bio {
-  display: block;
+#myinfo {
+  display:absolute;
+  top:0;
+  left:0;
+  height:50vh;
+  width:calc(100vw - 10px);
+  color:white;
+  margin:auto;
   justify-content: center;
-  text-align: left;
-  color: var(--highligh-color);
-  padding-top: calc(var(--nav-height) + 30px);
-  min-height: auto;
-  position: relative;
+  
 }
 
-#intro {
-  padding-bottom: 15px;
-  font-size: 1.2rem;
+#myinfo #myname {
+  font-size:2rem;
 }
 
-#name {
-  color: #fff;
-  font-size: 2.3rem;
-  margin-bottom: 15px;
-}
-
-#title {
-  color: #bbb;
-  font-size: 1.8rem;
-  margin-bottom: 15px;
-}
-
-#titleHighlight {
-  color: var(--highligh-color);
-  font-size: 1.9rem;
+#myinfo #myshort {
+  font-size:1.5rem;
 }
 
 #basicme {
@@ -322,6 +371,7 @@ nav {
 }
 
 #aboutme {
+  padding-top:var(--nav-height);
   color: #abc;
 }
 
