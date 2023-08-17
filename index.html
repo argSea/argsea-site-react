@@ -30,7 +30,7 @@
       void main() {
         vColor = customColor;
         vec4 pos = modelViewMatrix * vec4( position, 1.0 );
-        gl_PointSize = size * ( 300.0 / -pos.z );
+        gl_PointSize = size * ( 500.0 / -pos.z );
         gl_Position = projectionMatrix * pos;
       }
     </script>
@@ -47,7 +47,10 @@
     </script>
   </head>
   <body>
-    <canvas id="canvas" style="min-height:100vh; min-width:100vw"></canvas>
+    <div id="starStuff">
+      <div id="abscanvas"></div>
+      <canvas id="introcanvas"></canvas>
+    </div>
     <div id="root">
       
     </div>

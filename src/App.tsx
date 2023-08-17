@@ -54,12 +54,17 @@ function App() {
     return user;
   };
 
+  //stall until user is loaded
+  if (user.userID === "user1") {
+    return <div></div>;
+  }
+
   return (
     <>
       <div id="abscanvas">
-        {/* <Canvas>
+        <Canvas>
           <Stars factor={1} fade={false} count={500} depth={2} />
-        </Canvas> */}
+        </Canvas>
       </div>
       <div>
         <BrowserRouter>

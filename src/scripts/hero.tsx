@@ -24,17 +24,6 @@ import {
 } from "three";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import Audiowide from "../assets/audiowide.json";
-import { useRef } from "react";
-import { domToReact } from "html-react-parser";
-import { Canvas } from "@react-three/fiber";
-
-export default function RunParticles(canvas: any) {
-  const font = new FontLoader().parse(Audiowide);
-  const canvasRef = useRef<HTMLCanvasElement>(canvas);
-  const particle = new TextureLoader().load("https://res.cloudinary.com/dfvtkoboz/image/upload/v1605013866/particle_a64uzf.png");
-
-  const environment = new Environment(font, particle, canvas);
-}
 
 class Environment {
   font: Font;
@@ -44,13 +33,15 @@ class Environment {
   camera: any;
   renderer: any;
   createParticles: any;
+  text: string;
 
-  constructor(font: Font, particle: any, container: any) {
+  constructor(font: Font, particle: any, container: any, text: string) {
     console.log("Environment");
     this.font = font;
     this.particle = particle;
     this.container = container;
     this.scene = new Scene();
+    this.text = text;
     this.createCamera();
     this.createRenderer();
     this.setup();
@@ -67,7 +58,7 @@ class Environment {
     let mouse = new Vector2(-200, 200);
     let colorChange = new Color();
     let raycaster = new Raycaster();
-    this.createParticles = new CreateParticles(this.scene, this.font, this.particle, this.camera, raycaster, this.renderer, mouse, colorChange);
+    this.createParticles = new CreateParticles(this.scene, this.font, this.particle, this.text, this.camera, raycaster, this.renderer, mouse, colorChange);
   }
 
   render() {
@@ -77,15 +68,17 @@ class Environment {
 
   createCamera() {
     this.camera = new PerspectiveCamera(65, this.container.clientWidth / this.container.clientHeight, 1, 10000);
-    this.camera.position.set(0, 0, 100);
+    this.camera.position.set(0, 5, 100);
   }
 
   createRenderer() {
-    this.renderer = new WebGLRenderer();
+    // this.renderer = new WebGLRenderer();
+    //get renderer from canvas
+    this.renderer = new WebGLRenderer({ canvas: this.container, antialias: true, alpha: true });
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.outputEncoding = sRGBEncoding;
-    this.container.appendChild(this.renderer.domElement);
+    // this.container.appendChild(this.renderer.domElement);
     this.renderer.setAnimationLoop(() => {
       this.render();
     });
@@ -109,7 +102,6 @@ class CreateParticles {
   colorChange: any;
   buttom: any;
   data: any;
-  planeArea: any;
   currenPosition: any;
   particles: any;
   positions: any;
@@ -119,186 +111,178 @@ class CreateParticles {
   particlesMaterial: any;
   particlesMesh: any;
   textGeometry: any;
+  textString: string;
   textMaterial: any;
   textMesh: any;
   geometryCopy: any;
+  tuppom: any;
 
-  constructor(scene: any, font: Font, particleImg: Texture, camera: any, raycaster: any, renderer: any, mouse: any, colorChange: any) {
+  constructor(scene: any, font: Font, particleImg: Texture, text: string, camera: any, raycaster: any, renderer: any, mouse: any, colorChange: any) {
     this.scene = scene;
     this.font = font;
     this.particleImg = particleImg;
     this.camera = camera;
     this.renderer = renderer;
-
-    // this.raycaster = new Raycaster();
     this.raycaster = raycaster;
     this.mouse = mouse;
     this.colorChange = colorChange;
-    // this.mouse = new Vector2(-200, 200);
-
-    // this.colorChange = new Color();
-
-    this.buttom = false;
-
+    this.buttom = true;
+    this.tuppom = false;
+    this.textString = text;
     this.data = {
-      text: "FUTURE\nIS NOW",
-      amount: 1500,
+      text: this.textString,
+      amount: 1000,
       particleSize: 1,
       particleColor: 0xffffff,
-      textSize: 16,
+      textSize: 12,
       area: 250,
-      ease: 0.05,
+      ease: 0.008,
+      radius: 5000,
     };
 
     this.setup();
-    this.bindEvents();
 
     console.log(this);
   }
 
-  createPlaneGeometry() {
-    const geometry = new PlaneGeometry(this.visibleWidthAtZDepth(100, this.camera), this.visibleHeightAtZDepth(100, this.camera));
-    const material = new MeshBasicMaterial({ color: 0x00ff00, transparent: true });
-    this.planeArea = new Mesh(geometry, material);
-    this.planeArea.visible = false;
-  }
-
   setup() {
-    this.createPlaneGeometry();
     this.createText();
+    this.randomizeParticles();
   }
 
-  bindEvents() {
-    document.addEventListener("mousedown", this.onMouseDown.bind(this));
-    document.addEventListener("mousemove", this.onMouseMove.bind(this));
-    document.addEventListener("mouseup", this.onMouseUp.bind(this));
-  }
-
-  onMouseDown(event: any) {
-    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    const vector = new Vector3(this.mouse.x, this.mouse.y, 0.5);
-    vector.unproject(this.camera);
-    const dir = vector.sub(this.camera.position).normalize();
-    const distance = -this.camera.position.z / dir.z;
-    this.currenPosition = this.camera.position.clone().add(dir.multiplyScalar(distance));
-
+  randomizeParticles() {
     const pos = this.particles.geometry.attributes.position;
-    this.buttom = true;
-    this.data.ease = 0.01;
+    const colors = this.particles.geometry.attributes.customColor;
+
+    for (var i = 0, l = pos.count; i < l; i++) {
+      //generate a random number between -2000 and 2000
+
+      // let mx = Math.random() * 3000 - 3000;
+      // let my = Math.random() * 3000 - 3000;
+      // let mz = 0;
+      let sp = this.randomSpherePoint(0, 0, 0, this.data.radius);
+      let mx = sp[0];
+      let my = sp[1];
+      let mz = sp[2];
+
+      this.colorChange.setHSL(1, 1, 1);
+      colors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
+      colors.needsUpdate = true;
+
+      pos.setXYZ(i, mx, my, mz);
+      pos.needsUpdate = true;
+    }
   }
 
-  onMouseUp() {
-    this.buttom = false;
-    this.data.ease = 0.05;
-  }
+  restoreParticles() {
+    const pos = this.particles.geometry.attributes.position;
+    const copy = this.geometryCopy.attributes.position;
 
-  onMouseMove(event: any) {
-    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    for (var i = 0, l = pos.count; i < l; i++) {
+      const initX = copy.getX(i);
+      const initY = copy.getY(i);
+      const initZ = copy.getZ(i);
+
+      let px = pos.getX(i);
+      let py = pos.getY(i);
+      let pz = pos.getZ(i);
+
+      px += (initX - px) * this.data.ease;
+      py += (initY - py) * this.data.ease;
+      pz += (initZ - pz) * this.data.ease;
+
+      pos.setXYZ(i, px, py, pz);
+      pos.needsUpdate = true;
+    }
   }
 
   render() {
-    const time = ((0.001 * performance.now()) % 12) / 12;
-    const zigzagTime = (1 + Math.sin(time * 2 * Math.PI)) / 6;
-
-    this.raycaster.setFromCamera(this.mouse, this.camera);
-
-    const intersects = this.raycaster.intersectObject(this.planeArea);
-
-    if (intersects.length > 0) {
-      const pos = this.particles.geometry.attributes.position;
-      const copy = this.geometryCopy.attributes.position;
-      const coulors = this.particles.geometry.attributes.customColor;
-      const size = this.particles.geometry.attributes.size;
-
-      const mx = intersects[0].point.x;
-      const my = intersects[0].point.y;
-      const mz = intersects[0].point.z;
-
-      for (var i = 0, l = pos.count; i < l; i++) {
-        const initX = copy.getX(i);
-        const initY = copy.getY(i);
-        const initZ = copy.getZ(i);
-
-        let px = pos.getX(i);
-        let py = pos.getY(i);
-        let pz = pos.getZ(i);
-
-        this.colorChange.setHSL(0.5, 1, 1);
-        coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
-        coulors.needsUpdate = true;
-
-        size.array[i] = this.data.particleSize;
-        size.needsUpdate = true;
-
-        let dx = mx - px;
-        let dy = my - py;
-        const dz = mz - pz;
-
-        const mouseDistance = this.distance(mx, my, px, py);
-        let d = (dx = mx - px) * dx + (dy = my - py) * dy;
-        const f = -this.data.area / d;
-
-        if (this.buttom) {
-          const t = Math.atan2(dy, dx);
-          px -= f * Math.cos(t);
-          py -= f * Math.sin(t);
-
-          this.colorChange.setHSL(0.5 + zigzagTime, 1.0, 0.5);
-          coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
-          coulors.needsUpdate = true;
-
-          if (px > initX + 70 || px < initX - 70 || py > initY + 70 || py < initY - 70) {
-            this.colorChange.setHSL(0.15, 1.0, 0.5);
-            coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
-            coulors.needsUpdate = true;
-          }
-        } else {
-          if (mouseDistance < this.data.area) {
-            if (i % 5 == 0) {
-              const t = Math.atan2(dy, dx);
-              px -= 0.03 * Math.cos(t);
-              py -= 0.03 * Math.sin(t);
-
-              this.colorChange.setHSL(0.15, 1.0, 0.5);
-              coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
-              coulors.needsUpdate = true;
-
-              size.array[i] = this.data.particleSize / 1.2;
-              size.needsUpdate = true;
-            } else {
-              const t = Math.atan2(dy, dx);
-              px += f * Math.cos(t);
-              py += f * Math.sin(t);
-
-              pos.setXYZ(i, px, py, pz);
-              pos.needsUpdate = true;
-
-              size.array[i] = this.data.particleSize * 1.3;
-              size.needsUpdate = true;
-            }
-
-            if (px > initX + 10 || px < initX - 10 || py > initY + 10 || py < initY - 10) {
-              this.colorChange.setHSL(0.15, 1.0, 0.5);
-              coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
-              coulors.needsUpdate = true;
-
-              size.array[i] = this.data.particleSize / 1.8;
-              size.needsUpdate = true;
-            }
-          }
-        }
-
-        px += (initX - px) * this.data.ease;
-        py += (initY - py) * this.data.ease;
-        pz += (initZ - pz) * this.data.ease;
-
-        pos.setXYZ(i, px, py, pz);
-        pos.needsUpdate = true;
-      }
+    //after 2 seconds, change this.buttom to false, only run once
+    if (this.buttom) {
+      setTimeout(() => {
+        this.buttom = false;
+      }, 1500);
     }
+
+    if (!this.buttom) {
+      this.restoreParticles();
+    }
+    // this.raycaster.setFromCamera(this.mouse, this.camera);
+    // const intersects = this.raycaster.intersectObject(this.planeArea);
+    // if (intersects.length > 0) {
+    //   const pos = this.particles.geometry.attributes.position;
+    //   const copy = this.geometryCopy.attributes.position;
+    //   const coulors = this.particles.geometry.attributes.customColor;
+    //   const size = this.particles.geometry.attributes.size;
+    //   const mx = intersects[0].point.x;
+    //   const my = intersects[0].point.y;
+    //   const mz = intersects[0].point.z;
+    //   for (var i = 0, l = pos.count; i < l; i++) {
+    //     const initX = copy.getX(i);
+    //     const initY = copy.getY(i);
+    //     const initZ = copy.getZ(i);
+    //     let px = pos.getX(i);
+    //     let py = pos.getY(i);
+    //     let pz = pos.getZ(i);
+    //     this.colorChange.setHSL(0.5, 1, 1);
+    //     coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
+    //     coulors.needsUpdate = true;
+    //     size.array[i] = this.data.particleSize;
+    //     size.needsUpdate = true;
+    //     let dx = mx - px;
+    //     let dy = my - py;
+    //     const dz = mz - pz;
+    //     const mouseDistance = this.distance(mx, my, px, py);
+    //     let d = (dx = mx - px) * dx + (dy = my - py) * dy;
+    //     const f = -this.data.area / d;
+    //     if (this.buttom) {
+    //       const t = Math.atan2(dy, dx);
+    //       px -= f * Math.cos(t);
+    //       py -= f * Math.sin(t);
+    //       this.colorChange.setHSL(0.5 + zigzagTime, 1.0, 0.5);
+    //       coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
+    //       coulors.needsUpdate = true;
+    //       if (px > initX + 70 || px < initX - 70 || py > initY + 70 || py < initY - 70) {
+    //         this.colorChange.setHSL(0.15, 1.0, 0.5);
+    //         coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
+    //         coulors.needsUpdate = true;
+    //       }
+    //     } else if (!this.buttom && this.tuppom) {
+    //       if (mouseDistance < this.data.area) {
+    //         if (i % 5 == 0) {
+    //           const t = Math.atan2(dy, dx);
+    //           px -= 0.03 * Math.cos(t);
+    //           py -= 0.03 * Math.sin(t);
+    //           this.colorChange.setHSL(0.15, 1.0, 0.5);
+    //           coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
+    //           coulors.needsUpdate = true;
+    //           size.array[i] = this.data.particleSize / 1.2;
+    //           size.needsUpdate = true;
+    //         } else {
+    //           const t = Math.atan2(dy, dx);
+    //           px += f * Math.cos(t);
+    //           py += f * Math.sin(t);
+    //           pos.setXYZ(i, px, py, pz);
+    //           pos.needsUpdate = true;
+    //           size.array[i] = this.data.particleSize * 1.3;
+    //           size.needsUpdate = true;
+    //         }
+    //         if (px > initX + 10 || px < initX - 10 || py > initY + 10 || py < initY - 10) {
+    //           this.colorChange.setHSL(0.15, 1.0, 0.5);
+    //           coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
+    //           coulors.needsUpdate = true;
+    //           size.array[i] = this.data.particleSize / 1.8;
+    //           size.needsUpdate = true;
+    //         }
+    //       }
+    //     }
+    //     px += (initX - px) * this.data.ease;
+    //     py += (initY - py) * this.data.ease;
+    //     pz += (initZ - pz) * this.data.ease;
+    //     pos.setXYZ(i, px, py, pz);
+    //     pos.needsUpdate = true;
+    //   }
+    // }
   }
 
   createText() {
@@ -388,5 +372,32 @@ class CreateParticles {
 
   distance(x1: number, y1: number, x2: number, y2: number) {
     return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+  }
+
+  randomSpherePoint(x0: number, y0: number, z0: number, radius: number) {
+    var u = Math.random();
+    var v = Math.random();
+    var theta = 2 * Math.PI * u;
+    var phi = Math.acos(2 * v - 1);
+    var x = x0 + radius * Math.sin(phi) * Math.cos(theta);
+    var y = y0 + radius * Math.sin(phi) * Math.sin(theta);
+    var z = z0 + radius * Math.cos(phi);
+    return [x, y, z];
+  }
+}
+
+export default class ParticleGenerator {
+  environment: any;
+  //constructor
+  constructor(canvas: any, text: string) {
+    console.log("ParticleGenerator");
+    const font = new FontLoader().parse(Audiowide);
+    const particle = new TextureLoader().load("http://127.0.0.1:5173/star.png");
+    this.environment = new Environment(font, particle, canvas, text);
+  }
+
+  render() {
+    console.log("render");
+    this.environment.render();
   }
 }

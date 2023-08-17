@@ -7,7 +7,8 @@ import { Vector3 } from "three";
 import { FaChevronDown } from "react-icons/fa";
 import ParticleName from "./ParticleName";
 import Magic from "../tests/intParticle";
-import RunParticles from "../scripts/hero";
+import ParticleGenerator from "../scripts/hero";
+import { useEffect } from "react";
 
 extend({ TextGeometry });
 
@@ -40,15 +41,15 @@ const Hero = ({ user: user }: { user: any }) => {
 
   const imageSeed = Math.round(Math.random() * (backgroundImagesMobile.length - 1));
   const homeBackground = backgroundImagesMobile[imageSeed];
-  const canvas = document.getElementById("canvas");
 
-  RunParticles(canvas);
+  //useEffect to run at start of page load
+  useEffect(() => {
+    const canvas = document.getElementById("introcanvas");
+    const partGen = new ParticleGenerator(canvas, user.firstName + " " + user.lastName);
+  }, []);
+
   return (
     <section id="hero">
-      {/* <Magic /> */}
-      {/* <div id="background1">
-        <img src={homeBackground} />
-      </div> */}
       <div id="bio_wrap">
         <span id="hero_three_name">
           {/* {user.firstName} {user.lastName} */}
