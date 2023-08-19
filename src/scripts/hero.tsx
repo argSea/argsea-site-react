@@ -47,6 +47,8 @@ class Environment {
     this.setup();
     this.bindEvents();
 
+    this.render();
+
     console.log(this);
   }
 
@@ -64,6 +66,12 @@ class Environment {
   render() {
     this.createParticles.render();
     this.renderer.render(this.scene, this.camera);
+
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        this.render();
+      });
+    }, 1000 / 120);
   }
 
   createCamera() {
@@ -79,9 +87,9 @@ class Environment {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.outputEncoding = sRGBEncoding;
     // this.container.appendChild(this.renderer.domElement);
-    this.renderer.setAnimationLoop(() => {
-      this.render();
-    });
+    // this.renderer.setAnimationLoop(() => {
+    //   this.render();
+    // });
   }
 
   onWindowResize() {
@@ -116,8 +124,15 @@ class CreateParticles {
   textMesh: any;
   geometryCopy: any;
   tuppom: any;
+  jsmithParticles: any;
+  sysArchParticles: any;
+  jsmithCopy: any;
+  sysArchCopy: any;
+  pause: any;
+  swap: any;
 
   constructor(scene: any, font: Font, particleImg: Texture, text: string, camera: any, raycaster: any, renderer: any, mouse: any, colorChange: any) {
+    this.swap = true;
     this.scene = scene;
     this.font = font;
     this.particleImg = particleImg;
@@ -128,39 +143,119 @@ class CreateParticles {
     this.colorChange = colorChange;
     this.buttom = true;
     this.tuppom = false;
+    this.pause = false;
     this.textString = text;
     this.data = {
       text: this.textString,
-      amount: 1000,
+      amount: 500,
       particleSize: 1,
       particleColor: 0xffffff,
       textSize: 12,
-      area: 250,
-      ease: 0.008,
-      radius: 5000,
+      area: 10000,
+      ease: 0.08,
+      radius: 250,
     };
 
     this.setup();
+    this.bindEvents();
 
     console.log(this);
   }
 
   setup() {
-    this.createText();
-    this.randomizeParticles();
+    this.jsmithParticles = this.createText(this.data.text, this.data.textSize);
+    this.sysArchParticles = this.createText("Systems Architect", this.data.textSize);
+
+    this.jsmithCopy = new BufferGeometry();
+    this.sysArchCopy = new BufferGeometry();
+    this.jsmithCopy.copy(this.jsmithParticles.geometry);
+    this.sysArchCopy.copy(this.sysArchParticles.geometry);
+
+    this.particles = this.sysArchParticles;
+    this.geometryCopy = this.jsmithCopy;
+
+    this.scene.add(this.particles);
+
+    this.particles = this.randomizeParticles(this.particles, this.data.radius);
   }
 
-  randomizeParticles() {
-    const pos = this.particles.geometry.attributes.position;
-    const colors = this.particles.geometry.attributes.customColor;
+  bindEvents() {
+    window.addEventListener("mousedown", this.onMouseDown.bind(this));
+  }
+
+  onMouseDown(event: any) {
+    this.swapText();
+    this.tuppom = true;
+  }
+
+  swapText() {
+    if (this.geometryCopy == this.jsmithCopy) {
+      this.geometryCopy = this.sysArchCopy;
+    } else {
+      this.geometryCopy = this.jsmithCopy;
+    }
+  }
+
+  explodeParticles(particles: any, particlesCopy: any) {
+    const pos = particles.geometry.attributes.position;
+    const copy = particlesCopy.attributes.position;
+    const colors = particles.geometry.attributes.customColor;
 
     for (var i = 0, l = pos.count; i < l; i++) {
-      //generate a random number between -2000 and 2000
-
-      // let mx = Math.random() * 3000 - 3000;
-      // let my = Math.random() * 3000 - 3000;
-      // let mz = 0;
+      const initX = copy.getX(i);
+      const initY = copy.getY(i);
+      const initZ = copy.getZ(i);
       let sp = this.randomSpherePoint(0, 0, 0, this.data.radius);
+      let mx = sp[0];
+      let my = sp[1];
+      let mz = sp[2];
+      let px = pos.getX(i);
+      let py = pos.getY(i);
+      let pz = pos.getZ(i);
+
+      this.colorChange.setHSL(1, 1, 1);
+      colors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
+      colors.needsUpdate = true;
+
+      //if px nan
+      if (isNaN(px)) {
+        px = initX;
+      }
+      if (isNaN(py)) {
+        py = initY;
+      }
+      if (isNaN(pz)) {
+        pz = initZ;
+      }
+
+      let dx = mx - px;
+      let dy = my - py;
+      let dz = mz - pz;
+
+      const d = (dx = mx - px) * dx + (dy = my - py) * dy;
+      const f = -this.data.area / d;
+
+      const t = Math.atan2(dy, dx);
+      px -= f * Math.cos(t);
+      py -= f * Math.sin(t);
+
+      px += (initX - px) * this.data.ease;
+      py += (initY - py) * this.data.ease;
+      pz += (initZ - pz) * this.data.ease;
+
+      pos.setXYZ(i, px, py, pz);
+      pos.needsUpdate = true;
+    }
+
+    return particles;
+  }
+
+  randomizeParticles(particles: any, radius: number) {
+    const pos = particles.geometry.attributes.position;
+    const colors = particles.geometry.attributes.customColor;
+
+    for (var i = 0, l = pos.count; i < l; i++) {
+      let sp = this.randomSpherePoint(0, 0, 0, radius);
       let mx = sp[0];
       let my = sp[1];
       let mz = sp[2];
@@ -172,11 +267,33 @@ class CreateParticles {
       pos.setXYZ(i, mx, my, mz);
       pos.needsUpdate = true;
     }
+
+    return particles;
   }
 
-  restoreParticles() {
-    const pos = this.particles.geometry.attributes.position;
-    const copy = this.geometryCopy.attributes.position;
+  fakeRandomizeParticles(particles: any) {
+    const pos = particles.geometry.attributes.position;
+    const colors = particles.geometry.attributes.customColor;
+
+    for (var i = 0, l = pos.count; i < l; i++) {
+      let mx = pos.getX(i);
+      let my = pos.getY(i);
+      let mz = pos.getZ(i);
+
+      this.colorChange.setHSL(1, 1, 1);
+      colors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
+      colors.needsUpdate = true;
+
+      pos.setXYZ(i, mx, my, mz);
+      pos.needsUpdate = true;
+    }
+
+    return particles;
+  }
+
+  restoreParticles(particles: any, particlesCopy: any) {
+    const pos = particles.geometry.attributes.position;
+    const copy = particlesCopy.attributes.position;
 
     for (var i = 0, l = pos.count; i < l; i++) {
       const initX = copy.getX(i);
@@ -194,6 +311,8 @@ class CreateParticles {
       pos.setXYZ(i, px, py, pz);
       pos.needsUpdate = true;
     }
+
+    return particles;
   }
 
   render() {
@@ -201,12 +320,32 @@ class CreateParticles {
     if (this.buttom) {
       setTimeout(() => {
         this.buttom = false;
-      }, 1500);
+      }, 100);
     }
 
-    if (!this.buttom) {
-      this.restoreParticles();
+    if (this.tuppom) {
+      setTimeout(() => {
+        this.tuppom = false;
+      }, 200);
     }
+
+    if (!this.buttom && !this.pause && !this.tuppom) {
+      this.particles = this.restoreParticles(this.particles, this.geometryCopy);
+    }
+
+    if (this.tuppom) {
+      this.particles = this.explodeParticles(this.particles, this.geometryCopy);
+    }
+
+    if (this.swap) {
+      setTimeout(() => {
+        this.swapText();
+        this.swap = true;
+        this.tuppom = true;
+      }, 4000);
+      this.swap = false;
+    }
+
     // this.raycaster.setFromCamera(this.mouse, this.camera);
     // const intersects = this.raycaster.intersectObject(this.planeArea);
     // if (intersects.length > 0) {
@@ -285,10 +424,10 @@ class CreateParticles {
     // }
   }
 
-  createText() {
+  createText(text: string, size: number) {
     let thePoints: any[] = [];
 
-    let shapes = this.font.generateShapes(this.data.text, this.data.textSize);
+    let shapes = this.font.generateShapes(text, size);
     let geometry = new ShapeGeometry(shapes);
     geometry.computeBoundingBox();
 
@@ -348,11 +487,9 @@ class CreateParticles {
       transparent: true,
     });
 
-    this.particles = new Points(geoParticles, material);
-    this.scene.add(this.particles);
+    let particles = new Points(geoParticles, material);
 
-    this.geometryCopy = new BufferGeometry();
-    this.geometryCopy.copy(this.particles.geometry);
+    return particles;
   }
 
   visibleHeightAtZDepth(depth: number, camera: any) {
@@ -382,6 +519,10 @@ class CreateParticles {
     var x = x0 + radius * Math.sin(phi) * Math.cos(theta);
     var y = y0 + radius * Math.sin(phi) * Math.sin(theta);
     var z = z0 + radius * Math.cos(phi);
+
+    if (z > 0) {
+      z *= -1;
+    }
     return [x, y, z];
   }
 }
