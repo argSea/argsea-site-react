@@ -152,7 +152,7 @@ class CreateParticles {
       particleColor: 0xffffff,
       textSize: 12,
       area: 10000,
-      ease: 0.08,
+      ease: 0.05,
       radius: 250,
     };
 
@@ -180,7 +180,7 @@ class CreateParticles {
   }
 
   bindEvents() {
-    window.addEventListener("mousedown", this.onMouseDown.bind(this));
+    // window.addEventListener("mousedown", this.onMouseDown.bind(this));
   }
 
   onMouseDown(event: any) {
@@ -201,11 +201,17 @@ class CreateParticles {
     const copy = particlesCopy.attributes.position;
     const colors = particles.geometry.attributes.customColor;
 
+    //get left side of screen
+    const left = -this.visibleWidthAtZDepth(0, this.camera) / 2;
+    const right = this.visibleWidthAtZDepth(0, this.camera) / 2;
+    const top = this.visibleHeightAtZDepth(0, this.camera) / 2;
+    const bottom = -this.visibleHeightAtZDepth(0, this.camera) / 2;
+
     for (var i = 0, l = pos.count; i < l; i++) {
       const initX = copy.getX(i);
       const initY = copy.getY(i);
       const initZ = copy.getZ(i);
-      let sp = this.randomSpherePoint(0, 0, 0, this.data.radius);
+      let sp = this.randomSpherePoint(0, 0, 0, this.data.radius / 2);
       let mx = sp[0];
       let my = sp[1];
       let mz = sp[2];
@@ -326,7 +332,7 @@ class CreateParticles {
     if (this.tuppom) {
       setTimeout(() => {
         this.tuppom = false;
-      }, 200);
+      }, 100);
     }
 
     if (!this.buttom && !this.pause && !this.tuppom) {
