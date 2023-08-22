@@ -72,6 +72,38 @@ const Home = ({ user: user }: { user: any }) => {
   const aboutMePos = new Vector3(-125, -10, -50);
   const portfolioPos = new Vector3(-125, -10, -50);
 
+  // mark aboutme class as active when scrolled to
+  useEffect(() => {
+    const aboutMe = document.getElementById("aboutme");
+    const aboutMeNav = document.getElementsByClassName("aboutme")[0];
+    const portfolio = document.getElementById("portfolio");
+    const portfolioNav = document.getElementsByClassName("portfolio")[0];
+
+    const map: Record<string, HTMLElement> = {
+      aboutme: aboutMeNav as HTMLElement,
+      portfolio: portfolioNav as HTMLElement,
+    };
+
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.5,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          map[entry.target.id].classList.add("active");
+        } else {
+          map[entry.target.id].classList.remove("active");
+        }
+      });
+    }, options);
+
+    observer.observe(aboutMe!);
+    observer.observe(portfolio!);
+  }, []);
+
   return (
     <>
       <section id="aboutme">

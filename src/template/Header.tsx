@@ -13,25 +13,22 @@ const Header = () => {
   return (
     <header>
       <nav>
-        <div id="navBar">
-          <div className="navItem">
-            <a href="/">Home</a>
-          </div>
-          <div className="navItem">
-            <a href="/about">About</a>
-          </div>
-          <div className="navItem">
-            <a href="/resume">Resume</a>
-          </div>
-          <div className="navItem">
-            <a href="/portfolio">Portfolio</a>
-          </div>
-          <div className="navItem">
-            <a href="/blog">Blog</a>
-          </div>
-        </div>
         <div id="logo">
-          <Link to="/">{<FaHome size={30} />}</Link>
+          <Link to="/">{<FaHome size={35} />}</Link>
+        </div>
+        <div id="navBar">
+          <div className="navItem aboutme active">
+            <a href="#aboutme">.about</a>
+          </div>
+          <div className="navItem portfolio">
+            <a href="#portfolio">.portfolio</a>
+          </div>
+          <div className="navItem resume">
+            <a href="#resume">.resume</a>
+          </div>
+          <div className="navItem blog">
+            <a href="/blog">.blog</a>
+          </div>
         </div>
         <div id="hamburger" aria-expanded="false" onClick={openBurger}>
           <svg viewBox="0 0 100 100" width={35} preserveAspectRatio={"none"}>

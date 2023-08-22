@@ -60,30 +60,55 @@ class Environment {
     let mouse = new Vector2(-200, 200);
     let colorChange = new Color();
     let raycaster = new Raycaster();
-    this.createParticles = new CreateParticles(this.scene, this.font, this.particle, this.text, this.camera, raycaster, this.renderer, mouse, colorChange);
+    this.createParticles = new CreateParticles(
+      this.scene,
+      this.font,
+      this.particle,
+      this.text,
+      this.camera,
+      raycaster,
+      this.renderer,
+      mouse,
+      colorChange
+    );
   }
 
   render() {
     this.createParticles.render();
     this.renderer.render(this.scene, this.camera);
 
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        this.render();
-      });
-    }, 1000 / 120);
+    //run requestanimationframe at 140fps
+    if (!this.createParticles.pause) {
+      setTimeout(() => {
+        requestAnimationFrame(() => {
+          this.render();
+        });
+      }, 1000 / 140);
+    }
   }
 
   createCamera() {
-    this.camera = new PerspectiveCamera(65, this.container.clientWidth / this.container.clientHeight, 1, 10000);
+    this.camera = new PerspectiveCamera(
+      65,
+      this.container.clientWidth / this.container.clientHeight,
+      1,
+      10000
+    );
     this.camera.position.set(0, 5, 100);
   }
 
   createRenderer() {
     // this.renderer = new WebGLRenderer();
     //get renderer from canvas
-    this.renderer = new WebGLRenderer({ canvas: this.container, antialias: true, alpha: true });
-    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+    this.renderer = new WebGLRenderer({
+      canvas: this.container,
+      antialias: true,
+      alpha: true,
+    });
+    this.renderer.setSize(
+      this.container.clientWidth,
+      this.container.clientHeight
+    );
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.outputEncoding = sRGBEncoding;
     // this.container.appendChild(this.renderer.domElement);
@@ -93,9 +118,13 @@ class Environment {
   }
 
   onWindowResize() {
-    this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
+    this.camera.aspect =
+      this.container.clientWidth / this.container.clientHeight;
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+    this.renderer.setSize(
+      this.container.clientWidth,
+      this.container.clientHeight
+    );
   }
 }
 
@@ -108,7 +137,6 @@ class CreateParticles {
   raycaster: any;
   mouse: any;
   colorChange: any;
-  buttom: any;
   data: any;
   currenPosition: any;
   particles: any;
@@ -123,15 +151,28 @@ class CreateParticles {
   textMaterial: any;
   textMesh: any;
   geometryCopy: any;
-  tuppom: any;
+  startExplode: any;
   jsmithParticles: any;
   sysArchParticles: any;
+  explodedParticles: any;
   jsmithCopy: any;
   sysArchCopy: any;
   pause: any;
   swap: any;
+  restore: boolean;
+  explode: boolean;
 
-  constructor(scene: any, font: Font, particleImg: Texture, text: string, camera: any, raycaster: any, renderer: any, mouse: any, colorChange: any) {
+  constructor(
+    scene: any,
+    font: Font,
+    particleImg: Texture,
+    text: string,
+    camera: any,
+    raycaster: any,
+    renderer: any,
+    mouse: any,
+    colorChange: any
+  ) {
     this.swap = true;
     this.scene = scene;
     this.font = font;
@@ -141,19 +182,21 @@ class CreateParticles {
     this.raycaster = raycaster;
     this.mouse = mouse;
     this.colorChange = colorChange;
-    this.buttom = true;
-    this.tuppom = false;
+    this.startExplode = false;
     this.pause = false;
     this.textString = text;
+    this.restore = true;
+    this.explode = false;
     this.data = {
       text: this.textString,
-      amount: 500,
-      particleSize: 1,
+      amount: 1000,
+      particleSize: 0.5,
+      particleScale: window.innerHeight / 2,
       particleColor: 0xffffff,
       textSize: 12,
       area: 10000,
-      ease: 0.05,
-      radius: 250,
+      ease: 0.2,
+      radius: 500,
     };
 
     this.setup();
@@ -164,7 +207,10 @@ class CreateParticles {
 
   setup() {
     this.jsmithParticles = this.createText(this.data.text, this.data.textSize);
-    this.sysArchParticles = this.createText("Systems Architect", this.data.textSize);
+    this.sysArchParticles = this.createText(
+      "Systems Architect",
+      this.data.textSize
+    );
 
     this.jsmithCopy = new BufferGeometry();
     this.sysArchCopy = new BufferGeometry();
@@ -177,15 +223,22 @@ class CreateParticles {
     this.scene.add(this.particles);
 
     this.particles = this.randomizeParticles(this.particles, this.data.radius);
+    this.explodedParticles = new Points(
+      this.particles.geometry.clone(),
+      this.particles.material.clone()
+    );
   }
 
   bindEvents() {
     // window.addEventListener("mousedown", this.onMouseDown.bind(this));
+    // window.addEventListener("keydown", this.onMouseDown.bind(this));
   }
 
   onMouseDown(event: any) {
-    this.swapText();
-    this.tuppom = true;
+    if (!this.restore) {
+      this.swapText();
+      this.startExplode = true;
+    }
   }
 
   swapText() {
@@ -198,30 +251,23 @@ class CreateParticles {
 
   explodeParticles(particles: any, particlesCopy: any) {
     const pos = particles.geometry.attributes.position;
+    const sp = this.explodedParticles.geometry.attributes.position;
     const copy = particlesCopy.attributes.position;
-    const colors = particles.geometry.attributes.customColor;
-
-    //get left side of screen
-    const left = -this.visibleWidthAtZDepth(0, this.camera) / 2;
-    const right = this.visibleWidthAtZDepth(0, this.camera) / 2;
-    const top = this.visibleHeightAtZDepth(0, this.camera) / 2;
-    const bottom = -this.visibleHeightAtZDepth(0, this.camera) / 2;
 
     for (var i = 0, l = pos.count; i < l; i++) {
       const initX = copy.getX(i);
       const initY = copy.getY(i);
       const initZ = copy.getZ(i);
-      let sp = this.randomSpherePoint(0, 0, 0, this.data.radius / 2);
-      let mx = sp[0];
-      let my = sp[1];
-      let mz = sp[2];
+      const st = this.randomSpherePoint(0, 0, 0, this.data.radius / 2);
+      let mx = st[0];
+      let my = st[1];
+      let mz = st[2];
+      // let mx = sp.getX(i);
+      // let my = sp.getY(i);
+      // let mz = sp.getZ(i);
       let px = pos.getX(i);
       let py = pos.getY(i);
       let pz = pos.getZ(i);
-
-      this.colorChange.setHSL(1, 1, 1);
-      colors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
-      colors.needsUpdate = true;
 
       //if px nan
       if (isNaN(px)) {
@@ -240,7 +286,9 @@ class CreateParticles {
 
       const d = (dx = mx - px) * dx + (dy = my - py) * dy;
       const f = -this.data.area / d;
-
+      // const t = Math.atan2(dy, dx);
+      // px += f * Math.cos(t);
+      // py += f * Math.sin(t);
       const t = Math.atan2(dy, dx);
       px -= f * Math.cos(t);
       py -= f * Math.sin(t);
@@ -248,6 +296,10 @@ class CreateParticles {
       px += (initX - px) * this.data.ease;
       py += (initY - py) * this.data.ease;
       pz += (initZ - pz) * this.data.ease;
+
+      // px += dx * this.data.ease * 0.5;
+      // py += dy * this.data.ease * 0.5;
+      // pz += dz * this.data.ease * 0.5;
 
       pos.setXYZ(i, px, py, pz);
       pos.needsUpdate = true;
@@ -267,7 +319,12 @@ class CreateParticles {
       let mz = sp[2];
 
       this.colorChange.setHSL(1, 1, 1);
-      colors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
+      colors.setXYZ(
+        i,
+        this.colorChange.r,
+        this.colorChange.g,
+        this.colorChange.b
+      );
       colors.needsUpdate = true;
 
       pos.setXYZ(i, mx, my, mz);
@@ -287,7 +344,12 @@ class CreateParticles {
       let mz = pos.getZ(i);
 
       this.colorChange.setHSL(1, 1, 1);
-      colors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
+      colors.setXYZ(
+        i,
+        this.colorChange.r,
+        this.colorChange.g,
+        this.colorChange.b
+      );
       colors.needsUpdate = true;
 
       pos.setXYZ(i, mx, my, mz);
@@ -300,6 +362,7 @@ class CreateParticles {
   restoreParticles(particles: any, particlesCopy: any) {
     const pos = particles.geometry.attributes.position;
     const copy = particlesCopy.attributes.position;
+    let restored = true;
 
     for (var i = 0, l = pos.count; i < l; i++) {
       const initX = copy.getX(i);
@@ -316,118 +379,47 @@ class CreateParticles {
 
       pos.setXYZ(i, px, py, pz);
       pos.needsUpdate = true;
+
+      if (
+        Math.abs(pos.getX(i) - initX) > 0.01 ||
+        Math.abs(pos.getY(i) - initY) > 0.01 ||
+        Math.abs(pos.getZ(i) - initZ) > 0.01
+      ) {
+        restored = false;
+      }
+    }
+
+    if (restored) {
+      this.restore = false;
     }
 
     return particles;
   }
 
   render() {
-    //after 2 seconds, change this.buttom to false, only run once
-    if (this.buttom) {
+    if (this.startExplode && !this.explode) {
       setTimeout(() => {
-        this.buttom = false;
-      }, 100);
+        this.explode = false;
+        this.restore = true;
+      }, 200);
+      this.startExplode = false;
+      this.explode = true;
     }
 
-    if (this.tuppom) {
-      setTimeout(() => {
-        this.tuppom = false;
-      }, 100);
-    }
-
-    if (!this.buttom && !this.pause && !this.tuppom) {
+    if (this.restore) {
       this.particles = this.restoreParticles(this.particles, this.geometryCopy);
+
+      if (!this.restore) {
+        setTimeout(() => {
+          this.swapText();
+          this.startExplode = true;
+        }, 2000);
+      }
     }
 
-    if (this.tuppom) {
+    if (this.explode) {
       this.particles = this.explodeParticles(this.particles, this.geometryCopy);
     }
-
-    if (this.swap) {
-      setTimeout(() => {
-        this.swapText();
-        this.swap = true;
-        this.tuppom = true;
-      }, 4000);
-      this.swap = false;
-    }
-
-    // this.raycaster.setFromCamera(this.mouse, this.camera);
-    // const intersects = this.raycaster.intersectObject(this.planeArea);
-    // if (intersects.length > 0) {
-    //   const pos = this.particles.geometry.attributes.position;
-    //   const copy = this.geometryCopy.attributes.position;
-    //   const coulors = this.particles.geometry.attributes.customColor;
-    //   const size = this.particles.geometry.attributes.size;
-    //   const mx = intersects[0].point.x;
-    //   const my = intersects[0].point.y;
-    //   const mz = intersects[0].point.z;
-    //   for (var i = 0, l = pos.count; i < l; i++) {
-    //     const initX = copy.getX(i);
-    //     const initY = copy.getY(i);
-    //     const initZ = copy.getZ(i);
-    //     let px = pos.getX(i);
-    //     let py = pos.getY(i);
-    //     let pz = pos.getZ(i);
-    //     this.colorChange.setHSL(0.5, 1, 1);
-    //     coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
-    //     coulors.needsUpdate = true;
-    //     size.array[i] = this.data.particleSize;
-    //     size.needsUpdate = true;
-    //     let dx = mx - px;
-    //     let dy = my - py;
-    //     const dz = mz - pz;
-    //     const mouseDistance = this.distance(mx, my, px, py);
-    //     let d = (dx = mx - px) * dx + (dy = my - py) * dy;
-    //     const f = -this.data.area / d;
-    //     if (this.buttom) {
-    //       const t = Math.atan2(dy, dx);
-    //       px -= f * Math.cos(t);
-    //       py -= f * Math.sin(t);
-    //       this.colorChange.setHSL(0.5 + zigzagTime, 1.0, 0.5);
-    //       coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
-    //       coulors.needsUpdate = true;
-    //       if (px > initX + 70 || px < initX - 70 || py > initY + 70 || py < initY - 70) {
-    //         this.colorChange.setHSL(0.15, 1.0, 0.5);
-    //         coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
-    //         coulors.needsUpdate = true;
-    //       }
-    //     } else if (!this.buttom && this.tuppom) {
-    //       if (mouseDistance < this.data.area) {
-    //         if (i % 5 == 0) {
-    //           const t = Math.atan2(dy, dx);
-    //           px -= 0.03 * Math.cos(t);
-    //           py -= 0.03 * Math.sin(t);
-    //           this.colorChange.setHSL(0.15, 1.0, 0.5);
-    //           coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
-    //           coulors.needsUpdate = true;
-    //           size.array[i] = this.data.particleSize / 1.2;
-    //           size.needsUpdate = true;
-    //         } else {
-    //           const t = Math.atan2(dy, dx);
-    //           px += f * Math.cos(t);
-    //           py += f * Math.sin(t);
-    //           pos.setXYZ(i, px, py, pz);
-    //           pos.needsUpdate = true;
-    //           size.array[i] = this.data.particleSize * 1.3;
-    //           size.needsUpdate = true;
-    //         }
-    //         if (px > initX + 10 || px < initX - 10 || py > initY + 10 || py < initY - 10) {
-    //           this.colorChange.setHSL(0.15, 1.0, 0.5);
-    //           coulors.setXYZ(i, this.colorChange.r, this.colorChange.g, this.colorChange.b);
-    //           coulors.needsUpdate = true;
-    //           size.array[i] = this.data.particleSize / 1.8;
-    //           size.needsUpdate = true;
-    //         }
-    //       }
-    //     }
-    //     px += (initX - px) * this.data.ease;
-    //     py += (initY - py) * this.data.ease;
-    //     pz += (initZ - pz) * this.data.ease;
-    //     pos.setXYZ(i, px, py, pz);
-    //     pos.needsUpdate = true;
-    //   }
-    // }
   }
 
   createText(text: string, size: number) {
@@ -437,8 +429,14 @@ class CreateParticles {
     let geometry = new ShapeGeometry(shapes);
     geometry.computeBoundingBox();
 
-    const xMid = -0.5 * ((geometry.boundingBox as Box3).max.x - (geometry.boundingBox as Box3).min.x);
-    const yMid = ((geometry.boundingBox as Box3).max.y - (geometry.boundingBox as Box3).min.y) / 2.85;
+    const xMid =
+      -0.5 *
+      ((geometry.boundingBox as Box3).max.x -
+        (geometry.boundingBox as Box3).min.x);
+    const yMid =
+      ((geometry.boundingBox as Box3).max.y -
+        (geometry.boundingBox as Box3).min.y) /
+      2.85;
 
     geometry.center();
 
@@ -462,7 +460,8 @@ class CreateParticles {
     for (let x = 0; x < shapes.length; x++) {
       let shape = shapes[x];
 
-      const amountPoints = shape.type == "Path" ? this.data.amount / 2 : this.data.amount;
+      const amountPoints =
+        shape.type == "Path" ? this.data.amount / 2 : this.data.amount;
 
       let points = shape.getSpacedPoints(amountPoints);
 
@@ -477,17 +476,44 @@ class CreateParticles {
     let geoParticles = new BufferGeometry().setFromPoints(thePoints);
     geoParticles.translate(xMid, yMid, 0);
 
-    geoParticles.setAttribute("customColor", new Float32BufferAttribute(colors, 3));
+    geoParticles.setAttribute(
+      "customColor",
+      new Float32BufferAttribute(colors, 3)
+    );
     geoParticles.setAttribute("size", new Float32BufferAttribute(sizes, 1));
 
     const material = new ShaderMaterial({
       uniforms: {
         color: { value: new Color(0xffffff) },
         pointTexture: { value: this.particleImg },
+        size: { value: this.data.particleSize },
+        scale: { value: this.data.particleScale },
       },
-      vertexShader: (document.getElementById("vertexshader") as HTMLElement).textContent as string,
-      fragmentShader: (document.getElementById("fragmentshader") as HTMLElement).textContent as string,
-
+      // vertexShader: (document.getElementById("vertexshader") as HTMLElement).textContent as string,
+      // fragmentShader: (document.getElementById("fragmentshader") as HTMLElement).textContent as string,
+      vertexShader: `
+      uniform float size;
+      uniform float scale;
+      attribute float customColor;
+      varying vec3 vColor;
+      void main() {
+        vColor = vec3( customColor );
+        vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+        gl_PointSize = size * ( scale / length( mvPosition.xyz ) );
+        gl_Position = projectionMatrix * mvPosition;
+      }
+      `,
+      fragmentShader: `
+      #define ALPHATEST 0.5
+      uniform vec3 color;
+      uniform sampler2D pointTexture;
+      varying vec3 vColor;
+      void main() {
+        gl_FragColor = vec4( color * vColor, 1.0 );
+        gl_FragColor = gl_FragColor * texture2D( pointTexture, gl_PointCoord );
+        // if ( gl_FragColor.a < ALPHATEST ) discard;
+      }
+      `,
       blending: AdditiveBlending,
       depthTest: false,
       transparent: true,

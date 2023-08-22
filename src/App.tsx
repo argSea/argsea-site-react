@@ -59,6 +59,7 @@ function App() {
     return <div></div>;
   }
 
+  
   return (
     <>
       <div id="abscanvas">
@@ -66,7 +67,6 @@ function App() {
           <Stars factor={1} fade={false} count={500} depth={2} />
         </Canvas>
       </div>
-      <div>
         <BrowserRouter>
           <Hero user={user} />
           <Header />
@@ -81,7 +81,6 @@ function App() {
             </Routes>
           </div>
         </BrowserRouter>
-      </div>
     </>
   );
 }
