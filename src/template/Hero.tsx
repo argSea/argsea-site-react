@@ -45,7 +45,7 @@ const Hero = ({ user: user }: { user: any }) => {
   //useEffect to run at start of page load
   useEffect(() => {
     const canvas = document.getElementById("introcanvas");
-    const partGen = new ParticleGenerator(canvas, user.firstName + " " + user.lastName);
+    const partGen = new ParticleGenerator(canvas, user.firstName + " " + user.lastName, user.title);
   }, []);
 
   return (

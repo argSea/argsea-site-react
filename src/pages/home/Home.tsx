@@ -30,6 +30,12 @@ interface iProject {
   features: string[];
 }
 
+interface iInterest {
+  name: string;
+  icon: string;
+  interestLevel: number;
+}
+
 extend({ TextGeometry });
 
 const Home = ({ user: user }: { user: any }) => {
@@ -79,9 +85,14 @@ const Home = ({ user: user }: { user: any }) => {
     const portfolio = document.getElementById("portfolio");
     const portfolioNav = document.getElementsByClassName("portfolio")[0];
 
-    const map: Record<string, HTMLElement> = {
+    const navMap: Record<string, HTMLElement> = {
       aboutme: aboutMeNav as HTMLElement,
       portfolio: portfolioNav as HTMLElement,
+    };
+
+    const fadeMap: Record<string, HTMLElement> = {
+      aboutme: aboutMe as HTMLElement,
+      portfolio: portfolio as HTMLElement,
     };
 
     const options = {
@@ -93,9 +104,13 @@ const Home = ({ user: user }: { user: any }) => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          map[entry.target.id].classList.add("active");
+          navMap[entry.target.id].classList.add("active");
+          fadeMap[entry.target.id].classList.remove("fadedOut");
+          fadeMap[entry.target.id].classList.add("fadedIn");
         } else {
-          map[entry.target.id].classList.remove("active");
+          navMap[entry.target.id].classList.remove("active");
+          // fadeMap[entry.target.id].classList.add("fadedOut");
+          // fadeMap[entry.target.id].classList.remove("fadedIn");
         }
       });
     }, options);
@@ -106,24 +121,36 @@ const Home = ({ user: user }: { user: any }) => {
 
   return (
     <>
-      <section id="aboutme">
-        <Canvas style={{ width: "100%", height: "100px" }}>
+      <section id="aboutme" className="fadedOut">
+        <Canvas className="section_header" style={{ width: "100%", height: "100px" }}>
           <mesh position={aboutMePos}>
             {/* hide this error */}
             {/* @ts-ignore */}
             <textGeometry args={["About Me", aboutMeOpts]} />
           </mesh>
         </Canvas>
-        <div>{HTMLReactParser(user.about)}</div>
-        <br></br>
-        <div>{HTMLReactParser(user.about)}</div>
-        <br></br>
-        <div>{HTMLReactParser(user.about)}</div>
-        <br></br>
-        <div>{HTMLReactParser(user.about)}</div>
-        <br></br>
+        <div id="aboutme_info">
+          <div id="aboutme_text">
+            <div id="welcome">
+              <div id="welcome_text">
+                <span id="big_welcome">Hiya!</span> My name is <span id="colored_name">{user.firstName}</span>,
+              </div>
+            </div>
+            {HTMLReactParser(user.about)}
+          </div>
+          <div id="aboutme_tech_interests">
+            <h2>My Technical Interests</h2>
+            <ul>
+              {user.techInterests.map((interest: iInterest) => (
+                <li>
+                  {interest.name};; {interest.icon} ;; {interest.interestLevel}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </section>
-      <section id="portfolio">
+      <section id="portfolio" className="fadedOut">
         <Canvas style={{ width: "100%", height: "100px" }}>
           <mesh position={portfolioPos}>
             {/* hide this error */}

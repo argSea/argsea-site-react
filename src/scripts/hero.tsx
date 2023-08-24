@@ -2,14 +2,9 @@ import {
   AdditiveBlending,
   Box3,
   BufferGeometry,
-  Camera,
   Color,
   Float32BufferAttribute,
-  LoadingManager,
-  Mesh,
-  MeshBasicMaterial,
   PerspectiveCamera,
-  PlaneGeometry,
   Points,
   Raycaster,
   Scene,
@@ -34,14 +29,16 @@ class Environment {
   renderer: any;
   createParticles: any;
   text: string;
+  titleText: string;
 
-  constructor(font: Font, particle: any, container: any, text: string) {
+  constructor(font: Font, particle: any, container: any, text: string, titleText: string) {
     console.log("Environment");
     this.font = font;
     this.particle = particle;
     this.container = container;
     this.scene = new Scene();
     this.text = text;
+    this.titleText = titleText;
     this.createCamera();
     this.createRenderer();
     this.setup();
@@ -57,20 +54,7 @@ class Environment {
   }
 
   setup() {
-    let mouse = new Vector2(-200, 200);
-    let colorChange = new Color();
-    let raycaster = new Raycaster();
-    this.createParticles = new CreateParticles(
-      this.scene,
-      this.font,
-      this.particle,
-      this.text,
-      this.camera,
-      raycaster,
-      this.renderer,
-      mouse,
-      colorChange
-    );
+    this.createParticles = new CreateParticles(this.scene, this.font, this.particle, this.text, this.titleText);
   }
 
   render() {
@@ -88,12 +72,7 @@ class Environment {
   }
 
   createCamera() {
-    this.camera = new PerspectiveCamera(
-      65,
-      this.container.clientWidth / this.container.clientHeight,
-      1,
-      10000
-    );
+    this.camera = new PerspectiveCamera(65, this.container.clientWidth / this.container.clientHeight, 1, 10000);
     this.camera.position.set(0, 5, 100);
   }
 
@@ -105,10 +84,7 @@ class Environment {
       antialias: true,
       alpha: true,
     });
-    this.renderer.setSize(
-      this.container.clientWidth,
-      this.container.clientHeight
-    );
+    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.outputEncoding = sRGBEncoding;
     // this.container.appendChild(this.renderer.domElement);
@@ -118,13 +94,9 @@ class Environment {
   }
 
   onWindowResize() {
-    this.camera.aspect =
-      this.container.clientWidth / this.container.clientHeight;
+    this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(
-      this.container.clientWidth,
-      this.container.clientHeight
-    );
+    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
   }
 }
 
@@ -132,56 +104,26 @@ class CreateParticles {
   scene: any;
   font: any;
   particleImg: any;
-  camera: any;
-  renderer: any;
-  raycaster: any;
-  mouse: any;
-  colorChange: any;
   data: any;
-  currenPosition: any;
   particles: any;
-  positions: any;
-  colors: any;
-  sizes: any;
-  particlesGeometry: any;
-  particlesMaterial: any;
-  particlesMesh: any;
   textGeometry: any;
   textString: string;
   textMaterial: any;
   textMesh: any;
   geometryCopy: any;
   startExplode: any;
-  jsmithParticles: any;
-  sysArchParticles: any;
-  explodedParticles: any;
-  jsmithCopy: any;
-  sysArchCopy: any;
+  nameParticles: any;
+  titleParticles: any;
+  nameParticlesCopy: any;
+  titleParticlesCopy: any;
   pause: any;
-  swap: any;
   restore: boolean;
   explode: boolean;
 
-  constructor(
-    scene: any,
-    font: Font,
-    particleImg: Texture,
-    text: string,
-    camera: any,
-    raycaster: any,
-    renderer: any,
-    mouse: any,
-    colorChange: any
-  ) {
-    this.swap = true;
+  constructor(scene: any, font: Font, particleImg: Texture, text: string, titleText: string) {
     this.scene = scene;
     this.font = font;
     this.particleImg = particleImg;
-    this.camera = camera;
-    this.renderer = renderer;
-    this.raycaster = raycaster;
-    this.mouse = mouse;
-    this.colorChange = colorChange;
     this.startExplode = false;
     this.pause = false;
     this.textString = text;
@@ -189,6 +131,7 @@ class CreateParticles {
     this.explode = false;
     this.data = {
       text: this.textString,
+      titleText: titleText,
       amount: 1000,
       particleSize: 0.5,
       particleScale: window.innerHeight / 2,
@@ -200,38 +143,26 @@ class CreateParticles {
     };
 
     this.setup();
-    this.bindEvents();
 
     console.log(this);
   }
 
   setup() {
-    this.jsmithParticles = this.createText(this.data.text, this.data.textSize);
-    this.sysArchParticles = this.createText(
-      "Systems Architect",
-      this.data.textSize
-    );
+    this.nameParticles = this.createText(this.data.text, this.data.textSize);
+    this.titleParticles = this.createText(this.data.titleText, this.data.textSize);
 
-    this.jsmithCopy = new BufferGeometry();
-    this.sysArchCopy = new BufferGeometry();
-    this.jsmithCopy.copy(this.jsmithParticles.geometry);
-    this.sysArchCopy.copy(this.sysArchParticles.geometry);
+    this.nameParticlesCopy = new BufferGeometry();
+    this.titleParticlesCopy = new BufferGeometry();
+    this.nameParticlesCopy.copy(this.nameParticles.geometry);
+    this.titleParticlesCopy.copy(this.titleParticles.geometry);
 
-    this.particles = this.sysArchParticles;
-    this.geometryCopy = this.jsmithCopy;
+    // set this.particles to whichever text has the longest string length
+    this.particles = this.data.text.length > this.data.titleText.length ? this.nameParticles : this.titleParticles;
+    this.geometryCopy = this.nameParticlesCopy;
 
     this.scene.add(this.particles);
 
     this.particles = this.randomizeParticles(this.particles, this.data.radius);
-    this.explodedParticles = new Points(
-      this.particles.geometry.clone(),
-      this.particles.material.clone()
-    );
-  }
-
-  bindEvents() {
-    // window.addEventListener("mousedown", this.onMouseDown.bind(this));
-    // window.addEventListener("keydown", this.onMouseDown.bind(this));
   }
 
   onMouseDown(event: any) {
@@ -242,16 +173,15 @@ class CreateParticles {
   }
 
   swapText() {
-    if (this.geometryCopy == this.jsmithCopy) {
-      this.geometryCopy = this.sysArchCopy;
+    if (this.geometryCopy == this.nameParticlesCopy) {
+      this.geometryCopy = this.titleParticlesCopy;
     } else {
-      this.geometryCopy = this.jsmithCopy;
+      this.geometryCopy = this.nameParticlesCopy;
     }
   }
 
   explodeParticles(particles: any, particlesCopy: any) {
     const pos = particles.geometry.attributes.position;
-    const sp = this.explodedParticles.geometry.attributes.position;
     const copy = particlesCopy.attributes.position;
 
     for (var i = 0, l = pos.count; i < l; i++) {
@@ -262,9 +192,6 @@ class CreateParticles {
       let mx = st[0];
       let my = st[1];
       let mz = st[2];
-      // let mx = sp.getX(i);
-      // let my = sp.getY(i);
-      // let mz = sp.getZ(i);
       let px = pos.getX(i);
       let py = pos.getY(i);
       let pz = pos.getZ(i);
@@ -286,9 +213,6 @@ class CreateParticles {
 
       const d = (dx = mx - px) * dx + (dy = my - py) * dy;
       const f = -this.data.area / d;
-      // const t = Math.atan2(dy, dx);
-      // px += f * Math.cos(t);
-      // py += f * Math.sin(t);
       const t = Math.atan2(dy, dx);
       px -= f * Math.cos(t);
       py -= f * Math.sin(t);
@@ -296,10 +220,6 @@ class CreateParticles {
       px += (initX - px) * this.data.ease;
       py += (initY - py) * this.data.ease;
       pz += (initZ - pz) * this.data.ease;
-
-      // px += dx * this.data.ease * 0.5;
-      // py += dy * this.data.ease * 0.5;
-      // pz += dz * this.data.ease * 0.5;
 
       pos.setXYZ(i, px, py, pz);
       pos.needsUpdate = true;
@@ -310,47 +230,12 @@ class CreateParticles {
 
   randomizeParticles(particles: any, radius: number) {
     const pos = particles.geometry.attributes.position;
-    const colors = particles.geometry.attributes.customColor;
 
     for (var i = 0, l = pos.count; i < l; i++) {
       let sp = this.randomSpherePoint(0, 0, 0, radius);
       let mx = sp[0];
       let my = sp[1];
       let mz = sp[2];
-
-      this.colorChange.setHSL(1, 1, 1);
-      colors.setXYZ(
-        i,
-        this.colorChange.r,
-        this.colorChange.g,
-        this.colorChange.b
-      );
-      colors.needsUpdate = true;
-
-      pos.setXYZ(i, mx, my, mz);
-      pos.needsUpdate = true;
-    }
-
-    return particles;
-  }
-
-  fakeRandomizeParticles(particles: any) {
-    const pos = particles.geometry.attributes.position;
-    const colors = particles.geometry.attributes.customColor;
-
-    for (var i = 0, l = pos.count; i < l; i++) {
-      let mx = pos.getX(i);
-      let my = pos.getY(i);
-      let mz = pos.getZ(i);
-
-      this.colorChange.setHSL(1, 1, 1);
-      colors.setXYZ(
-        i,
-        this.colorChange.r,
-        this.colorChange.g,
-        this.colorChange.b
-      );
-      colors.needsUpdate = true;
 
       pos.setXYZ(i, mx, my, mz);
       pos.needsUpdate = true;
@@ -380,11 +265,7 @@ class CreateParticles {
       pos.setXYZ(i, px, py, pz);
       pos.needsUpdate = true;
 
-      if (
-        Math.abs(pos.getX(i) - initX) > 0.01 ||
-        Math.abs(pos.getY(i) - initY) > 0.01 ||
-        Math.abs(pos.getZ(i) - initZ) > 0.01
-      ) {
+      if (Math.abs(pos.getX(i) - initX) > 0.01 || Math.abs(pos.getY(i) - initY) > 0.01 || Math.abs(pos.getZ(i) - initZ) > 0.01) {
         restored = false;
       }
     }
@@ -429,14 +310,8 @@ class CreateParticles {
     let geometry = new ShapeGeometry(shapes);
     geometry.computeBoundingBox();
 
-    const xMid =
-      -0.5 *
-      ((geometry.boundingBox as Box3).max.x -
-        (geometry.boundingBox as Box3).min.x);
-    const yMid =
-      ((geometry.boundingBox as Box3).max.y -
-        (geometry.boundingBox as Box3).min.y) /
-      2.85;
+    const xMid = -0.5 * ((geometry.boundingBox as Box3).max.x - (geometry.boundingBox as Box3).min.x);
+    const yMid = ((geometry.boundingBox as Box3).max.y - (geometry.boundingBox as Box3).min.y) / 2.85;
 
     geometry.center();
 
@@ -460,15 +335,14 @@ class CreateParticles {
     for (let x = 0; x < shapes.length; x++) {
       let shape = shapes[x];
 
-      const amountPoints =
-        shape.type == "Path" ? this.data.amount / 2 : this.data.amount;
+      const amountPoints = shape.type == "Path" ? this.data.amount / 2 : this.data.amount;
 
       let points = shape.getSpacedPoints(amountPoints);
 
       points.forEach((element: any, z: any) => {
         const a = new Vector3(element.x, element.y, 0);
         thePoints.push(a);
-        colors.push(this.colorChange.r, this.colorChange.g, this.colorChange.b);
+        colors.push(255, 255, 255);
         sizes.push(1);
       });
     }
@@ -476,10 +350,7 @@ class CreateParticles {
     let geoParticles = new BufferGeometry().setFromPoints(thePoints);
     geoParticles.translate(xMid, yMid, 0);
 
-    geoParticles.setAttribute(
-      "customColor",
-      new Float32BufferAttribute(colors, 3)
-    );
+    geoParticles.setAttribute("customColor", new Float32BufferAttribute(colors, 3));
     geoParticles.setAttribute("size", new Float32BufferAttribute(sizes, 1));
 
     const material = new ShaderMaterial({
@@ -524,25 +395,6 @@ class CreateParticles {
     return particles;
   }
 
-  visibleHeightAtZDepth(depth: number, camera: any) {
-    const cameraOffset = camera.position.z;
-    if (depth < cameraOffset) depth -= cameraOffset;
-    else depth += cameraOffset;
-
-    const vFOV = (camera.fov * Math.PI) / 180;
-
-    return 2 * Math.tan(vFOV / 2) * Math.abs(depth);
-  }
-
-  visibleWidthAtZDepth(depth: number, camera: any) {
-    const height = this.visibleHeightAtZDepth(depth, camera);
-    return height * camera.aspect;
-  }
-
-  distance(x1: number, y1: number, x2: number, y2: number) {
-    return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-  }
-
   randomSpherePoint(x0: number, y0: number, z0: number, radius: number) {
     var u = Math.random();
     var v = Math.random();
@@ -562,11 +414,11 @@ class CreateParticles {
 export default class ParticleGenerator {
   environment: any;
   //constructor
-  constructor(canvas: any, text: string) {
+  constructor(canvas: any, text: string, titleText: string) {
     console.log("ParticleGenerator");
     const font = new FontLoader().parse(Audiowide);
     const particle = new TextureLoader().load("http://127.0.0.1:5173/star.png");
-    this.environment = new Environment(font, particle, canvas, text);
+    this.environment = new Environment(font, particle, canvas, text, titleText);
   }
 
   render() {
