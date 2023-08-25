@@ -361,14 +361,14 @@ section:not(#hero) {
 #content {
   position: relative;
   padding-top: var(--nav-height);
-  width: 75%;
+  width: 50%;
   margin: auto;
   z-index: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   line-height: 1.5;
 }
 
@@ -385,6 +385,13 @@ section:not(#hero) {
   position: relative;
 }
 
+#aboutme li {
+  margin-bottom: 10px;
+  /* indent the bullets */
+  list-style-position: inside;
+  text-indent: 1em;
+}
+
 #aboutme canvas {
   max-height: 100px;
   width: 100%;
@@ -392,10 +399,6 @@ section:not(#hero) {
 
 /* set #aboutme_info #aboutme_text to the left and #aboutme_info #aboutme_tech_interests to the right */
 #aboutme_info {
-  display: flex;
-  flex-direction: row;
-  /* equal space between flex items */
-  justify-content: space-between;
   align-items: center;
   width: 75%;
   margin: 50px auto 0px auto;
@@ -407,11 +410,10 @@ section:not(#hero) {
   justify-content:left;
   align-items: center;
   width: 100%;
-  gap: 10px;
 }
 
 #aboutme_info #aboutme_text {
-  width: 50%;
+  width: 100%;
   margin-right: 50px;
   display: block;
 }
@@ -419,7 +421,6 @@ section:not(#hero) {
 /* do a sliding underline under links using keyframes */
 #aboutme_info #aboutme_text a {
   position: relative;
-  color: var(--nav-active-color);
   text-decoration: none;
   display: inline-block;
 }
@@ -431,9 +432,11 @@ section:not(#hero) {
   height: 2px;
   bottom: 0;
   left: 0;
-  background-color: var(--link-color);
+  z-index: -1;
+  /* horizontal gradient */
+  background: linear-gradient(to right, var(--link-color), var(--menu-item-color));
   visibility: hidden;
-  transform: scaleX(0);
+  transform: scaleX(1);
   /* fancy slide under */
   transform-origin: bottom left;
   transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1.0);
@@ -456,6 +459,11 @@ section:not(#hero) {
   animation: slideUnder 0.3s ease-in-out;
 }
 
+#aboutme_info #aboutme_interests {
+  width: 100%;
+  margin-left: 50px;
+  display: block;
+}
 
 #aboutme_info #welcome_text {
   font-size: 1.5rem;
@@ -471,14 +479,6 @@ section:not(#hero) {
   font-size: 2.0rem;
 }
 
-#aboutme_info #aboutme_tech_interests {
-  width: 50%;
-  display: block;
-  margin-left: 50px;
-  /* align to top */
-  
-}
-
 .fadedOut {
   opacity: 0;
 }
@@ -489,6 +489,13 @@ section:not(#hero) {
   /* fancy fade in */
   animation: fadeIn 0.75s ease-in-out;
 }
+
+
+
+
+
+
+
 /****************************************************
  *                                                  *
  *                  ANIMATIONS                      *
@@ -554,17 +561,10 @@ section:not(#hero) {
 @keyframes slideUnder {
   0% {
     transform: scaleX(0);
-    background-color: var(--link-color);
-  }
-
-  20% {
-    transform: scaleX(0.2);
-    background-color: rgb(148, 100, 252);
   }
 
   100% {
     transform: scaleX(1);
-    background-color: var(--link-color);
   }
 }
 
@@ -572,17 +572,9 @@ section:not(#hero) {
 @keyframes slideUnderReverse {
   0% {
     transform: scaleX(1);
-    background-color: var(--link-color);
   }
-
-  20% {
-    transform: scaleX(0.8);
-    background-color: rgb(148, 100, 252);
-  }
-
   100% {
     transform: scaleX(0);
-    background-color: var(--link-color);
   }
 }
 

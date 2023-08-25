@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "@enable3d/ammo-physics": "^0.25.3",
+    "@fortawesome/react-fontawesome": "github:fortawesome/react-fontawesome",
     "@react-three/drei": "^9.51.22",
     "@react-three/fiber": "^8.10.0",
     "@types/three": "^0.144.0",
     "dompurify": "^2.4.3",
+    "fortawesome": "^0.0.1-security",
     "hamburger-react": "^2.5.0",
     "html-react-parser": "^3.0.7",
     "prettier": "^2.8.7",

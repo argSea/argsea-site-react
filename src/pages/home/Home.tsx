@@ -6,6 +6,7 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import Audiowide from "../../assets/audiowide.json";
 import { Vector3 } from "three";
+import mapIcons from "../../assets/icons";
 
 interface iProject {
   projectID: string;
@@ -32,8 +33,14 @@ interface iProject {
 
 interface iInterest {
   name: string;
-  icon: string;
+  // icon: string;
   interestLevel: number;
+}
+
+interface iContact {
+  name: string;
+  link: string;
+  icon: string;
 }
 
 extend({ TextGeometry });
@@ -119,6 +126,23 @@ const Home = ({ user: user }: { user: any }) => {
     observer.observe(portfolio!);
   }, []);
 
+  // santizie user.about
+  useEffect(() => {
+    user.about = DOMPurify.sanitize(user.about);
+  }, [user.about]);
+
+  // card based contact me section with icons and links to social media and email using user.contacts
+  const contactMe = () => {
+    return user.contacts.map((contact: iContact, index: number) => {
+      console.log(contact);
+      return (
+        <div className="contact" key={index}>
+          <a href={contact.link} target="_blank" rel="noreferrer"></a>
+        </div>
+      );
+    });
+  };
+
   return (
     <>
       <section id="aboutme" className="fadedOut">
@@ -133,20 +157,28 @@ const Home = ({ user: user }: { user: any }) => {
           <div id="aboutme_text">
             <div id="welcome">
               <div id="welcome_text">
-                <span id="big_welcome">Hiya!</span> My name is <span id="colored_name">{user.firstName}</span>,
+                <span id="big_welcome">Hiya!</span> My name is{" "}
+                <span id="colored_name">
+                  {user.firstName} {user.lastName}
+                </span>
+                ,
               </div>
             </div>
             {HTMLReactParser(user.about)}
+            <div id="contact_me">{contactMe()}</div>
           </div>
-          <div id="aboutme_tech_interests">
-            <h2>My Technical Interests</h2>
-            <ul>
-              {user.techInterests.map((interest: iInterest) => (
-                <li>
-                  {interest.name};; {interest.icon} ;; {interest.interestLevel}
-                </li>
-              ))}
-            </ul>
+          {/* stuff I've been interested in */}
+          <div id="aboutme_interests">
+            <div id="interests_header">Interests</div>
+            <div id="interests_list">
+              {user.techInterests.map((interest: iInterest, index: number) => {
+                return (
+                  <div className="interest" key={index}>
+                    <div className="interest_name">{interest.name}</div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
