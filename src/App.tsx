@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import About from "./pages/about/About";
-import Blog from "./pages/blog/Blog";
 import Home from "./pages/home/Home";
-import Portfolio from "./pages/portfolio/Portfolio";
-import Resume from "./pages/resume/Resume";
 import Header from "./template/Header";
 import Hero from "./template/Hero";
-import { OrbitControls, Stars, Text } from "@react-three/drei";
-import { Canvas, extend } from "@react-three/fiber";
+import { Stars } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import Interests from "./template/Interests";
+import iInterests from "./interfaces/Interests";
+import Portfolio from "./pages/home/sections/Portfolio/Portfolio";
 
 interface iUser {
   userID: string;
@@ -20,6 +19,7 @@ interface iUser {
   title: string;
   picture: string;
   about: string;
+  techInterests: iInterests[];
 }
 
 function App() {
@@ -32,6 +32,10 @@ function App() {
     title: "Someone",
     picture: "nothing.jpg",
     about: "Me",
+    techInterests: [
+      { name: "Python", icon: "/icons/python.png", interestLevel: 10 },
+      { name: "C++", icon: "/icons/cplus.png", interestLevel: 10 },
+    ],
   });
 
   useEffect(() => {
@@ -59,7 +63,6 @@ function App() {
     return <div></div>;
   }
 
-  
   return (
     <>
       <div id="abscanvas">
@@ -67,20 +70,16 @@ function App() {
           <Stars factor={1} fade={false} count={500} depth={2} />
         </Canvas>
       </div>
-        <BrowserRouter>
-          <Hero user={user} />
-          <Header />
-          <div id="content">
-            <Routes>
-              <Route path="/" element={<Home user={user} />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/resume" element={<Resume />} />
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/admin" element={<Home user={user} />} />
-            </Routes>
-          </div>
-        </BrowserRouter>
+      <BrowserRouter>
+        <Hero user={user} />
+        <Header />
+        <div id="content">
+          <Routes>
+            <Route path="/" element={<Home user={user} />} />
+          </Routes>
+        </div>
+        <Interests interests={user.techInterests} />
+      </BrowserRouter>
     </>
   );
 }

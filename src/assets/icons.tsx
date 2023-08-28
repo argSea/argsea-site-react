@@ -1,4 +1,4 @@
-function mapIcons() {
+function mapIcons(): Map<string, string> {
   let iconMap = new Map();
 
   iconMap.set("linkedin", "/assets/icons/linkedin.svg");

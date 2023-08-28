@@ -50,18 +50,6 @@ const Hero = ({ user: user }: { user: any }) => {
 
   return (
     <section id="hero">
-      <div id="bio_wrap">
-        <span id="hero_three_name">
-          {/* {user.firstName} {user.lastName} */}
-          {/* <ParticleName name={user.firstName + " " + user.lastName} size={7} title={user.title} titleSize={5} /> */}
-        </span>
-        <div id="hero_bio">
-          <div id="hero_bio_intro">Hey, I go by</div>
-          <div id="hero_bio_title">
-            I like to design and build things as a <span id="hero_bio_titleHighlight">{user.title}</span>.
-          </div>
-        </div>
-      </div>
       <div id="hero_down_arrow_container">
         <a href="#aboutme">
           <FaChevronDown size={75} id="hero_down_arrow" />
