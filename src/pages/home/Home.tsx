@@ -223,13 +223,6 @@ const Home = ({ user: user }: { user: any }) => {
         {<AboutMe user={user} />}
       </section>
       <section id="portfolio" className="fadedOut">
-        <Canvas style={{ width: "100%", height: "100px" }}>
-          <mesh position={portfolioPos}>
-            {/* hide this error */}
-            {/* @ts-ignore */}
-            <textGeometry args={["Portfolio", portfolioOpts]} />
-          </mesh>
-        </Canvas>
         <Portfolio />
       </section>
       <section id="contact-me" className="fadedOut">

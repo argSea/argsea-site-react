@@ -33,13 +33,6 @@ const AboutMe = ({ user }: { user: any }) => {
 
   return (
     <>
-      <Canvas className="section_header" style={{ width: "100%", height: "100px" }}>
-        <mesh position={aboutMePos}>
-          {/* hide this error */}
-          {/* @ts-ignore */}
-          <textGeometry args={["About Me", aboutMeOpts]} />
-        </mesh>
-      </Canvas>
       <div id="aboutme_info">
         <div id="aboutme_text">
           <div id="welcome">
@@ -53,6 +46,9 @@ const AboutMe = ({ user }: { user: any }) => {
           </div>
           {parse(user.about)}
           <div id="call-to-action">{callToAction()}</div>
+        </div>
+        <div id="aboutme-header">
+          <div id="aboutme-header-text">.about</div>
         </div>
       </div>
     </>

@@ -1,29 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./portfolio.css";
 import ProjectCard from "./ProjectCard";
-
-interface iProject {
-  projectID: string;
-  userIDs: string[];
-  projectType: string;
-  name: string;
-  shortName: string;
-  icon: string;
-  slug: string;
-  repoURL: string;
-  description: string;
-  skills: string[];
-  roles: string[];
-  priority: number;
-  isActive: boolean;
-  isReleased: boolean;
-  bookID: string;
-  relatedCourse: string;
-  relatedExperience: [];
-  links: string[];
-  snippets: string[];
-  features: string[];
-}
+// import slick carousel css
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import iProject from "../../../../interfaces/iProject";
 
 function Portfolio() {
   // can have multiple projects
@@ -38,7 +21,7 @@ function Portfolio() {
       slug: "project-1",
       repoURL: "github.com",
       description: "Description",
-      skills: ["C++"],
+      skills: ["C++", "C#", "Java"],
       roles: ["Sole Contributor"],
       priority: 10,
       isActive: false,
@@ -60,6 +43,50 @@ function Portfolio() {
       slug: "project-2",
       repoURL: "github.com",
       description: "Description",
+      skills: ["C++", "C#", "Java"],
+      roles: ["Sole Contributor"],
+      priority: 10,
+      isActive: false,
+      isReleased: false,
+      bookID: "bookID1",
+      relatedCourse: "",
+      relatedExperience: [],
+      links: ["argsea.com"],
+      snippets: ["Snippet1"],
+      features: ["Feature1"],
+    },
+    {
+      projectID: "project3",
+      userIDs: ["userID1"],
+      projectType: "type1",
+      name: "Project3",
+      shortName: "Project3",
+      icon: "https://woz-u.com/wp-content/uploads/2022/06/Evolution-of-Coding-scaled.jpg",
+      slug: "project-3",
+      repoURL: "github.com",
+      description: "Description",
+      skills: ["C++", "C#", "Java"],
+      roles: ["Sole Contributor"],
+      priority: 10,
+      isActive: false,
+      isReleased: false,
+      bookID: "bookID1",
+      relatedCourse: "",
+      relatedExperience: [],
+      links: ["argsea.com"],
+      snippets: ["Snippet1"],
+      features: ["Feature1"],
+    },
+    {
+      projectID: "project4",
+      userIDs: ["userID1"],
+      projectType: "type1",
+      name: "Project4",
+      shortName: "Project4",
+      icon: "https://www.zdnet.com/a/img/resize/a0dcec40a8cd8d2e1b3a9e12a05c2819622d20be/2021/07/19/8a337c80-5ed6-43a1-98fb-b981d420890f/programming-languages-shutterstock-1680857539.jpg?auto=webp&fit=crop&height=1200&width=1200",
+      slug: "project-4",
+      repoURL: "github.com",
+      description: "Description",
       skills: ["C++"],
       roles: ["Sole Contributor"],
       priority: 10,
@@ -73,13 +100,59 @@ function Portfolio() {
       features: ["Feature1"],
     },
   ]);
+
+  const [nav1, setNav1] = useState<any>(null);
+  const [nav2, setNav2] = useState<any>(null);
+
+  function FaPrevArrow(props: any) {
+    const { className, style, onClick } = props;
+    return <FaChevronLeft size={25} className={className} style={{ ...style, display: "block", color: "white" }} onClick={onClick} />;
+  }
+
+  function FaNextArrow(props: any) {
+    const { className, style, onClick } = props;
+    return <FaChevronRight size={35} className={className} style={{ ...style, display: "block", color: "white" }} onClick={onClick} />;
+  }
+
+  const settings1 = {
+    slidesToShow: 1,
+    arrows: true,
+    autoplay: false,
+    autoplaySpeed: 3000,
+    prevArrow: <FaPrevArrow />,
+    nextArrow: <FaNextArrow />,
+  };
+
+  const settings2 = {
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    dots: false,
+    centerMode: true,
+    focusOnSelect: true,
+    infinite: true,
+    arrows: false,
+  };
+
   return (
     <>
-      <div id="portfolio_info">
-        <div className="project-list">
-          {projects.map((project, index) => {
-            return <ProjectCard key={index} title={project.name} description={project.description} imageURL={project.icon} tags={project.skills} />;
-          })}
+      <div id="portfolio-info">
+        <div id="portfolio-header">
+          <div id="portfolio-header-text">.portfolio</div>
+        </div>
+        <div className="project-carousel">
+          <Slider className="project-strip" ref={(slider1: any) => setNav1(slider1)} asNavFor={nav2} {...settings2}>
+            {projects.map((project, index) => {
+              return <ProjectCard project={project} />;
+            })}
+          </Slider>
+          <div className="project-screen">
+            <Slider className="project-detail" ref={(slider2: any) => setNav2(slider2)} asNavFor={nav1} {...settings1}>
+              {projects.map((project, index) => {
+                return <ProjectCard project={project} />;
+              })}
+            </Slider>
+            <div className="screen-frame"></div>
+          </div>
         </div>
       </div>
     </>
