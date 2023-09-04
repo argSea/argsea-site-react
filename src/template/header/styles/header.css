@@ -1,0 +1,137 @@
+/****************************************************
+   *                                                  *
+   *                     HEADER                       *
+   *                                                  *
+  ****************************************************/
+
+header {
+  position: sticky;
+  display: flex;
+  top: 0;
+  width: 100%;
+  z-index: 300;
+  /* glassy looking */
+  background: var(--glass-color); /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, var(--glass-color), var(--glass-color)); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, var(--glass-color), var(--glass-color)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  /* glassy looking */
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  vertical-align: middle;
+  justify-content: center;
+  height: var(--nav-height);
+}
+
+nav {
+  display: flex;
+  height: var(--nav-height);
+  width: 100%;
+  height: 100%;
+}
+
+#navBar {
+  display: flex;
+  flex-direction: right;
+  gap: 30px;
+  justify-content: right;
+  margin-right: 100px;
+  margin-left: auto;
+}
+
+.navItem {
+  text-align: center;
+  font-size: 1rem;
+  margin: auto;
+}
+
+.navItem a {
+  text-decoration: none;
+  color: var(--highligh-color);
+}
+
+.navItem a:hover {
+  color: var(--menu-item-color);
+}
+
+/* change color when .navItem is selected */
+.navItem.active a {
+  color: var(--nav-active-color);
+}
+
+#logo {
+  scale: 0.8;
+  flex-direction: left;
+  margin-right: auto;
+  color: white;
+  cursor: pointer;
+  margin: auto 0 auto 40px;
+}
+
+#logo a {
+  color: var(--highligh-color);
+}
+
+#hamburger {
+  display: none;
+  flex-direction: right;
+  margin-left: auto;
+  color: white;
+  cursor: pointer;
+  margin: auto 20px auto auto;
+}
+
+#hamburger svg line {
+  stroke: var(--highligh-color);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 80;
+  stroke-dashoffset: 0;
+}
+
+#hamburger #line-top {
+  stroke-dashoffset: var(--burger-line-top-offset);
+}
+
+#hamburger #line-mid {
+  stroke-dashoffset: var(--burger-line-mid-offset);
+}
+
+#hamburger #line-bottom {
+  stroke-dashoffset: var(--burger-line-bot-offset);
+}
+
+#hamburger[aria-expanded="false"] #line-top {
+  --burger-line-offset: var(--burger-line-top-offset);
+  animation: burger-close var(--burger-anim-1-len) forwards;
+}
+
+#hamburger[aria-expanded="false"] #line-mid {
+  --burger-line-offset: var(--burger-line-mid-offset);
+  animation: burger-close var(--burger-anim-1-len) forwards;
+}
+
+#hamburger[aria-expanded="false"] #line-bottom {
+  --burger-line-offset: var(--burger-line-bot-offset);
+  animation: burger-close var(--burger-anim-1-len) forwards;
+}
+
+#hamburger[aria-expanded="true"] #line-top {
+  --burger-line-offset: var(--burger-line-top-offset);
+  animation: burger-open var(--burger-anim-2-len) forwards;
+  transform-origin: center;
+}
+
+#hamburger[aria-expanded="true"] #line-mid {
+  --burger-line-offset: var(--burger-line-mid-offset);
+  animation: burger-open var(--burger-anim-2-len) forwards;
+  transform-origin: center;
+}
+
+#hamburger[aria-expanded="true"] #line-bottom {
+  --burger-line-offset: var(--burger-line-bot-offset);
+  animation: burger-open var(--burger-anim-2-len) forwards;
+  transform-origin: center;
+}

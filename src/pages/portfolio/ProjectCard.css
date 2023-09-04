@@ -1,0 +1,272 @@
+@property --aurora-gradient {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* vars */
+:root {
+  --project-card-title-underline-gradient-color1: rgb(169, 130, 251);
+  --project-card-title-underline-gradient-color2: rgb(134, 103, 199);
+  --project-card-title-underline-gradient-color3: rgb(99, 76, 147);
+  --aurora-color-1: rgb(49, 63, 102);
+  --aurora-color-2: rgb(79, 87, 156);
+  --aurora-color-3: rgb(117, 120, 183);
+  --aurora-color-4: rgb(157, 122, 197);
+  --card-height: 35ch;
+  --card-width: calc(var(--card-height) * 0.7);
+  --active-card-height: 60ch;
+  --active-card-width: 45ch;
+  --border-radius: 0.5rem;
+  --color1: rgba(0, 0, 0, 1);
+  --color2: rgba(0, 0, 0, 0.9);
+  --color3: rgba(0, 0, 0, 0.8);
+}
+
+.project-card {
+  position: relative;
+  height: var(--card-height);
+  aspect-ratio: 1 / 1.05;
+  border-radius: var(--border-radius);
+
+  /* glass background */
+  /* background: linear-gradient(var(--glass-color), rgba(22, 37, 55, 1) 20%, rgba(22, 37, 55, 1) 80%, var(--glass-color)); */
+  background: var(--glass-color2);
+
+  transition: all 0.3s ease-in-out;
+  z-index: 1;
+}
+
+.project-card:hover {
+  transform: scale(1.1);
+  z-index: 100;
+}
+
+.project-card::before,
+.project-card::after {
+  content: "";
+  position: absolute;
+  inset: -0.15rem;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--aurora-gradient),
+    var(--aurora-color-1),
+    var(--aurora-color-2),
+    var(--aurora-color-3),
+    var(--aurora-color-4),
+    var(--aurora-color-3),
+    var(--aurora-color-2),
+    var(--aurora-color-1)
+  );
+
+  z-index: -1;
+
+  animation: spin 5s linear infinite;
+}
+
+.project-card::before {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+}
+
+.project-card::after {
+  filter: blur(3.5rem);
+
+  transform: scale(0.9);
+}
+
+.project-card-contents {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+
+  /* transition: all 0.3s ease-in-out; */
+}
+
+.project-card-contents .project-details {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  color: white;
+  font-size: 1.2rem;
+  /* transform: translateY(87%); */
+  background: linear-gradient(var(--color3), var(--color2) 50%, var(--color1));
+  transition: transform 300ms ease-in-out;
+  align-self: flex-end;
+  backdrop-filter: blur(5px);
+
+  display: grid;
+  grid-template-rows: 1fr 4fr 1fr;
+  gap: 5px;
+  justify-items: center;
+  align-items: center;
+  z-index: 1;
+}
+
+/* .project-card-contents:hover .project-details {
+  transform: translateY(50%);
+  transition-delay: 300ms;
+} */
+
+.project-card-contents .project-details .project-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+}
+
+.project-card-contents .project-details .project-icon svg {
+  width: 50px;
+  height: 50px;
+}
+
+.project-card-contents .project-details .project-title {
+  font-size: 2rem;
+  font-weight: bold;
+  position: relative;
+  text-align: center;
+  width: 90%;
+  align-self: flex-start;
+  margin-top: 50px;
+}
+
+.project-card-contents .project-details .project-progress {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  display: none;
+}
+
+.project-card-contents:hover .project-details .project-progress {
+  transform: scaleX(1);
+}
+
+.project-card-contents .project-details .project-progress-bar {
+  position: relative;
+  display: block;
+  height: 2px;
+  width: 100% !important;
+  transition: transform 300ms ease-in-out;
+  background: linear-gradient(
+    to right,
+    var(--project-card-title-underline-gradient-color1),
+    var(--project-card-title-underline-gradient-color2),
+    var(--project-card-title-underline-gradient-color3)
+  );
+}
+
+.project-card-contents .project-details .project-progress-text {
+  display: none;
+  position: absolute;
+  top: -13px;
+  right: 0px;
+  padding: 10px;
+  background: var(--project-card-title-underline-gradient-color3);
+  border-radius: 5px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  line-height: 0.5;
+  font-size: 0.8rem;
+
+  color: white;
+
+  /* box shadow */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+}
+
+.project-card-contents .project-details .project-description {
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  flex-grow: 1;
+  align-self: flex-end;
+  width: 90%;
+
+  /* ellipsis if too long */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* number of lines to show */
+  -webkit-box-orient: vertical;
+
+  /* other browsers */
+  line-clamp: 5;
+  box-orient: vertical;
+}
+
+.project-card-contents .project-tag-list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  flex-wrap: wrap;
+  align-items: left;
+  text-align: center;
+  /* width: 100%; */
+  /* height: 25px; */
+  color: white;
+  writing-mode: vertical-lr;
+}
+
+.project-card-contents .project-tag-list .tag {
+  font-size: 0.8rem;
+  border-radius: 3px;
+  /* width: 50px; */
+  height: 50px;
+
+  background: var(--link-color);
+
+  /* box shadow */
+  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
+}
+
+.project-card-contents .project-tag-list .tag:not(:first-child) {
+  margin-top: -2px;
+}
+
+.project-card-contents .project-links {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  width: 100%;
+  height: 50px;
+  gap: 15px;
+  padding: 10px;
+}
+
+.project-card-contents .project-links a {
+  font-size: 2rem;
+}
+
+@keyframes spin {
+  0% {
+    --aurora-gradient: 0deg;
+  }
+
+  100% {
+    --aurora-gradient: 360deg;
+  }
+}
