@@ -15,7 +15,7 @@ import {
   Float32BufferAttribute,
   Uniform,
 } from "three";
-import iInterests from "../interfaces/Interests";
+import iInterests from "../interfaces/iInterests";
 
 function imageParticles(interests: iInterests[], canvas: any) {
   console.log(interests);

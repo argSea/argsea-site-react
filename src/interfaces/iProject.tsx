@@ -11,6 +11,7 @@ interface iProject {
   skills: string[];
   roles: string[];
   priority: number;
+  progress: number;
   isActive: boolean;
   isReleased: boolean;
   bookID: string;
