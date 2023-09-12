@@ -1,5 +1,6 @@
 import iInterests from "./iInterests";
 import iProject from "./iProject";
+import iContacts from "./iContacts";
 
 interface iUser {
   userID: string;
@@ -12,6 +13,7 @@ interface iUser {
   about: string;
   techInterests: iInterests[];
   projects: iProject[];
+  contacts: iContacts[];
 }
 
 export default iUser;

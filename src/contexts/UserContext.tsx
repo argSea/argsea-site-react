@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import iUser from "../interfaces/iUser";
 import DOMPurify from "dompurify";
 import iProject from "../interfaces/iProject";
+import API from "../lib/API";
 
 // create usercontext and provider
 export const UserContext = React.createContext({});
@@ -9,8 +10,12 @@ export const UserContext = React.createContext({});
 export const UserProvider = (props: any) => {
   const [user, setUser] = useState<iUser>();
 
-  const userAPI = fetch("https://api.argsea.com/1/user/6396d88feafa14a262f9915c/");
-  const projectsAPI = fetch("https://api.argsea.com/1/user/6396d88feafa14a262f9915c/projects/");
+  var userID = "6396d88feafa14a262f9915c";
+  const userAPIURL = API.BASE_URL + API.GET_USER.replace("{id}", userID);
+  const projectsAPIURL = API.BASE_URL + API.GET_USER_PROJECTS.replace("{id}", userID);
+
+  const userAPI = fetch(userAPIURL);
+  const projectsAPI = fetch(projectsAPIURL);
 
   useEffect(() => {
     fetchUserData();

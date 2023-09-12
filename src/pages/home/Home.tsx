@@ -13,6 +13,7 @@ import Interests from "../../template/interests/Interests";
 import "./styles/home.css";
 import { UserContext } from "../../contexts/UserContext";
 import iUser from "../../interfaces/iUser";
+import Footer from "../../template/footer/Footer";
 
 extend({ TextGeometry });
 
@@ -105,6 +106,7 @@ const Home = () => {
         </section>
         <Interests interests={user.techInterests} />
       </div>
+      <Footer />
     </>
   );
 };

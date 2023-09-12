@@ -124,6 +124,16 @@
   background: transparent;
 }
 
+/* override autofill */
+#login-form #user-box input:-webkit-autofill,
+#login-form #user-box input:-webkit-autofill:hover,
+#login-form #user-box input:-webkit-autofill:focus,
+#login-form #user-box input:-webkit-autofill:active {
+  border-radius: 10px;
+  -webkit-box-shadow: 0 0 0 1000px #000 inset !important;
+  -webkit-text-fill-color: blueviolet !important;
+}
+
 #login-form #user-box label {
   position: absolute;
   top: 0;
@@ -136,7 +146,8 @@
 }
 
 #login-form #user-box input:focus ~ label,
-#login-form #user-box input:valid ~ label {
+#login-form #user-box input:valid ~ label,
+#login-form #user-box input:disabled ~ label {
   top: -20px;
   left: 0;
   color: var(--login-username-color);
@@ -159,6 +170,15 @@
   background: transparent;
 }
 
+/* override autofill */
+#login-form #password-box input:-webkit-autofill,
+#login-form #password-box input:-webkit-autofill:hover,
+#login-form #password-box input:-webkit-autofill:focus,
+#login-form #password-box input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.5) inset !important;
+  -webkit-text-fill-color: var(--glass-color) !important;
+}
+
 #login-form #password-box label {
   position: absolute;
   top: 0;
@@ -171,7 +191,8 @@
 }
 
 #login-form #password-box input:focus ~ label,
-#login-form #password-box input:valid ~ label {
+#login-form #password-box input:valid ~ label,
+#login-form #password-box input:disabled ~ label {
   top: -20px;
   left: 0;
   color: var(--login-password-color);

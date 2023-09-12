@@ -1,0 +1,205 @@
+:root {
+  --add-remove-button-width: 30px;
+  --contact-items-gap-size: 10px;
+}
+
+#admin-me {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+#admin-me-header {
+  width: 100%;
+
+  /* cool bottom border */
+  border-bottom: 1px solid var(--glass-color);
+  padding: 10px;
+  margin-bottom: 10px;
+
+  /* center */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+
+  color: var(--name-color);
+}
+
+#admin-me-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+#admin-me-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 75%;
+  height: 100%;
+  gap: 25px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  margin-bottom: 25px;
+  margin-top: 25px;
+}
+
+#admin-me-form-name {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+#admin-me-form-contact-items,
+#admin-me-form-tech-interest-items {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--contact-items-gap-size);
+  width: 100%;
+}
+
+#admin-me-form-submit-button {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  background: var(--name-color);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.about-me-form-item-header {
+  width: 100%;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--name-color);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.admin-me-form-contact-group,
+.admin-me-form-tech-interest-group {
+  display: flex;
+  /* 1 per row */
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - var(--add-remove-button-width) - var(--contact-items-gap-size));
+  gap: 10px;
+}
+
+.admin-me-form-item {
+  width: 100%;
+  position: relative;
+}
+
+.admin-me-form-item input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: white;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid white;
+  outline: none;
+  background: transparent;
+}
+
+.admin-me-form-item label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: white;
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.admin-me-form-item input:focus ~ label,
+.admin-me-form-item input:valid ~ label,
+.admin-me-form-item input:disabled ~ label {
+  top: -20px;
+  left: 0;
+  color: var(--login-username-color);
+  font-size: 12px;
+}
+
+.admin-me-form-about-editor {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-me-form-about-editor-toolbar {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+  background: var(--glass-color);
+  border: none;
+  border-radius: 10px;
+}
+
+.admin-me-form-about-editor-toolbar div {
+  color: black;
+}
+
+.admin-me-form-about-editor-content {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  background: transparent;
+
+  /* fun border style for inputs */
+  border: 1px solid var(--glass-color);
+  border-radius: 10px;
+}
+
+.admin-me-form-contacts-item {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-me-form-add-remove-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* nice minus sign button */
+.admin-me-form-add-remove-item button {
+  width: var(--add-remove-button-width);
+  aspect-ratio: 1/1;
+  border-radius: 20%;
+  border: none;
+  background: var(--name-color);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+}

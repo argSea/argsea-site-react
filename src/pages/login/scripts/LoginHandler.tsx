@@ -1,23 +1,45 @@
-import React from "react";
+import iLoginContext from "../../../interfaces/iLoginContext";
+import API from "../../../lib/API";
 
-// get username and password from form
-const LoginHandler = ({ username: username }: { username: string }, { password: password }: { password: string }) => {
+const LoginHandler = async (username: string, password: string, login: any) => {
+  const loginURL = API.BASE_URL + API.LOGIN;
   // send username and password to api
-  fetch("https://api.argsea.com/1/login/", {
-    method: "POST",
-    body: JSON.stringify({
-      username: username,
-      password: password,
-    }),
-  })
-    // get response from api
-    .then((response) => response.json())
+  return (
+    fetch(loginURL, {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
 
-    // log response
-    .then((data) => console.log(data))
+        throw new Error("Invalid username or password");
+      })
+      .then((data) => {
+        // log token
+        console.log(data);
+        const new_login: iLoginContext = {
+          loggedIn: true,
+          cookieName: "auth-token",
+          userName: data.userName,
+          userID: data.userID,
+          token: data.token,
+        };
 
-    // catch errors
-    .catch((error) => console.log(error));
+        console.log(new_login);
+
+        // set login context
+        login(new_login);
+        return data;
+      })
+      // catch errors
+      .catch((error) => console.log(error))
+  );
 };
 
 export default LoginHandler;

@@ -1,0 +1,125 @@
+:root {
+  --admin-panel-dark-blue1: rgba(24, 16, 71, 0.5);
+  --admin-panel-dark-blue2: rgba(15, 29, 71, 0.7);
+}
+
+#admin-left-rail {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  height: 100vh;
+  background: linear-gradient(to right, var(--admin-panel-dark-blue1), var(--admin-panel-dark-blue2));
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  height: 100%;
+
+  /* box shadow to the right */
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  color: white;
+  z-index: 1;
+}
+
+#admin-left-rail-header {
+  width: 100%;
+  height: 200px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+}
+
+#admin-left-rail-header-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  width: 100%;
+
+  /* cool bottom border */
+  border-bottom: 1px solid var(--glass-color);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#admin-left-rail-header-user {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 15%;
+
+  /* cool bottom border */
+  border-bottom: 2px solid var(--glass-color);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#admin-left-rail-header-user-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+#admin-left-rail-header-user-icon {
+  width: 100px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#admin-left-rail-header-user-icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+#admin-left-rail-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+#admin-left-rail-nav {
+  width: 100%;
+  height: 100%;
+}
+
+.admin-left-rail-nav-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  gap: 25px;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.admin-left-rail-nav-item:active {
+  background: var(--glass-color2);
+}
+
+.admin-left-rail-nav-item:hover {
+  background: var(--glass-color);
+}
+
+.admin-left-rail-nav-item-icon svg {
+  width: 50px;
+  aspect-ratio: 1/1;
+}
+
+.admin-left-rail-nav-item-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+}

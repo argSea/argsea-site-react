@@ -2,8 +2,15 @@ import { Link } from "react-router-dom";
 import { Squash as Hamburger } from "hamburger-react";
 import { FaBars, FaHamburger, FaHome } from "react-icons/fa";
 import "./styles/header.css";
+import React from "react";
+import { LoginContext } from "../../contexts/LoginContext";
+import iLoginContext from "../../interfaces/iLoginContext";
 
 const Header = () => {
+  const { regUser } = React.useContext(LoginContext) as {
+    regUser: iLoginContext;
+  };
+
   const openBurger = (e: any) => {
     e.preventDefault();
     let target = e.currentTarget;
@@ -11,12 +18,22 @@ const Header = () => {
     target.setAttribute("aria-expanded", invertExpanded);
   };
 
+  function checkLogin() {
+    // check if user is logged in
+    if (regUser.loggedIn) {
+      return "Welcome, " + regUser.userName;
+    } else {
+      return "";
+    }
+  }
+
   return (
     <header>
-      <nav>
+      <nav id="main-nav">
         <div id="logo">
           <Link to="/">{<FaHome size={35} />}</Link>
         </div>
+        {/* <div id="user-welcome">{checkLogin()}</div> */}
         <div id="navBar">
           <div className="navItem aboutme">
             <a href="#aboutme">.about</a>

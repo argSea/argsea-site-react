@@ -25,11 +25,37 @@ header {
   height: var(--nav-height);
 }
 
-nav {
+#main-nav {
   display: flex;
   height: var(--nav-height);
   width: 100%;
   height: 100%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#logo {
+  scale: 0.8;
+  flex-direction: left;
+  margin-right: auto;
+  color: white;
+  cursor: pointer;
+  margin: auto 0 auto 40px;
+}
+
+#logo a {
+  color: var(--highligh-color);
+}
+
+/* center #user-welcome in the middle of the nav bar */
+#user-welcome {
+  display: flex;
+  flex-direction: right;
+  margin-left: auto;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #navBar {
@@ -37,7 +63,7 @@ nav {
   flex-direction: right;
   gap: 30px;
   justify-content: right;
-  margin-right: 100px;
+  margin-right: 50px;
   margin-left: auto;
 }
 
@@ -59,19 +85,6 @@ nav {
 /* change color when .navItem is selected */
 .navItem.active a {
   color: var(--nav-active-color);
-}
-
-#logo {
-  scale: 0.8;
-  flex-direction: left;
-  margin-right: auto;
-  color: white;
-  cursor: pointer;
-  margin: auto 0 auto 40px;
-}
-
-#logo a {
-  color: var(--highligh-color);
 }
 
 #hamburger {
