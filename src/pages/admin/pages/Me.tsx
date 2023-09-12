@@ -1,14 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import API from "../../../lib/API";
 import iUser from "../../../interfaces/iUser";
-import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./styles/me.css";
-import ReactDOM from "react-dom";
-import { convertFromHTML, EditorState, ContentState } from "draft-js";
+import { convertFromHTML, EditorState, ContentState, convertToRaw } from "draft-js";
 import { createRoot } from "react-dom/client";
+import ControlledEditor from "../components/ControlledEditor";
+import draftToHTML from "draftjs-to-html";
 
 const Me = () => {
+  let editorState = EditorState.createEmpty();
+
   // get user data from api
   const userAPIURL = API.BASE_URL + API.GET_USER.replace("{id}", "6396d88feafa14a262f9915c");
 
@@ -22,9 +24,97 @@ const Me = () => {
     });
   }, []);
 
+  const setEditorState = (editorState: EditorState) => {
+    editorState = editorState;
+  };
+
   const saveUser = () => {
-    // prevent refresh
+    // get user data from form
+    const userID = (document.getElementById("admin-me-form-id") as HTMLInputElement).value;
+    const userName = (document.getElementById("admin-me-form-name") as HTMLInputElement).value;
+    const firstName = (document.getElementById("admin-me-form-first-name") as HTMLInputElement).value;
+    const lastName = (document.getElementById("admin-me-form-last-name") as HTMLInputElement).value;
+    const picture = (document.getElementById("admin-me-form-avatar") as HTMLInputElement).value;
+    const title = (document.getElementById("admin-me-form-title") as HTMLInputElement).value;
+    const email = (document.getElementById("admin-me-form-email") as HTMLInputElement).value;
+
+    // get about from form using draftjs-to-html
+    const aboutEditorState = editorState.getCurrentContent();
+    const about = draftToHTML(convertToRaw(aboutEditorState));
+
+    // get contacts from form
+    const contactArray = document.getElementsByClassName("admin-me-form-contact-group");
+    const contacts: any[] = [];
+    for (let i = 0; i < contactArray.length; i++) {
+      const element = contactArray[i];
+      const name = (element.getElementsByClassName("admin-me-form-contacts-name")[0] as HTMLInputElement).value;
+      const link = (element.getElementsByClassName("admin-me-form-contacts-link")[0] as HTMLInputElement).value;
+      const icon = (element.getElementsByClassName("admin-me-form-contacts-icon")[0] as HTMLInputElement).value;
+      contacts.push({
+        name: name,
+        link: link,
+        icon: icon,
+      });
+    }
+
+    // get tech interests from form
+    const techInterestArray = document.getElementsByClassName("admin-me-form-tech-interest-group");
+    const techInterests: any[] = [];
+    for (let i = 0; i < techInterestArray.length; i++) {
+      const element = techInterestArray[i];
+      const name = (element.getElementsByClassName("admin-me-form-tech-interest-name")[0] as HTMLInputElement).value;
+      const icon = (element.getElementsByClassName("admin-me-form-tech-interest-icon")[0] as HTMLInputElement).value;
+      const interestLevel = (element.getElementsByClassName("admin-me-form-tech-interest-level")[0] as HTMLInputElement).valueAsNumber;
+      techInterests.push({
+        name: name,
+        icon: icon,
+        interestLevel: interestLevel,
+      });
+    }
+
+    // create user object
+    const user: iUser = {
+      userID: userID,
+      userName: userName,
+      firstName: firstName,
+      lastName: lastName,
+      picture: picture,
+      title: title,
+      email: email,
+      about: about,
+      contacts: contacts,
+      techInterests: techInterests,
+      projects: [],
+    };
+
+    // log user object
+    console.log(user);
     return false;
+
+    // send user object to api
+    const userAPIURL = API.BASE_URL + API.PUT_USER.replace("{id}", userID);
+    const userAPIOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    };
+
+    fetch(userAPIURL, userAPIOptions)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Error");
+        }
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const addContact = (name: string, link: string, icon: string) => {
@@ -253,7 +343,15 @@ const Me = () => {
     const user: iUser = userData.users[0];
 
     const fromHTML = convertFromHTML(user.about);
-    const aboutEditorState = EditorState.createWithContent(ContentState.createFromBlockArray(fromHTML.contentBlocks, fromHTML.entityMap));
+    editorState = EditorState.createWithContent(ContentState.createFromBlockArray(fromHTML.contentBlocks, fromHTML.entityMap));
+    const editorProps = {
+      editorState: editorState,
+      toolbarClassName: "toolbarClassName",
+      wrapperClassName: "wrapperClassName",
+      editorClassName: "editorClassName",
+      callbackOnChange: setEditorState,
+    };
+
     return (
       <form id="admin-me-form">
         <input type="hidden" id="admin-me-form-id" defaultValue={user.userID} />
@@ -352,13 +450,7 @@ const Me = () => {
           About
         </label>
         <div className="admin-me-form-item">
-          <Editor
-            ariaLabel="About Me"
-            editorState={aboutEditorState}
-            toolbarClassName="admin-me-form-about-editor-toolbar"
-            wrapperClassName="admin-me-form-about-editor"
-            editorClassName="admin-me-form-about-editor-content"
-          />
+          <ControlledEditor {...editorProps} />
         </div>
         <button id="admin-me-form-submit-button" type="button" onClick={() => saveUser()}>
           Save
