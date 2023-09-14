@@ -1,15 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import API from "../../../lib/API";
 import iUser from "../../../interfaces/iUser";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./styles/me.css";
-import { convertFromHTML, EditorState, ContentState, convertToRaw } from "draft-js";
 import { createRoot } from "react-dom/client";
 import ControlledEditor from "../components/ControlledEditor";
-import draftToHTML from "draftjs-to-html";
+import draftToHtml from "draftjs-to-html";
+import { json } from "react-router-dom";
 
 const Me = () => {
-  let editorState = EditorState.createEmpty();
+  const [aboutContent, setAboutContent] = useState("");
+  const aboutContentRef = React.useRef(aboutContent);
+  aboutContentRef.current = aboutContent;
 
   // get user data from api
   const userAPIURL = API.BASE_URL + API.GET_USER.replace("{id}", "6396d88feafa14a262f9915c");
@@ -24,8 +25,18 @@ const Me = () => {
     });
   }, []);
 
-  const setEditorState = (editorState: EditorState) => {
-    editorState = editorState;
+  useEffect(() => {
+    console.log("Updated:" + aboutContent);
+  }, [aboutContent]);
+
+  const getContent = (html: string) => {
+    // const hiddenAbout = document.getElementById("hidden-about");
+    // if (hiddenAbout) {
+    //   hiddenAbout.innerHTML = html;
+    // }
+
+    setAboutContent(html);
+    // console.log(html);
   };
 
   const saveUser = () => {
@@ -39,8 +50,7 @@ const Me = () => {
     const email = (document.getElementById("admin-me-form-email") as HTMLInputElement).value;
 
     // get about from form using draftjs-to-html
-    const aboutEditorState = editorState.getCurrentContent();
-    const about = draftToHTML(convertToRaw(aboutEditorState));
+    const about = aboutContentRef.current; //document.getElementById("hidden-about")?.innerHTML as string;
 
     // get contacts from form
     const contactArray = document.getElementsByClassName("admin-me-form-contact-group");
@@ -89,19 +99,18 @@ const Me = () => {
 
     // log user object
     console.log(user);
-    return false;
-
     // send user object to api
-    const userAPIURL = API.BASE_URL + API.PUT_USER.replace("{id}", userID);
-    const userAPIOptions = {
+    const putUserAPI = API.BASE_URL + API.PUT_USER.replace("{id}", userID);
+    console.log(putUserAPI);
+
+    fetch(putUserAPI, {
       method: "PUT",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
-    };
-
-    fetch(userAPIURL, userAPIOptions)
+    })
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -342,14 +351,14 @@ const Me = () => {
     const userData = await userAPI.json();
     const user: iUser = userData.users[0];
 
-    const fromHTML = convertFromHTML(user.about);
-    editorState = EditorState.createWithContent(ContentState.createFromBlockArray(fromHTML.contentBlocks, fromHTML.entityMap));
+    setAboutContent(user.about);
+
     const editorProps = {
-      editorState: editorState,
-      toolbarClassName: "toolbarClassName",
-      wrapperClassName: "wrapperClassName",
-      editorClassName: "editorClassName",
-      callbackOnChange: setEditorState,
+      content: user.about,
+      toolbarClassName: "admin-me-form-about-editor-toolbar",
+      wrapperClassName: "admin-me-form-about-editor",
+      editorClassName: "admin-me-form-about-editor-content",
+      getContent: getContent,
     };
 
     return (
@@ -397,11 +406,15 @@ const Me = () => {
                   <input type="text" className="admin-me-form-contacts-link" defaultValue={contact.link} />
                   <label>Contact Link</label>
                 </div>
-                <div className="admin-me-form-item">
-                  <input type="text" className="admin-me-form-contacts-icon" defaultValue={contact.icon} />
-                  <label>Contact Icon</label>
+                <div className="admin-me-form-file-input">
+                  <div className="admin-me-form-file-input-wrap">
+                    <div className="admin-me-form-file-input-preview">
+                      <img src={contact.icon} alt="" />
+                    </div>
+                    <input type="file" className="admin-me-form-file-input-input" />
+                    <span>{contact.icon}</span>
+                  </div>
                 </div>
-                {/* minus sign */}
                 <div className="admin-me-form-add-remove-item" onClick={() => removeContactByKey(key)}>
                   <button type="button">-</button>
                 </div>
@@ -451,6 +464,9 @@ const Me = () => {
         </label>
         <div className="admin-me-form-item">
           <ControlledEditor {...editorProps} />
+          <div id="hidden-about" style={{ display: "none" }}>
+            {user.about}
+          </div>
         </div>
         <button id="admin-me-form-submit-button" type="button" onClick={() => saveUser()}>
           Save

@@ -1,22 +1,19 @@
 import React, { Component } from "react";
-import { EditorState } from "draft-js";
+import { ContentState, EditorState, convertFromHTML, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import draftToHtml from "draftjs-to-html";
 
 class ControlledEditor extends Component {
   state = { editorState: EditorState.createEmpty() };
   toolbarClassName = "toolbarClassName";
   wrapperClassName = "wrapperClassName";
   editorClassName = "editorClassName";
-  onChangeCallback = (editorState: EditorState) => {};
+  getContent = (html: string) => {};
+  content = "";
 
   constructor(props: any) {
     super(props);
-    this.onEditorStateChange = this.onEditorStateChange.bind(this);
-
-    let editorState = props.editorState;
-    if (editorState === undefined) {
-      editorState = EditorState.createEmpty();
-    }
 
     let toolbarClassName = props.toolbarClassName;
     if (toolbarClassName === undefined) {
@@ -33,28 +30,48 @@ class ControlledEditor extends Component {
       editorClassName = "editorClassName";
     }
 
-    let onChangeCallback = props.onChangeCallback;
+    let content: string = props.content;
+    if (content === undefined) {
+      content = "";
+    }
 
-    if (onChangeCallback === undefined) {
-      onChangeCallback = (editorState: EditorState) => {};
+    let getContent = props.getContent;
+    if (getContent === undefined) {
+      getContent = (html: string) => {};
+    }
+
+    this.getContent = getContent;
+    this.toolbarClassName = toolbarClassName;
+    this.wrapperClassName = wrapperClassName;
+    this.editorClassName = editorClassName;
+    this.content = content;
+
+    this.onEditorStateChange = this.onEditorStateChange.bind(this);
+
+    // create editor state from content
+    let editorState = EditorState.createEmpty();
+    if (this.content !== "") {
+      const fromHTML = convertFromHTML(this.content);
+      editorState = EditorState.createWithContent(ContentState.createFromBlockArray(fromHTML.contentBlocks, fromHTML.entityMap));
     }
 
     // set state to the value of the prop
     this.state = {
       editorState: editorState,
     };
-
-    this.toolbarClassName = toolbarClassName;
-    this.wrapperClassName = wrapperClassName;
-    this.editorClassName = editorClassName;
-    this.onChangeCallback = onChangeCallback;
   }
+
+  getEditorValue = () => {
+    return this.state.editorState.getCurrentContent().getPlainText();
+  };
 
   onEditorStateChange = (editorState: EditorState) => {
     this.setState({
       editorState,
     });
-    this.onChangeCallback(editorState);
+
+    let htmlContent = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    this.getContent(htmlContent);
   };
 
   render() {
