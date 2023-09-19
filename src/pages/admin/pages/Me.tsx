@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import API from "../../../lib/API";
 import iUser from "../../../interfaces/iUser";
 import "./styles/me.css";
@@ -6,6 +6,8 @@ import { createRoot } from "react-dom/client";
 import ControlledEditor from "../components/ControlledEditor";
 import draftToHtml from "draftjs-to-html";
 import { json } from "react-router-dom";
+import Contacts from "../components/ContactHandler";
+import ContactHandler from "../components/ContactHandler";
 
 const Me = () => {
   const [aboutContent, setAboutContent] = useState("");
@@ -59,7 +61,7 @@ const Me = () => {
       const element = contactArray[i];
       const name = (element.getElementsByClassName("admin-me-form-contacts-name")[0] as HTMLInputElement).value;
       const link = (element.getElementsByClassName("admin-me-form-contacts-link")[0] as HTMLInputElement).value;
-      const icon = (element.getElementsByClassName("admin-me-form-contacts-icon")[0] as HTMLInputElement).value;
+      const icon = (element.getElementsByClassName("admin-me-form-file-input-input")[0] as HTMLInputElement).value;
       contacts.push({
         name: name,
         link: link,
@@ -124,93 +126,6 @@ const Me = () => {
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  const addContact = (name: string, link: string, icon: string) => {
-    // add contact to admin-me-form-contact-items
-    const contactItems = document.getElementById("admin-me-form-contact-items");
-
-    if (!contactItems) {
-      return;
-    }
-
-    // generate random key
-    const key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-
-    // create contact group
-    const contactGroup = document.createElement("div");
-    contactGroup.setAttribute("data-name", key);
-    contactGroup.classList.add("admin-me-form-contact-group");
-
-    // create contact name
-    const contactName = document.createElement("div");
-    contactName.classList.add("admin-me-form-item");
-
-    const contactNameInput = document.createElement("input");
-    contactNameInput.classList.add("admin-me-form-contacts-name");
-    contactNameInput.setAttribute("type", "text");
-    contactNameInput.setAttribute("value", name);
-
-    const contactNameLabel = document.createElement("label");
-    contactNameLabel.innerHTML = "Contact Type";
-
-    contactName.appendChild(contactNameInput);
-    contactName.appendChild(contactNameLabel);
-
-    // create contact link
-    const contactLink = document.createElement("div");
-    contactLink.classList.add("admin-me-form-item");
-
-    const contactLinkInput = document.createElement("input");
-    contactLinkInput.classList.add("admin-me-form-contacts-link");
-    contactLinkInput.setAttribute("type", "text");
-    contactLinkInput.setAttribute("value", link);
-
-    const contactLinkLabel = document.createElement("label");
-    contactLinkLabel.innerHTML = "Contact Link";
-
-    contactLink.appendChild(contactLinkInput);
-    contactLink.appendChild(contactLinkLabel);
-
-    // create contact icon
-    const contactIcon = document.createElement("div");
-    contactIcon.classList.add("admin-me-form-item");
-
-    const contactIconInput = document.createElement("input");
-    contactIconInput.classList.add("admin-me-form-contacts-icon");
-    contactIconInput.setAttribute("type", "text");
-    contactIconInput.setAttribute("value", icon);
-
-    const contactIconLabel = document.createElement("label");
-    contactIconLabel.innerHTML = "Contact Icon";
-
-    contactIcon.appendChild(contactIconInput);
-    contactIcon.appendChild(contactIconLabel);
-
-    // create remove button
-    const contactRemove = document.createElement("div");
-    contactRemove.classList.add("admin-me-form-add-remove-item");
-
-    const contactRemoveButton = document.createElement("button");
-    contactRemoveButton.setAttribute("type", "button");
-    contactRemoveButton.innerHTML = "-";
-    contactRemoveButton.addEventListener("click", () => {
-      removeContactByKey(key);
-    });
-
-    contactRemove.appendChild(contactRemoveButton);
-
-    // add all elements to contact group
-    contactGroup.appendChild(contactName);
-    contactGroup.appendChild(contactLink);
-    contactGroup.appendChild(contactIcon);
-    contactGroup.appendChild(contactRemove);
-
-    // add contact group to contact items but before the add button
-    const addBeforeMeAddButton = document.getElementById("add-before-me-add-contact-button");
-    if (addBeforeMeAddButton) {
-      contactItems.insertBefore(contactGroup, addBeforeMeAddButton);
-    }
   };
 
   const addTechInterest = (name: string, icon: string, interestLevel: number) => {
@@ -300,29 +215,6 @@ const Me = () => {
     }
   };
 
-  const removeContactByKey = (key: string) => {
-    const contactArray = document.getElementsByClassName("admin-me-form-contact-group");
-    // if only one element is left, clear it instead of removing it
-    if (contactArray.length === 1) {
-      const contactArrayLastName = contactArray[0].getElementsByClassName("admin-me-form-contacts-name")[0] as HTMLInputElement;
-      const contactArrayLastLink = contactArray[0].getElementsByClassName("admin-me-form-contacts-link")[0] as HTMLInputElement;
-      const contactArrayLastIcon = contactArray[0].getElementsByClassName("admin-me-form-contacts-icon")[0] as HTMLInputElement;
-
-      contactArrayLastName.value = "";
-      contactArrayLastLink.value = "";
-      contactArrayLastIcon.value = "";
-      return;
-    }
-
-    // find element with data-name=key
-    for (let i = 0; i < contactArray.length; i++) {
-      const element = contactArray[i];
-      if (element.getAttribute("data-name") === key) {
-        element.remove();
-      }
-    }
-  };
-
   const removeTechInterestByKey = (key: string) => {
     const techInterestArray = document.getElementsByClassName("admin-me-form-tech-interest-group");
     // if only one element is left, clear it instead of removing it
@@ -350,6 +242,7 @@ const Me = () => {
     const userAPI = await fetch(userAPIURL);
     const userData = await userAPI.json();
     const user: iUser = userData.users[0];
+    const contactCopy = user.contacts;
 
     setAboutContent(user.about);
 
@@ -392,40 +285,7 @@ const Me = () => {
           Contacts
         </label>
         <div id="admin-me-form-contact-items">
-          {/* map with index */}
-          {user.contacts.map((contact) => {
-            // generate random key
-            const key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-            return (
-              <div key={key} data-name={key} className="admin-me-form-contact-group">
-                <div className="admin-me-form-item">
-                  <input type="text" className="admin-me-form-contacts-name" defaultValue={contact.name} />
-                  <label>Contact Type</label>
-                </div>
-                <div className="admin-me-form-item">
-                  <input type="text" className="admin-me-form-contacts-link" defaultValue={contact.link} />
-                  <label>Contact Link</label>
-                </div>
-                <div className="admin-me-form-file-input">
-                  <div className="admin-me-form-file-input-wrap">
-                    <div className="admin-me-form-file-input-preview">
-                      <img src={contact.icon} alt="" />
-                    </div>
-                    <input type="file" className="admin-me-form-file-input-input" />
-                    <span>{contact.icon}</span>
-                  </div>
-                </div>
-                <div className="admin-me-form-add-remove-item" onClick={() => removeContactByKey(key)}>
-                  <button type="button">-</button>
-                </div>
-              </div>
-            );
-          })}
-          <div className="admin-me-form-add-remove-item" id="add-before-me-add-contact-button">
-            <button type="button" onClick={() => addContact("", "", "")}>
-              +
-            </button>
-          </div>
+          <ContactHandler contactData={contactCopy} />
         </div>
         <label className="about-me-form-item-header" htmlFor="">
           Tech Interests

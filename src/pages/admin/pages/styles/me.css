@@ -1,6 +1,6 @@
 :root {
   --add-remove-button-width: 30px;
-  --contact-items-gap-size: 10px;
+  --contact-items-gap-size: 20px;
 }
 
 #admin-me {
@@ -155,23 +155,19 @@
 .admin-me-form-about-editor {
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 }
 
 .admin-me-form-about-editor-toolbar {
   width: 100%;
-  height: 50px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 5px;
+  height: auto;
 
-  background: var(--glass-color);
-  border: none;
-  border-radius: 10px;
+  background: none !important;
+  border: 1px solid var(--glass-color) !important;
+  border-bottom: 1px solid white !important;
+  border-radius: 10px !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .admin-me-form-about-editor-toolbar img {
@@ -192,7 +188,11 @@
 
   /* fun border style for inputs */
   border: 1px solid var(--glass-color);
+  border-top: none !important;
   border-radius: 10px;
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  margin-top: 0 !important;
 }
 
 .admin-me-form-contacts-item {
