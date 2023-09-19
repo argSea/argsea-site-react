@@ -13,12 +13,17 @@ function Admin() {
     regUser: iLoginContext;
   };
 
+  // check if user is logged in, if not, redirect to login page
   useEffect(() => {
-    // if user is logged in, show admin page, otherwise, redirect to /login
     if (!regUser.loggedIn) {
       navi("/login");
     }
   }, [regUser.loggedIn]);
+
+  // show nothing if user is not logged in
+  if (!regUser.loggedIn) {
+    return <></>;
+  }
 
   return (
     <>
