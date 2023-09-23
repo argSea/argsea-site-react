@@ -28,9 +28,32 @@ class Contact extends Component {
     this.removeContact = props.removeContact.bind(this, this);
   }
 
-  onChange(event = null) {
+  onChange() {
     return (event: any) => {
-      console.log(event);
+      // get file
+      const file = event.target.files[0];
+
+      // check if file is an image
+      if (!file.type.startsWith("image/")) {
+        return;
+      }
+
+      // preview image
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.setState({
+          icon: e.target?.result,
+        });
+      };
+
+      reader.readAsDataURL(file);
+
+      // upload image
+      const formData = new FormData();
+      formData.append("file", file);
+
+      // upload image
+      const uploadURL = "http://localhost:5000/api/upload";
     };
   }
 
@@ -48,10 +71,26 @@ class Contact extends Component {
         <div className="admin-me-form-file-input">
           <div className="admin-me-form-file-input-wrap">
             <div className="admin-me-form-file-input-preview">
-              <img src={this.state.icon} alt="" />
+              {
+                //only show image if it exists
+                this.state.icon === "" ? (
+                  ""
+                ) : (
+                  // else show the image
+                  <img src={this.state.icon} alt="" />
+                )
+              }
             </div>
             <input type="file" className="admin-me-form-file-input-input" onChange={this.onChange()} />
-            <span>{this.state.icon}</span>
+            {/* <span>
+              {
+                // only show file name if it exists
+                this.state.icon === ""
+                  ? "Choose a file"
+                  : // else show the file name
+                    this.state.icon.split("/").pop()
+              }
+            </span> */}
           </div>
         </div>
         <div className="admin-me-form-add-remove-item" onClick={() => this.removeContact()}>
