@@ -242,7 +242,12 @@ const Me = () => {
     const userAPI = await fetch(userAPIURL);
     const userData = await userAPI.json();
     const user: iUser = userData.users[0];
-    const contactCopy = user.contacts;
+
+    // loop through contacts and add an id
+    const contactCopy = user.contacts.map((contact) => {
+      contact.id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      return contact;
+    });
 
     setAboutContent(user.about);
 

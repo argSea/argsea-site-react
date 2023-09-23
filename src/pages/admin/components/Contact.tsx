@@ -18,7 +18,7 @@ class Contact extends Component {
     const contact: iContacts = props.contact;
     // generate key
     this.state = {
-      key: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+      key: contact.id,
       name: contact.name,
       link: contact.link,
       icon: contact.icon,
@@ -39,6 +39,7 @@ class Contact extends Component {
       <div key={this.state.key} data-name={this.state.key} className="admin-me-form-contact-group">
         <div className="admin-me-form-item">
           <input type="text" className="admin-me-form-contacts-name" defaultValue={this.state.name} />
+          <label>Contact Name</label>
         </div>
         <div className="admin-me-form-item">
           <input type="text" className="admin-me-form-contacts-link" defaultValue={this.state.link} />
