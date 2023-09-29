@@ -61,7 +61,10 @@ const Me = () => {
       const element = contactArray[i];
       const name = (element.getElementsByClassName("admin-me-form-contacts-name")[0] as HTMLInputElement).value;
       const link = (element.getElementsByClassName("admin-me-form-contacts-link")[0] as HTMLInputElement).value;
-      const icon = (element.getElementsByClassName("admin-me-form-file-input-input")[0] as HTMLInputElement).value;
+      const preview = element.getElementsByClassName("admin-me-form-file-input-preview")[0] as HTMLImageElement;
+      // preview is a div with a child img
+      const icon = preview.getElementsByTagName("img")[0].src;
+
       contacts.push({
         name: name,
         link: link,

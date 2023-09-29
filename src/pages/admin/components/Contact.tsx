@@ -30,6 +30,10 @@ class Contact extends Component {
 
   onChange() {
     return (event: any) => {
+      // check if file exists
+      if (!event.target.files[0]) {
+        return;
+      }
       // get file
       const file = event.target.files[0];
 
@@ -47,13 +51,6 @@ class Contact extends Component {
       };
 
       reader.readAsDataURL(file);
-
-      // upload image
-      const formData = new FormData();
-      formData.append("file", file);
-
-      // upload image
-      const uploadURL = "http://localhost:5000/api/upload";
     };
   }
 
