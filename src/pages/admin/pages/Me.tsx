@@ -125,6 +125,17 @@ const Me = () => {
       })
       .then((data) => {
         console.log(data);
+        // let user know that the save was successful
+        const submitButton = document.getElementById("admin-me-form-submit-button");
+        if (submitButton) {
+          submitButton.innerHTML = "Saved!";
+          // change background color to green
+          submitButton.style.backgroundColor = "#00ff00";
+          setTimeout(() => {
+            submitButton.innerHTML = "Save";
+            submitButton.style.backgroundColor = "";
+          }, 2000);
+        }
       })
       .catch((error) => {
         console.log(error);

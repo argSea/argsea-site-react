@@ -1,5 +1,6 @@
 import { Component } from "react";
 import iContacts from "../../../interfaces/iContacts";
+import ImageUpload from "./ImageUpload";
 
 class Contact extends Component {
   state: {
@@ -24,34 +25,7 @@ class Contact extends Component {
       icon: contact.icon,
     };
 
-    this.onChange = this.onChange.bind(this);
     this.removeContact = props.removeContact.bind(this, this);
-  }
-
-  onChange() {
-    return (event: any) => {
-      // check if file exists
-      if (!event.target.files[0]) {
-        return;
-      }
-      // get file
-      const file = event.target.files[0];
-
-      // check if file is an image
-      if (!file.type.startsWith("image/")) {
-        return;
-      }
-
-      // preview image
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.setState({
-          icon: e.target?.result,
-        });
-      };
-
-      reader.readAsDataURL(file);
-    };
   }
 
   render() {
@@ -65,31 +39,7 @@ class Contact extends Component {
           <input type="text" className="admin-me-form-contacts-link" defaultValue={this.state.link} />
           <label>Contact Link</label>
         </div>
-        <div className="admin-me-form-file-input">
-          <div className="admin-me-form-file-input-wrap">
-            <div className="admin-me-form-file-input-preview">
-              {
-                //only show image if it exists
-                this.state.icon === "" ? (
-                  ""
-                ) : (
-                  // else show the image
-                  <img src={this.state.icon} alt="" />
-                )
-              }
-            </div>
-            <input type="file" className="admin-me-form-file-input-input" onChange={this.onChange()} />
-            {/* <span>
-              {
-                // only show file name if it exists
-                this.state.icon === ""
-                  ? "Choose a file"
-                  : // else show the file name
-                    this.state.icon.split("/").pop()
-              }
-            </span> */}
-          </div>
-        </div>
+        <ImageUpload {...this.state} />
         <div className="admin-me-form-add-remove-item" onClick={() => this.removeContact()}>
           <button type="button">-</button>
         </div>
