@@ -44,9 +44,6 @@ const Header = () => {
           <div className="navItem resume">
             <a href="#resume">.resume</a>
           </div>
-          <div className="navItem contactme">
-            <a href="#contact-me">.contact</a>
-          </div>
           <div className="navItem blog">
             <a href="/blog">.blog</a>
           </div>

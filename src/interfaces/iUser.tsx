@@ -1,4 +1,4 @@
-import iInterests from "./iInterests";
+import iTechInterest from "./iTechInterest";
 import iProject from "./iProject";
 import iContacts from "./iContacts";
 
@@ -11,7 +11,7 @@ interface iUser {
   title: string;
   picture: string;
   about: string;
-  techInterests: iInterests[];
+  techInterests: iTechInterest[];
   projects: iProject[];
   contacts: iContacts[];
 }

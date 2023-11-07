@@ -4,10 +4,8 @@ import iUser from "../../../interfaces/iUser";
 import "./styles/me.css";
 import { createRoot } from "react-dom/client";
 import ControlledEditor from "../components/ControlledEditor";
-import draftToHtml from "draftjs-to-html";
-import { json } from "react-router-dom";
-import Contacts from "../components/ContactHandler";
 import ContactHandler from "../components/ContactHandler";
+import TechInterestHandler from "../components/TechInterestHandler";
 
 const Me = () => {
   const [aboutContent, setAboutContent] = useState("");
@@ -42,6 +40,24 @@ const Me = () => {
   };
 
   const saveUser = () => {
+    // disable save button for a few seconds and show a loading icon
+    const saveButton = document.getElementById("admin-me-form-submit-button") as HTMLButtonElement;
+    const saveButtonColor = saveButton?.style.backgroundColor;
+    if (saveButton) {
+      saveButton.disabled = true;
+      saveButton.innerHTML = "Saving...";
+      // darken
+      saveButton.style.backgroundColor = "#2f2f2f";
+    }
+
+    setTimeout(() => {
+      if (saveButton) {
+        saveButton.disabled = false;
+        saveButton.innerHTML = "Save";
+        saveButton.style.backgroundColor = saveButtonColor;
+      }
+    }, 3000);
+
     // get user data from form
     const userID = (document.getElementById("admin-me-form-id") as HTMLInputElement).value;
     const userName = (document.getElementById("admin-me-form-name") as HTMLInputElement).value;
@@ -78,8 +94,10 @@ const Me = () => {
     for (let i = 0; i < techInterestArray.length; i++) {
       const element = techInterestArray[i];
       const name = (element.getElementsByClassName("admin-me-form-tech-interest-name")[0] as HTMLInputElement).value;
-      const icon = (element.getElementsByClassName("admin-me-form-tech-interest-icon")[0] as HTMLInputElement).value;
+      const preview = element.getElementsByClassName("admin-me-form-file-input-preview")[0] as HTMLImageElement;
       const interestLevel = (element.getElementsByClassName("admin-me-form-tech-interest-level")[0] as HTMLInputElement).valueAsNumber;
+      // preview is a div with a child img
+      const icon = preview.getElementsByTagName("img")[0].src;
       techInterests.push({
         name: name,
         icon: icon,
@@ -125,131 +143,10 @@ const Me = () => {
       })
       .then((data) => {
         console.log(data);
-        // let user know that the save was successful
-        const submitButton = document.getElementById("admin-me-form-submit-button");
-        if (submitButton) {
-          submitButton.innerHTML = "Saved!";
-          // change background color to green
-          submitButton.style.backgroundColor = "#00ff00";
-          setTimeout(() => {
-            submitButton.innerHTML = "Save";
-            submitButton.style.backgroundColor = "";
-          }, 2000);
-        }
       })
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  const addTechInterest = (name: string, icon: string, interestLevel: number) => {
-    // add tech interest to admin-me-form-tech-interests
-    const techInterests = document.getElementById("admin-me-form-tech-interest-items");
-
-    if (!techInterests) {
-      return;
-    }
-
-    // generate random key
-    const key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-
-    // create tech interest group
-    const techInterestGroup = document.createElement("div");
-    techInterestGroup.setAttribute("data-name", key);
-    techInterestGroup.classList.add("admin-me-form-tech-interest-group");
-
-    // create tech interest name
-    const techInterestName = document.createElement("div");
-    techInterestName.classList.add("admin-me-form-item");
-
-    const techInterestNameInput = document.createElement("input");
-    techInterestNameInput.classList.add("admin-me-form-tech-interest-name");
-    techInterestNameInput.setAttribute("type", "text");
-    techInterestNameInput.setAttribute("value", name);
-
-    const techInterestNameLabel = document.createElement("label");
-    techInterestNameLabel.innerHTML = "Tech Interest";
-
-    techInterestName.appendChild(techInterestNameInput);
-    techInterestName.appendChild(techInterestNameLabel);
-
-    // create tech interest icon
-    const techInterestIcon = document.createElement("div");
-    techInterestIcon.classList.add("admin-me-form-item");
-
-    const techInterestIconInput = document.createElement("input");
-    techInterestIconInput.classList.add("admin-me-form-tech-interest-icon");
-    techInterestIconInput.setAttribute("type", "text");
-    techInterestIconInput.setAttribute("value", icon);
-
-    const techInterestIconLabel = document.createElement("label");
-    techInterestIconLabel.innerHTML = "Tech Interest Icon";
-
-    techInterestIcon.appendChild(techInterestIconInput);
-    techInterestIcon.appendChild(techInterestIconLabel);
-
-    // create tech interest level
-    const techInterestLevel = document.createElement("div");
-    techInterestLevel.classList.add("admin-me-form-item");
-
-    const techInterestLevelInput = document.createElement("input");
-    techInterestLevelInput.classList.add("admin-me-form-tech-interest-level");
-    techInterestLevelInput.setAttribute("type", "text");
-    techInterestLevelInput.setAttribute("value", interestLevel.toString());
-
-    const techInterestLevelLabel = document.createElement("label");
-    techInterestLevelLabel.innerHTML = "Tech Interest Level";
-
-    techInterestLevel.appendChild(techInterestLevelInput);
-    techInterestLevel.appendChild(techInterestLevelLabel);
-
-    // create remove button
-    const techInterestRemove = document.createElement("div");
-    techInterestRemove.classList.add("admin-me-form-add-remove-item");
-
-    const techInterestRemoveButton = document.createElement("button");
-    techInterestRemoveButton.setAttribute("type", "button");
-    techInterestRemoveButton.innerHTML = "-";
-    techInterestRemoveButton.addEventListener("click", () => {
-      removeTechInterestByKey(key);
-    });
-
-    techInterestRemove.appendChild(techInterestRemoveButton);
-
-    // add all elements to tech interest group
-    techInterestGroup.appendChild(techInterestName);
-    techInterestGroup.appendChild(techInterestIcon);
-    techInterestGroup.appendChild(techInterestLevel);
-    techInterestGroup.appendChild(techInterestRemove);
-
-    // add tech interest group to tech interests but before the add button
-    const addBeforeMeAddButton = document.getElementById("add-before-me-add-tech-interest-button");
-    if (addBeforeMeAddButton) {
-      techInterests.insertBefore(techInterestGroup, addBeforeMeAddButton);
-    }
-  };
-
-  const removeTechInterestByKey = (key: string) => {
-    const techInterestArray = document.getElementsByClassName("admin-me-form-tech-interest-group");
-    // if only one element is left, clear it instead of removing it
-    if (techInterestArray.length === 1) {
-      const techInterestArrayLastName = techInterestArray[0].getElementsByClassName("admin-me-form-tech-interest-name")[0] as HTMLInputElement;
-      const techInterestArrayLastIcon = techInterestArray[0].getElementsByClassName("admin-me-form-tech-interest-icon")[0] as HTMLInputElement;
-      const techInterestArrayLastLevel = techInterestArray[0].getElementsByClassName("admin-me-form-tech-interest-level")[0] as HTMLInputElement;
-
-      techInterestArrayLastName.value = "";
-      techInterestArrayLastIcon.value = "";
-      techInterestArrayLastLevel.valueAsNumber = 0;
-      return;
-    }
-
-    // find element with data-name=key
-    for (let i = 0; i < techInterestArray.length; i++) {
-      const element = techInterestArray[i];
-      if (element.getAttribute("data-name") === key) {
-        element.remove();
-      }
-    }
   };
 
   const fetchUserData = async () => {
@@ -261,6 +158,12 @@ const Me = () => {
     const contactCopy = user.contacts.map((contact) => {
       contact.id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
       return contact;
+    });
+
+    // loop through tech interests and add an id
+    const techInterestCopy = user.techInterests.map((techInterest) => {
+      techInterest.id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      return techInterest;
     });
 
     setAboutContent(user.about);
@@ -310,33 +213,7 @@ const Me = () => {
           Tech Interests
         </label>
         <div id="admin-me-form-tech-interest-items">
-          {user.techInterests.map((interest) => {
-            const key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-            return (
-              <div key={key} data-name={key} className="admin-me-form-tech-interest-group">
-                <div className="admin-me-form-item">
-                  <input type="text" className="admin-me-form-tech-interest-name" defaultValue={interest.name} />
-                  <label>Tech Interest</label>
-                </div>
-                <div className="admin-me-form-item">
-                  <input type="text" className="admin-me-form-tech-interest-icon" defaultValue={interest.icon} />
-                  <label>Tech Interest Icon</label>
-                </div>
-                <div className="admin-me-form-item">
-                  <input type="number" inputMode="numeric" className="admin-me-form-tech-interest-level" defaultValue={interest.interestLevel} />
-                  <label>Tech Interest Level</label>
-                </div>
-                <div className="admin-me-form-add-remove-item" onClick={() => removeTechInterestByKey(key)}>
-                  <button type="button">-</button>
-                </div>
-              </div>
-            );
-          })}
-          <div className="admin-me-form-add-remove-item" id="add-before-me-add-tech-interest-button">
-            <button type="button" onClick={() => addTechInterest("", "", 0)}>
-              +
-            </button>
-          </div>
+          <TechInterestHandler tiData={techInterestCopy} />
         </div>
         <label className="about-me-form-item-header" htmlFor="admin-me-form-about-header">
           About
