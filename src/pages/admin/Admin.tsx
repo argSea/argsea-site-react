@@ -6,6 +6,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import AdminHeader from "./template/header/AdminHeader";
 import AdminLeftRail from "./template/leftrail/AdminLeftRail";
 import Me from "./pages/Me";
+import Projects from "./pages/Projects";
 
 function Admin() {
   const navi = useNavigate();
@@ -35,6 +36,7 @@ function Admin() {
               <Routes>
                 <Route path="" element={<div>Dashboard</div>} />
                 <Route path="me" element={<Me />} />
+                <Route path="projects" element={<Projects />} />
                 <Route path="posts" element={<div>Posts</div>} />
                 <Route path="comments" element={<div>Comments</div>} />
                 <Route path="categories" element={<div>Categories</div>} />

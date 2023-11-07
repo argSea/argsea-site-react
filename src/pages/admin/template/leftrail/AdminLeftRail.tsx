@@ -43,9 +43,9 @@ const AdminLeftRail = () => {
           />
           <LeftRailNavItem
             icon={<FaDog size={50} />}
-            text=".posts"
+            text=".projects"
             onClick={() => {
-              navi("/admin/posts");
+              navi("/admin/projects");
             }}
           />
         </nav>

@@ -82,7 +82,7 @@ const Home = () => {
         </section>
         <Interests interests={user.techInterests} />
       </div>
-      <Footer />
+      <Footer user={user} />
     </>
   );
 };

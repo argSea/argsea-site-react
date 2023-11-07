@@ -233,7 +233,7 @@ const Me = () => {
 
   return (
     <div id="admin-me">
-      <div id="admin-me-header">
+      <div id="admin-content-header">
         <div id="admin-me-header-title">.me</div>
       </div>
       <div id="admin-me-content">

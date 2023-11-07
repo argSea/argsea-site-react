@@ -5,6 +5,23 @@
   height: 100vh;
 }
 
+#admin-content-header {
+  width: 100%;
+
+  /* cool bottom border */
+  border-bottom: 1px solid var(--glass-color);
+  padding: 10px;
+  margin-bottom: 10px;
+
+  /* center */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+
+  color: var(--name-color);
+}
+
 #admin-content {
   display: flex;
   flex-direction: column;
