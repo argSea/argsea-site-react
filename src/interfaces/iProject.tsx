@@ -12,6 +12,7 @@ interface iProject {
   roles: string[];
   priority: number;
   progress: number;
+  isHidden: boolean;
   isActive: boolean;
   isReleased: boolean;
   bookID: string;
