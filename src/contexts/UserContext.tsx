@@ -27,7 +27,8 @@ export const UserProvider = (props: any) => {
         return Promise.all(values.map((r) => r.json()));
       })
       .then((data) => {
-        let user = data[0].users[0];
+        console.log(data);
+        let user = data[0];
         user.about = DOMPurify.sanitize(user.about);
         user.projects = data[1].projects as iProject[];
 

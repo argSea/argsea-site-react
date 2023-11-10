@@ -15,7 +15,7 @@ const Footer = ({ user }: { user: any }) => {
               <div className="footer-social-icon">
                 <a href={contact.link}>
                   <span className="footer-icon">
-                    <ReactSVG src={contact.icon} className="footer-svg" />
+                    <ReactSVG src={contact.icon.src} className="footer-svg" />
                   </span>
                 </a>
               </div>

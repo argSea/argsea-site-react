@@ -1,7 +1,7 @@
 class API {
   static BASE_URL = "https://api.argsea.com/1";
 
-  static GET_USER = "/user/{id}/";
+  static GET_USER = "/user/{id}/?filter=%7B%7B";
   static GET_USER_PROJECTS = "/user/{id}/projects/";
   static GET_USER_RESUME = "/user/{id}/resume/";
 
