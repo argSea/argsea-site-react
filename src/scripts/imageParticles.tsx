@@ -15,7 +15,7 @@ import {
   Float32BufferAttribute,
   Uniform,
 } from "three";
-import iInterests from "../interfaces/iInterests";
+import iInterests from "../interfaces/iTechInterest";
 
 function imageParticles(interests: iInterests[], canvas: any) {
   console.log(interests);
@@ -36,7 +36,7 @@ function imageParticles(interests: iInterests[], canvas: any) {
   const loader = new ImageLoader();
 
   for (let i = 0; i < interests.length; i++) {
-    const image = loader.load(interests[i].icon, () => {
+    const image = loader.load(interests[i].icon.src, () => {
       console.log("image loaded");
 
       console.log(image);

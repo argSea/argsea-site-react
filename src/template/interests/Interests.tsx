@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import imageParticles from "../../scripts/imageParticles";
-import iInterests from "../../interfaces/iInterests";
+import iInterests from "../../interfaces/iTechInterest";
 import "./styles/interests.css";
 
 const Interests = ({ interests }: { interests: iInterests[] }) => {
@@ -17,6 +17,11 @@ const Interests = ({ interests }: { interests: iInterests[] }) => {
     // });
 
     container?.appendChild(canvas);
+
+    // get view height
+    const vh = window.innerHeight * 0.01;
+    // set container height to body minus 101vh
+    container.style.height = outerContainer.clientHeight - 101 * vh + "px";
 
     const partGen = imageParticles(interests, canvas);
 

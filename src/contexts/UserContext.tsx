@@ -30,7 +30,11 @@ export const UserProvider = (props: any) => {
         console.log(data);
         let user = data[0];
         user.about = DOMPurify.sanitize(user.about);
-        user.projects = data[1].projects as iProject[];
+        // user.projects = data[1] as iProject[];
+        // add projects to user unless isHidden = true and sort projects by priority, higher priority being first
+        user.projects = data[1]
+          .filter((project: iProject) => !project.isHidden)
+          .sort((a: iProject, b: iProject) => (a.priority > b.priority ? -1 : 1)) as iProject[];
 
         console.log(user);
         setUser(user);

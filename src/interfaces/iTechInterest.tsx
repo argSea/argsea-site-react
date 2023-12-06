@@ -1,7 +1,7 @@
 interface iTechInterest {
   id: string;
   name: string;
-  icon: string;
+  icon: SimpleImage;
   interestLevel: number;
 }
 

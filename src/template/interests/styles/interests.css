@@ -3,7 +3,7 @@
   top: 100vh;
   left: 0;
   min-width: 100vw;
-  height: calc(100% - 101vh);
+  /* height: calc(100% - 101vh); */
   width: 100vw;
   z-index: -1;
 }
