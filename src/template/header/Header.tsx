@@ -36,13 +36,13 @@ const Header = () => {
         {/* <div id="user-welcome">{checkLogin()}</div> */}
         <div id="navBar">
           <div className="navItem aboutme">
-            <a href="#aboutme">.about</a>
+            <a href="/#aboutme">.about</a>
           </div>
           <div className="navItem portfolio">
-            <a href="#portfolio">.portfolio</a>
+            <a href="/#portfolio">.portfolio</a>
           </div>
           <div className="navItem resume">
-            <a href="#resume">.resume</a>
+            <a href="/#resume">.resume</a>
           </div>
           <div className="navItem blog">
             <a href="/blog">.blog</a>

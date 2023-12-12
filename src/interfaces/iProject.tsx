@@ -28,7 +28,11 @@ interface iProject {
   bookID: string;
   relatedCourse: string;
   relatedExperience: [];
-  links: string[];
+  links: {
+    type: string;
+    text: string;
+    url: string;
+  }[];
   snippets: string[];
   features: string[];
 }

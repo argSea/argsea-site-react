@@ -1,0 +1,58 @@
+#single-project {
+  width: 75%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: white;
+  padding-top: 50px;
+  /* position: relative; */
+}
+
+#single-project-details {
+  padding-top: 0;
+  min-height: 100vh;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.single-project-close {
+  position: absolute;
+  top: var(--nav-height);
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.single-project-close-button {
+  height: 100px;
+  width: 100px;
+}
+
+.single-project-close-button svg {
+  height: 100%;
+  width: 100%;
+  fill: var(--menu-item-color);
+}
+
+.single-project-name {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.single-project-image-lightbox {
+  width: 100%;
+  height: 100%;
+}
+
+.single-project-description {
+  width: 100%;
+  margin-bottom: 20px;
+}

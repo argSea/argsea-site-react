@@ -3,6 +3,11 @@
 }
 
 footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+
   min-height: 100px;
   background-color: var(--glass-color);
   color: #fff;
@@ -15,8 +20,6 @@ footer {
 
   /* box shadow on top */
   box-shadow: 0 -10px 10px -10px rgba(0, 0, 0, 0.5);
-
-  position: relative;
 }
 
 footer #footer-content {

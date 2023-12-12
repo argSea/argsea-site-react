@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./portfolio.css";
 import ProjectCard from "./ProjectCard";
 import iProject from "../../interfaces/iProject";
+import { MotionConfig, motion, useAnimationControls } from "framer-motion";
 
 const Portfolio = ({ projects: projects }: { projects: iProject[] }) => {
+  const controls = useAnimationControls();
+
   // const [nav1, setNav1] = useState<any>(null);
   // const [nav2, setNav2] = useState<any>(null);
 
@@ -35,6 +38,12 @@ const Portfolio = ({ projects: projects }: { projects: iProject[] }) => {
   //   infinite: true,
   //   arrows: false,
   // };
+
+  const fadeOtherCards = {
+    initial: { opacity: 1 },
+    animate: { opacity: 0, transition: { duration: 0.5 } },
+    exit: { opacity: 1 },
+  };
 
   return (
     <>
