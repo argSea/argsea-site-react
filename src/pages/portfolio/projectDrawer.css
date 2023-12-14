@@ -36,6 +36,12 @@
   height: 80%;
 }
 
+@media screen and (max-width: 768px) {
+  .project-card-drawer.active {
+    height: 80%;
+  }
+}
+
 .project-card-drawer::before,
 .project-card-drawer::after {
   content: "";
@@ -93,6 +99,14 @@
   padding-bottom: 75px;
 }
 
+@media screen and (max-width: 768px) {
+  .project-card-drawer-content {
+    padding-left: 5%;
+    padding-right: 5%;
+    font-size: 0.5rem;
+  }
+}
+
 .project-card-drawer-title {
   padding-top: 1rem;
   margin-bottom: 1rem;
@@ -110,6 +124,12 @@
   -moz-text-fill-color: transparent;
 }
 
+@media screen and (max-width: 768px) {
+  .project-card-drawer-title {
+    font-size: 1.5rem;
+  }
+}
+
 .project-card-drawer-progress {
   position: absolute;
   top: -20px;
@@ -122,6 +142,22 @@
   justify-content: center;
   align-items: center;
   gap: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .project-card-drawer-progress {
+    top: -15px;
+    font-size: 0.8rem;
+  }
+
+  /* only show first div */
+  .project-card-drawer-progress div:not(:nth-child(-n + 1)) {
+    display: none;
+  }
+
+  .project-card-drawer-progress div:first-child::after {
+    content: "...";
+  }
 }
 
 .project-card-drawer-progress div {
@@ -151,10 +187,11 @@
 .project-card-drawer-close {
   position: absolute;
   top: -1.25rem;
-  right: 50%;
+  right: 0;
   /* padding: 10px; */
   cursor: pointer;
   transition: all 0.3s;
+  width: 100%;
 }
 
 .project-card-drawer-close-button {
@@ -167,6 +204,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
 }
 
 .project-card-drawer-close-button svg {
@@ -174,7 +212,7 @@
   height: 1.5rem;
 }
 
-.project-card-drawer-close:hover svg {
+.project-card-drawer-close-button:hover svg {
   animation: svg_spin 0.5s linear infinite;
 }
 
@@ -193,6 +231,13 @@
   margin: 0 auto;
 }
 
+@media screen and (max-width: 768px) {
+  .project-drawer-image-lightbox {
+    width: 100%;
+    grid-row: span 4;
+  }
+}
+
 .project-drawer-description {
   grid-column: span 3;
   grid-row: span 4;
@@ -206,6 +251,12 @@
   overflow: auto;
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
+}
+
+@media screen and (max-width: 768px) {
+  .project-drawer-description {
+    font-size: 0.8rem;
+  }
 }
 
 .project-drawer-description li {
@@ -229,6 +280,13 @@
   gap: 20px;
 }
 
+@media screen and (max-width: 768px) {
+  .project-drawer-links {
+    gap: 10px;
+    bottom: 50px;
+  }
+}
+
 .project-drawer-links a {
   font-size: 1.5rem;
   color: var(--name-color);
@@ -249,11 +307,18 @@
   position: absolute;
   bottom: 5px;
   left: 10px;
-
+  font-size: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .project-drawer-tags {
+    font-size: 0.5rem;
+    bottom: 10px;
+  }
 }
 
 .project-drawer-tags .tag {
@@ -263,7 +328,6 @@
   padding-bottom: 2px;
   padding-left: 10px;
   padding-right: 10px;
-  font-size: 1rem;
   font-weight: 300;
   line-height: 1.5;
   border-radius: 10px;
@@ -301,6 +365,17 @@
   width: 100%;
 }
 
+@media screen and (max-width: 768px) {
+  .project-drawer-tags .tag {
+    padding: 2px;
+  }
+
+  /* only show first 3 tags */
+  .project-drawer-tags .tag:not(:nth-child(-n + 5)) {
+    display: none;
+  }
+}
+
 .project-drawer-tags .tag .tag-hashtag {
   color: #e2e8f046;
 }
@@ -320,6 +395,12 @@
   color: rgba(169, 130, 251, 0.75);
 }
 
+@media screen and (max-width: 768px) {
+  .project-drawer-last-updated {
+    font-size: 0.7rem;
+  }
+}
+
 .project-drawer-last-updated:hover {
   color: var(--menu-item-color);
 }
@@ -329,6 +410,7 @@
   top: -20px;
   right: 10px;
   color: var(--aurora-color-3);
+  font-size: 1.2rem;
 
   display: flex;
   justify-content: center;
@@ -336,10 +418,25 @@
   gap: 5px;
 }
 
+@media screen and (max-width: 768px) {
+  .project-drawer-roles {
+    top: -15px;
+    font-size: 0.8rem;
+  }
+
+  /* only show first role */
+  .project-drawer-roles .role:not(:nth-child(-n + 1)) {
+    display: none;
+  }
+
+  .project-drawer-roles .role:first-child::after {
+    content: "...";
+  }
+}
+
 .project-drawer-roles .role {
   color: #e2e8f0;
   padding: 5px 10px 5px 10px;
-  font-size: 1.2rem;
   font-weight: 300;
   line-height: 1.5;
 

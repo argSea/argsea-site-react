@@ -40,7 +40,7 @@ const Home = () => {
     const options = {
       root: null,
       rootMargin: "-50px 0px -50px 0px",
-      threshold: 0.6,
+      threshold: 0.2,
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -83,7 +83,6 @@ const Home = () => {
         <Interests interests={user.techInterests} />
       </div>
       <Footer user={user} />
-      <div id="projectDrawerContainer"></div>
     </>
   );
 };

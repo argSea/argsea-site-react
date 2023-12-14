@@ -5,6 +5,9 @@ import "./styles/interests.css";
 
 const Interests = ({ interests }: { interests: iInterests[] }) => {
   useEffect(() => {
+    // if on mobile, just skip
+    if (window.innerWidth < 768) return;
+
     const outerContainer = document.getElementById("root") as HTMLDivElement;
     const container = document.getElementById("interest-canvas-container") as HTMLDivElement;
     // add canvas to root with an id of interests-canvas

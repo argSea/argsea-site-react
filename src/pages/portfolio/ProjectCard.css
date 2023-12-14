@@ -36,6 +36,12 @@
   z-index: 1;
 }
 
+@media (max-width: 768px) {
+  .project-card {
+    --card-width: 90%;
+  }
+}
+
 .project-card:hover {
   /* cursor: pointer; */
   /* transform: rotate(5deg); */

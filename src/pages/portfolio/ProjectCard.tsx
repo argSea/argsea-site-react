@@ -92,18 +92,19 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
     // projectDrawerRoot.render(<ProjectDrawer project={project} />);
     // projectDrawerDOM.classList.add("active");
     // set .project-card to active
-    const projectCard = e.target.closest(".project-card") as HTMLElement;
-    projectCard.classList.add("active");
-
-    // add overflow hidden to body
-    document.body.classList.add("overflow-hidden");
     setSelected(true);
   };
 
-  const popupDrawer = () => {
+  const popupDrawer = (e: any) => {
     console.log("popupDrawer");
+    const projectCard = e.target.closest(".project-card") as HTMLElement;
+    projectCard.classList.add("active");
+
     const projectCardDrawer = document.getElementsByClassName("project-card-drawer")[0] as HTMLElement;
     projectCardDrawer.classList.add("active");
+
+    // add overflow hidden to body
+    document.body.classList.add("overflow-hidden");
   };
 
   const closeCard = (e: any) => {
@@ -126,6 +127,19 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
   const setIndex = ({ index: current }: { index: number }) => {
     setLightboxIndex(current);
   };
+
+  // clicking outside of project-card-drawer closes it
+  // document.addEventListener("click", (e) => {
+  //   const projectCardDrawer = document.getElementsByClassName("project-card-drawer")[0] as HTMLElement;
+  //   if (projectCardDrawer) {
+  //     if (projectCardDrawer.contains(e.target as Node)) {
+  //       // clicked inside
+  //     } else {
+  //       // clicked outside
+  //       closeCard(e);
+  //     }
+  //   }
+  // });
 
   // check if project.images exists and if length > 0
   // if so, create a slider with all images

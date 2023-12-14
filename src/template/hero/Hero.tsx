@@ -1,8 +1,5 @@
-import { Canvas, extend } from "@react-three/fiber";
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { extend } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-import Audiowide from "../../assets/audiowide.json";
-import { Vector3 } from "three";
 import { FaChevronDown } from "react-icons/fa";
 import ParticleGenerator from "../../scripts/hero";
 import { useEffect } from "react";
@@ -16,22 +13,6 @@ interface iHero {
 
 // set bgOnly to false by default
 const Hero = ({ user = null }: iHero) => {
-  const font = new FontLoader().parse(Audiowide);
-  const jsmithTextOpts = {
-    font,
-    size: 0.5,
-    height: 0.05,
-  };
-
-  const jsmithPos = new Vector3(-4, 0.5, 0);
-  const saPos = new Vector3(-4, 0, 0);
-
-  const saTextOpts = {
-    font,
-    size: 0.2,
-    height: 0.01,
-  };
-
   const backgroundImagesMobile = [
     "/argsea_home1.png",
     // "/argsea_home2.png",

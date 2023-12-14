@@ -34,6 +34,12 @@ section:not(#hero) {
   line-height: 1.5;
 }
 
+@media screen and (max-width: 768px) {
+  #content {
+    width: 100%;
+  }
+}
+
 #aboutme {
   padding-top: var(--nav-height);
   color: #fff;
@@ -76,7 +82,6 @@ section:not(#hero) {
   display: inline-block;
   margin: 0;
   padding: 0;
-  font-size: 10rem;
   /* opacity: 0.08; */
   z-index: -1;
   vertical-align: bottom;
@@ -90,7 +95,20 @@ section:not(#hero) {
   -moz-background-clip: text;
   -moz-text-fill-color: transparent;
 
-  font-size: 30rch;
+  font-size: 15rem;
+}
+
+@media screen and (max-width: 768px) {
+  #aboutme-header #aboutme-header-text {
+    top: -3%;
+    left: 0;
+    text-align: center;
+    font-size: 5rem;
+  }
+}
+
+#aboutme ul {
+  margin-bottom: 10px;
 }
 
 #aboutme li {
@@ -98,8 +116,8 @@ section:not(#hero) {
   list-style-position: inside;
 
   /* indent multi-line text */
-  text-indent: -1em;
-  padding-left: 2em;
+  text-indent: -1rem;
+  padding-left: 2rem;
 }
 
 /* change bullet color */
@@ -109,6 +127,15 @@ section:not(#hero) {
 
 #aboutme li:hover::marker {
   color: var(--name-color);
+}
+
+/* make sure li marker and p are on the same line */
+#aboutme li p {
+  display: inline;
+}
+
+#aboutme p {
+  margin-bottom: 10px;
 }
 
 #aboutme_info #welcome {
@@ -280,20 +307,6 @@ section:not(#hero) {
 
   /* fancy fade in */
   animation: fadeIn 0.75s ease-in-out;
-}
-
-#portfolio {
-  display: block;
-  justify-content: center;
-  text-align: left;
-  min-height: auto;
-  position: relative;
-}
-
-#portfolio-info {
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
 }
 
 /****************************************************

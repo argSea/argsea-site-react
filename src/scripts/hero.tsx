@@ -73,6 +73,7 @@ class Environment {
 
   createCamera() {
     this.camera = new PerspectiveCamera(65, this.container.clientWidth / this.container.clientHeight, 1, 10000);
+
     this.camera.position.set(0, 5, 100);
   }
 
@@ -141,6 +142,23 @@ class CreateParticles {
       ease: 0.2,
       radius: 500,
     };
+
+    // set textsize based on window width
+    if (window.innerWidth < 500) {
+      this.data.textSize = 4;
+    } else if (window.innerWidth < 800) {
+      this.data.textSize = 5;
+    } else if (window.innerWidth < 1100) {
+      this.data.textSize = 6;
+    } else if (window.innerWidth < 1200) {
+      this.data.textSize = 7;
+    } else if (window.innerWidth < 1500) {
+      this.data.textSize = 8;
+    } else if (window.innerWidth < 1800) {
+      this.data.textSize = 9;
+    } else {
+      this.data.textSize = 12;
+    }
 
     this.setup();
 
@@ -417,7 +435,7 @@ export default class ParticleGenerator {
   constructor(canvas: any, text: string, titleText: string) {
     console.log("ParticleGenerator");
     const font = new FontLoader().parse(Audiowide);
-    const particle = new TextureLoader().load("http://127.0.0.1:5173/star.png");
+    const particle = new TextureLoader().load("https://argsea.com/star.png");
     this.environment = new Environment(font, particle, canvas, text, titleText);
   }
 

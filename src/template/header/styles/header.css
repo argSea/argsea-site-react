@@ -16,10 +16,6 @@ header {
   background: linear-gradient(to right, var(--glass-color), var(--glass-color)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  /* glassy looking */
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   vertical-align: middle;
   justify-content: center;
   height: var(--nav-height);
@@ -33,6 +29,9 @@ header {
   justify-content: center;
   align-items: center;
   position: relative;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 }
 
 #logo {
@@ -94,6 +93,101 @@ header {
   color: white;
   cursor: pointer;
   margin: auto 20px auto auto;
+}
+
+#burger-menu {
+  display: grid;
+  position: absolute;
+  /* top: calc(var(--nav-height) + 2px); */
+  top: 10px;
+  right: 30px;
+  width: 0;
+  height: 0;
+  background: var(--glass-color2);
+  grid-template-rows: repeat(3, 33%);
+
+  /* box shadow */
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+
+  gap: 1px;
+  z-index: -1;
+
+  overflow: hidden;
+
+  transition: all 0.3s ease-in-out;
+  border-radius: 10px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+#burger-menu.open {
+  top: calc(var(--nav-height));
+  width: 50%;
+  height: 20vh;
+}
+
+#burger-menu #trademark {
+  display: none;
+}
+
+#burger-menu .burgerItem {
+  text-align: center;
+  font-size: 1.5rem;
+  height: 100%;
+  width: 100%;
+
+  /* vertical align */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  padding-left: 15px;
+
+  background: #032e58;
+
+  /* border top and bottom */
+  border-bottom: 1px solid var(--highligh-color);
+
+  /* box shadow */
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+
+  transition: inherit;
+}
+
+#burger-menu .burgerItem:hover {
+  background: #0759ac;
+}
+
+#burger-menu .burgerItem svg {
+  position: relative;
+  margin-right: 20px;
+  margin-left: 10px;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  transition: inherit;
+}
+
+#burger-menu .burgerItem span {
+  vertical-align: middle;
+}
+
+#burger-menu .burgerItem:last-child {
+  border-bottom: none;
+}
+
+#burger-menu .burgerItem a {
+  text-decoration: none;
+  color: var(--highligh-color);
+  transition: inherit;
+}
+
+#burger-menu .burgerItem a:hover {
+  background: #0759ac;
 }
 
 #hamburger svg line {

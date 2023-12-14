@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Squash as Hamburger } from "hamburger-react";
-import { FaBars, FaHamburger, FaHome } from "react-icons/fa";
+import { FaBars, FaHamburger, FaHome, FaDochub, FaFolder, FaPortrait, FaPaperPlane } from "react-icons/fa";
 import "./styles/header.css";
 import React from "react";
 import { LoginContext } from "../../contexts/LoginContext";
@@ -12,10 +12,17 @@ const Header = () => {
   };
 
   const openBurger = (e: any) => {
-    e.preventDefault();
+    // e.preventDefault();
     let target = e.currentTarget;
     let invertExpanded = target.getAttribute("aria-expanded") === "true" ? "false" : "true";
     target.setAttribute("aria-expanded", invertExpanded);
+
+    let menu = document.getElementById("burger-menu");
+    let body = document.body;
+    if (menu) {
+      body.classList.toggle("overflow-hidden");
+      menu.classList.toggle("open");
+    }
   };
 
   function checkLogin() {
@@ -26,6 +33,23 @@ const Header = () => {
       return "";
     }
   }
+
+  // close burger menu when clicked outside
+  document.addEventListener("click", (e) => {
+    let burger = document.getElementById("hamburger");
+    let burgerMenu = document.getElementById("burger-menu");
+    let body = document.body;
+    if (burger && burgerMenu) {
+      if (burger.contains(e.target as Node) || burgerMenu.contains(e.target as Node)) {
+        // clicked inside
+      } else {
+        // clicked outside
+        burger.setAttribute("aria-expanded", "false");
+        burgerMenu.classList.remove("open");
+        body.classList.remove("overflow-hidden");
+      }
+    }
+  });
 
   return (
     <header>
@@ -54,6 +78,27 @@ const Header = () => {
             <line id="line-mid" x1={"90"} x2={"10"} y1={"50"} y2={"50"} />
             <line id="line-bottom" x1={"90"} x2={"10"} y1={"80"} y2={"80"} />
           </svg>
+        </div>
+        <div id="burger-menu">
+          <div className="burgerItem aboutme">
+            <a href="/#aboutme" onClick={openBurger}>
+              <FaPortrait /> <span>.about</span>
+            </a>
+          </div>
+          <div className="burgerItem portfolio">
+            <a href="/#portfolio" onClick={openBurger}>
+              <FaFolder /> <span>.portfolio</span>
+            </a>
+          </div>
+          <div className="burgerItem resume">
+            <a href="https://argsea.com/experience/resume/CurrentRes1.pdf">
+              <FaPaperPlane /> <span>.resume</span>
+            </a>
+          </div>
+          {/* <div className="burgerItem blog">
+            <a href="/blog">.blog</a>
+          </div> */}
+          {/* add some trademark info */}
         </div>
       </nav>
     </header>

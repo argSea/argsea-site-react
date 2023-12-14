@@ -16,8 +16,8 @@
   --highligh-color: #5c9ddf;
   --name-color: rgb(107, 132, 255);
   --burger-anim-2-delay: 0.5s;
-  --burger-anim-1-len: 1s;
-  --burger-anim-2-len: 1s;
+  --burger-anim-1-len: 0.5s;
+  --burger-anim-2-len: 0.5s;
   --burger-line-top-offset: 0;
   --burger-line-mid-offset: 20;
   --burger-line-bot-offset: 0;
@@ -44,6 +44,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 html {
