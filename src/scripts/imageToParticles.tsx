@@ -198,3 +198,5 @@ function customInput(el: any) {
     label.innerText = value;
   };
 }
+
+export {};

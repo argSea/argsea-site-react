@@ -1,3 +1,5 @@
+import SimpleImage from "./iSimpleImage";
+
 interface iTechInterest {
   id: string;
   name: string;

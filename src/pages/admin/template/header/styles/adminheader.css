@@ -1,8 +1,0 @@
-#admin-header {
-  width: 100%;
-  color: white;
-  vertical-align: middle;
-  justify-content: right;
-  height: var(--nav-height);
-  z-index: 1;
-}

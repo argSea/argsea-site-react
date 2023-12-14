@@ -1,3 +1,5 @@
+import SimpleImage from "./iSimpleImage";
+
 interface iContacts {
   id: string;
   name: string;

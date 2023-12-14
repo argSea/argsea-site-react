@@ -42,11 +42,11 @@ const Header = () => {
             <a href="/#portfolio">.portfolio</a>
           </div>
           <div className="navItem resume">
-            <a href="/#resume">.resume</a>
+            <a href="https://argsea.com/experience/resume/CurrentRes1.pdf">.resume</a>
           </div>
-          <div className="navItem blog">
+          {/* <div className="navItem blog">
             <a href="/blog">.blog</a>
-          </div>
+          </div> */}
         </div>
         <div id="hamburger" aria-expanded="false" onClick={openBurger}>
           <svg viewBox="0 0 100 100" width={35} preserveAspectRatio={"none"}>
