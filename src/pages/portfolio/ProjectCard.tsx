@@ -1,30 +1,48 @@
 import parse from "html-react-parser";
-import { FaProjectDiagram, FaGithubAlt } from "react-icons/fa";
+import { Root, createRoot } from "react-dom/client";
+import { FaGithubAlt, FaProjectDiagram, FaYoutube, FaLink } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Inline from "yet-another-react-lightbox/plugins/inline";
 import Counter from "yet-another-react-lightbox/plugins/counter";
+import { AnimatePresence, motion } from "framer-motion";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/counter.css";
 import "./ProjectCard.css";
+import "./projectDrawer.css";
 import iProject from "../../interfaces/iProject";
-import { useNavigate } from "react-router-dom";
-import { animate, motion, useAnimationControls } from "framer-motion";
+import { getSkillChoices } from "../../globals/Skills";
+import { getRoleChoices } from "../../globals/Roles";
 
 const ProjectCard = ({ project: project }: { project: iProject }) => {
-  const controls = useAnimationControls();
-  const navi = useNavigate();
+  const [selected, setSelected] = useState(false);
   const [openLightbox, setOpenLightbox] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const dataAttribute = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  let projectDrawerRoot: Root;
+  let projectDrawerDOM: HTMLElement;
   console.log(project);
+
+  // check if project.projectType is set, if not, set it to "other"
+  if (!project.projectType) {
+    project.projectType = "other";
+  }
+
+  useEffect(() => {
+    // projectDrawerDOM = document.getElementById("projectDrawerContainer") as HTMLElement;
+    // projectDrawerRoot = createRoot(projectDrawerDOM as HTMLElement);
+  }, []);
 
   const skills = () => {
     if (!project.skills) {
       return <></>;
     }
 
+    // only get first 7
     var skills = project.skills.map((tag, index) => {
+      if (index > 6) {
+        return <></>;
+      }
       return (
         <span key={index} className="tag">
           {tag}
@@ -35,17 +53,72 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
     return skills;
   };
 
-  const activateCard = (e: any) => {
-    console.log(e);
-    controls.start("animate");
+  // do what skills does but get the skill choices from the global variable
+  const skillsCapitalize = () => {
+    if (!project.skills) {
+      return <></>;
+    }
+
+    var skills = project.skills.map((tag, index) => {
+      return (
+        <span key={index} className="tag">
+          {getSkillChoices().find((skill) => skill.id === tag)?.name}
+        </span>
+      );
+    });
+
+    return skills;
   };
 
-  const navigateToProject = (e: any) => {
-    // get link
-    const link = "/projects/" + project.slug;
+  const getRoles = () => {
+    if (!project.roles) {
+      return <></>;
+    }
 
-    // go to link using react router
-    navi(link);
+    var roles = project.roles.map((role, index) => {
+      return (
+        <span key={index} className={"role " + role}>
+          {getRoleChoices().find((r) => r.id === role)?.name}
+        </span>
+      );
+    });
+
+    return roles;
+  };
+
+  const activateCard = (e: any) => {
+    // projectDrawerRoot.unmount();
+    // projectDrawerRoot = createRoot(projectDrawerDOM);
+    // projectDrawerRoot.render(<ProjectDrawer project={project} />);
+    // projectDrawerDOM.classList.add("active");
+    // set .project-card to active
+    const projectCard = e.target.closest(".project-card") as HTMLElement;
+    projectCard.classList.add("active");
+
+    // add overflow hidden to body
+    document.body.classList.add("overflow-hidden");
+    setSelected(true);
+  };
+
+  const popupDrawer = () => {
+    console.log("popupDrawer");
+    const projectCardDrawer = document.getElementsByClassName("project-card-drawer")[0] as HTMLElement;
+    projectCardDrawer.classList.add("active");
+  };
+
+  const closeCard = (e: any) => {
+    // deactive .project-card-drawer
+    const projectCardDrawer = document.getElementsByClassName("project-card-drawer")[0] as HTMLElement;
+    projectCardDrawer.classList.remove("active");
+
+    // deactive .project-card
+    const projectCard = e.target.closest(".project-card") as HTMLElement;
+    projectCard.classList.remove("active");
+
+    // remove overflow hidden from body
+    document.body.classList.remove("overflow-hidden");
+
+    setSelected(false);
   };
 
   const toggleOpen = (state: boolean) => () => setOpenLightbox(state);
@@ -53,27 +126,6 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
   const setIndex = ({ index: current }: { index: number }) => {
     setLightboxIndex(current);
   };
-
-  useEffect(() => {
-    // find all project-card-containers and set their position to absolute and top and left
-    const projectCardContainers = document.querySelectorAll(".project-card-container");
-    projectCardContainers.forEach((projectCardContainer) => {
-      // find offset for top and left
-      const offsetTop = projectCardContainer.getBoundingClientRect().top;
-      const offsetLeft = projectCardContainer.getBoundingClientRect().left;
-
-      // find offset for #project-card-arrangement
-      const projectCardArrangement = document.getElementById("project-card-arrangement") as HTMLElement;
-      const projectCardArrangementOffsetTop = projectCardArrangement.getBoundingClientRect().top;
-      const projectCardArrangementOffsetLeft = projectCardArrangement.getBoundingClientRect().left;
-
-      // set position absolute and top and left of Element
-      // projectCardContainer.setAttribute(
-      //   "style",
-      //   "position: absolute; top: " + (offsetTop - projectCardArrangementOffsetTop) + "px; left: " + (offsetLeft - projectCardArrangementOffsetLeft) + "px;"
-      // );
-    });
-  }, []);
 
   // check if project.images exists and if length > 0
   // if so, create a slider with all images
@@ -85,48 +137,136 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
   }
 
   return (
-    // <div className="project-card" style={{ backgroundImage: `url(` + project.icon + `)` }}></div>
     <>
-      <motion.div
-        layout
-        className="project-card"
-        onClick={navigateToProject}
-        whileHover={{ rotateZ: [0, -10] }}
-        layoutId={project.slug}
-        transition={{
-          layout: { duration: 0.5 },
-        }}
-      >
-        <div className="project-card-container">
-          <div
-            className="project-card-front"
-            // style={{ backgroundImage: project.images && project.images.length > 0 ? `url(` + project.images[0].image.src + `)` : `url(` + project.icon + `)` }}
-          >
-            {/* <img src={imageURL} alt={title} className="project-image" /> */}
-            {project.images && project.images.length > 0 ? (
-              <div className="project-card-front-image">
-                <img src={project.images[0].image.src} alt={project.images[0].image.alt} />{" "}
-              </div>
-            ) : (
-              <></>
-            )}
-            <div className="project-details">
-              <div className="project-icon">
-                <FaProjectDiagram size={30} />
-              </div>
-              <div className="project-tag-list">{skills()}</div>
-              <div className="project-title">{project.name}</div>
-              <div className="project-progress">
-                <div className="project-progress-bar" style={{ width: project.progress + "%" }}>
-                  <div className="project-progress-text">{project.progress}%</div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          layout
+          className="project-card"
+          key={selected ? "selected" : "notSelected"}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, zIndex: selected ? 100 : 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          {selected ? (
+            <div id="project-card-drawer-container" onLoad={popupDrawer}>
+              <div className="project-card-drawer">
+                <div className="project-card-drawer-content">
+                  <div className="project-card-drawer-title">{project.name}</div>
+                  <div className="project-card-drawer-progress">
+                    <div className="project-card-drawer-type">{project.projectType.replace(/\b\w/g, (l) => l.toUpperCase())}</div>
+                    <div className="project-card-drawer-active">{project.isActive ? "Active" : "Inactive"}</div>
+                    <div className="project-card-drawer-released">{project.isReleased ? "Released" : "Unreleased"}</div>
+                  </div>
+                  <div className="project-card-drawer-close">
+                    <div className="project-card-drawer-close-button" onClick={closeCard}>
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        stroke="white"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        fill="none"
+                        shapeRendering="geometricPrecision"
+                      >
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="project-drawer-image-lightbox">
+                    {project.images && project.images.length > 0 ? (
+                      <>
+                        <Lightbox
+                          index={lightboxIndex}
+                          slides={sliderImages}
+                          plugins={[Inline]}
+                          on={{
+                            view: setIndex,
+                            click: toggleOpen(true),
+                          }}
+                          carousel={{
+                            padding: 0,
+                            spacing: 0,
+                            imageFit: "cover",
+                          }}
+                          inline={{
+                            style: {
+                              width: "100%",
+                              height: "100%",
+                              margin: "0 auto",
+                            },
+                          }}
+                        />
+
+                        <Lightbox
+                          open={openLightbox}
+                          close={toggleOpen(false)}
+                          index={lightboxIndex}
+                          slides={sliderImages}
+                          plugins={[Counter]}
+                          on={{
+                            view: setIndex,
+                          }}
+                          controller={{ closeOnPullDown: true, closeOnBackdropClick: true }}
+                        />
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                  <div className="project-drawer-description">{parse(project.description)}</div>
+                  <div className="project-drawer-links">
+                    <a href={project.repoURL} target="_blank" rel="noopener noreferrer">
+                      <FaGithubAlt />
+                    </a>
+                    {/* iterate through project.links */}
+                    {project.links &&
+                      project.links.map((link, index) => {
+                        return (
+                          <a href={link.url} target="_blank" rel="noopener noreferrer" key={index}>
+                            {/* check if link type is YouTube, case insensitive */}
+                            {link.type.toLowerCase() === "youtube" ? <FaYoutube /> : <FaLink />}
+                          </a>
+                        );
+                      })}
+                  </div>
+                  <div className="project-drawer-tags">{skillsCapitalize()}</div>
+                  <div className="project-drawer-last-updated">{new Date(project.updatedDate).toLocaleString()}</div>
+                  <div className="project-drawer-roles">{getRoles()}</div>
                 </div>
               </div>
-              <p className="project-description">{parse(project.description)}</p>
             </div>
-          </div>
-          <div className="project-card-back"></div>
-        </div>
-      </motion.div>
+          ) : (
+            <div onClick={activateCard} className="project-card-container" style={{ cursor: "pointer" }}>
+              <div className="project-card-front">
+                {project.images && project.images.length > 0 ? (
+                  <div className="project-card-front-image">
+                    <img src={project.images[0].image.src} alt={project.images[0].image.alt} />{" "}
+                  </div>
+                ) : (
+                  <></>
+                )}
+                <div className="project-details">
+                  <div className="project-icon">
+                    <FaProjectDiagram size={30} />
+                  </div>
+                  <div className="project-tag-list">{skills()}</div>
+                  <div className="project-title">{project.name}</div>
+                  <div className="project-progress">
+                    <div className="project-progress-bar" style={{ width: project.progress + "%" }}>
+                      <div className="project-progress-text">{project.progress}%</div>
+                    </div>
+                  </div>
+                  <p className="project-description">{parse(project.description)}</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </>
   );
 };

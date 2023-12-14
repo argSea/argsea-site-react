@@ -68,7 +68,7 @@ const Portfolio = ({ projects: projects }: { projects: iProject[] }) => {
         </div> */}
         <div id="project-card-arrangement">
           {projects.map((project, index) => {
-            return <ProjectCard key={index} project={project} />;
+            return <ProjectCard key={project.slug} project={project} />;
           })}
         </div>
       </div>

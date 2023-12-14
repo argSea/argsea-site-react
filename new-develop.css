@@ -67,6 +67,10 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+body.overflow-hidden {
+  overflow: hidden;
+}
+
 #root {
   min-height: 100vh;
   position: relative;

@@ -13,8 +13,8 @@
   --aurora-color-2: rgb(79, 87, 156);
   --aurora-color-3: rgb(117, 120, 183);
   --aurora-color-4: rgb(157, 122, 197);
-  --card-height: 40ch;
-  --card-width: calc(var(--card-height) * 3 / 4);
+  --card-height: 35ch;
+  --card-width: calc(var(--card-height) * 3 / 3);
   --active-card-height: 60ch;
   --active-card-width: 45ch;
   --border-radius: 0.5rem;
@@ -29,16 +29,20 @@
   border-radius: var(--border-radius);
   backface-visibility: hidden;
 
-  perspective: 800px;
+  /* perspective: 800px; */
 
-  transition: all 0.7s ease-in-out;
+  transition: all 0.5s ease-in-out;
 
   z-index: 1;
 }
 
 .project-card:hover {
-  cursor: pointer;
-  /* transform: translateY(-10px); */
+  /* cursor: pointer; */
+  /* transform: rotate(5deg); */
+}
+
+.project-card.active {
+  z-index: 100;
 }
 
 .project-card .project-card-container * {
@@ -303,7 +307,7 @@
   /* transform: translateY(87%); */
   background: linear-gradient(var(--color3), var(--color2) 50%, var(--color1));
   transition: transform 300ms ease-in-out;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(2px);
 
   display: grid;
   grid-template-rows: 15ch 10ch;
@@ -540,20 +544,6 @@
 
 .project-card .project-card-container .project-card-front .project-links a {
   font-size: 2rem;
-}
-
-.project-card.active {
-  height: calc(var(--card-height) * 2);
-  width: calc(var(--card-width) * 2);
-  z-index: 100;
-}
-
-.project-card.active .project-card-container {
-  transform: rotateX(180deg);
-}
-
-.project-card.active .project-card-container .project-card-back {
-  z-index: 1;
 }
 
 @keyframes spin {

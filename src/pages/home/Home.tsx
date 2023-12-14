@@ -83,6 +83,7 @@ const Home = () => {
         <Interests interests={user.techInterests} />
       </div>
       <Footer user={user} />
+      <div id="projectDrawerContainer"></div>
     </>
   );
 };

@@ -1,0 +1,368 @@
+#project-card-drawer-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  transition: background 0.2s;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#project-card-drawer-container.active {
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.project-card-drawer {
+  height: 0;
+  width: 98%;
+  align-self: flex-end;
+  border-radius: var(--border-radius);
+
+  transition: all 0.3s;
+  transform-style: preserve-3d;
+
+  overflow: none;
+}
+
+.project-card-drawer.active {
+  height: 80%;
+}
+
+.project-card-drawer::before,
+.project-card-drawer::after {
+  content: "";
+  position: absolute;
+  inset: -0.15rem;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--aurora-gradient),
+    var(--aurora-color-1),
+    var(--aurora-color-2),
+    var(--aurora-color-3),
+    var(--aurora-color-4),
+    var(--aurora-color-3),
+    var(--aurora-color-2),
+    var(--aurora-color-1)
+  );
+
+  z-index: -1;
+
+  animation: spin 5s linear infinite;
+}
+
+.project-card-drawer::before {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+}
+
+.project-card-drawer::after {
+  filter: blur(3.5rem);
+  transform: scale(0.9);
+}
+
+.project-card-drawer-content {
+  height: 100%;
+  width: 100%;
+  border-radius: var(--border-radius);
+  padding-left: 15%;
+  padding-right: 15%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+  font-size: 1.2rem;
+  /* transform: translateY(87%); */
+  background: linear-gradient(var(--color3), var(--color2) 50%, var(--color1));
+  transition: all 0.7s;
+  transition-delay: 1s;
+  backdrop-filter: blur(5px);
+
+  display: grid;
+  /* infinite 2x2 */
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+
+  padding-bottom: 75px;
+}
+
+.project-card-drawer-title {
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  position: relative;
+  font-size: 3rem;
+  font-weight: 600;
+  grid-column: span 3;
+  grid-row: span 1;
+
+  background: linear-gradient(to right, var(--aurora-color-4), var(--menu-item-color));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+.project-card-drawer-progress {
+  position: absolute;
+  top: -20px;
+  left: 10px;
+  font-size: 1.2rem;
+  font-weight: 300;
+  line-height: 1.5;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.project-card-drawer-progress div {
+  padding: 5px 10px 5px 10px;
+  border-radius: 10px;
+
+  background: linear-gradient(var(--name-color), var(--aurora-color-2));
+
+  /* make it look 3d */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+}
+
+.project-card-drawer-progress div:not(:first-child) {
+  background: linear-gradient(var(--link-color), var(--aurora-color-4));
+}
+
+.project-card-drawer-progress div:first-child:hover {
+  background: var(--name-color);
+  box-shadow: 0 0 5px var(--name-color), 0 0 25px var(--name-color), 0 0 50px var(--name-color), 0 0 100px var(--name-color);
+}
+
+.project-card-drawer-progress div:not(:first-child):hover {
+  background: var(--link-color);
+  box-shadow: 0 0 5px var(--link-color), 0 0 25px var(--link-color), 0 0 50px var(--link-color), 0 0 100px var(--link-color);
+}
+
+.project-card-drawer-close {
+  position: absolute;
+  top: -1.25rem;
+  right: 50%;
+  /* padding: 10px; */
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.project-card-drawer-close-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--name-color);
+  color: var(--color3);
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.project-card-drawer-close-button svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.project-card-drawer-close:hover svg {
+  animation: svg_spin 0.5s linear infinite;
+}
+
+.project-card-drawer-close-button:hover {
+  background: var(--name-color);
+  box-shadow: 0 0 5px var(--name-color), 0 0 25px var(--name-color), 0 0 50px var(--name-color), 0 0 100px var(--name-color);
+}
+
+.project-drawer-image-lightbox {
+  width: 70%;
+  height: 100%;
+
+  grid-column: span 3;
+  grid-row: span 5;
+
+  margin: 0 auto;
+}
+
+.project-drawer-description {
+  grid-column: span 3;
+  grid-row: span 4;
+  margin-top: 30px;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.5;
+  text-align: justify;
+
+  overflow: auto;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+}
+
+.project-drawer-description li {
+  margin-left: 20px;
+}
+
+.project-drawer-description::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+.project-drawer-links {
+  /* put at bottom */
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.project-drawer-links a {
+  font-size: 1.5rem;
+  color: var(--name-color);
+  transition: all 0.3s;
+}
+
+.project-drawer-links a svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.project-drawer-links a:hover svg {
+  animation: svg_bounce 0.75s linear infinite;
+  fill: var(--aurora-color-3);
+}
+
+.project-drawer-tags {
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.project-drawer-tags .tag {
+  position: relative;
+  color: #e2e8f0;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.5;
+  border-radius: 10px;
+
+  /* border-left: 1px solid var(--nav-active-color); */
+  /* border-bottom: 1px solid var(--link-color); */
+  border: 1px solid var(--nav-active-color);
+
+  /* border-top-left-radius: 0;
+  border-bottom-right-radius: 0; */
+  border-bottom-left-radius: 1px;
+
+  transition: all 0.3s;
+}
+
+.project-drawer-tags .tag::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  background: linear-gradient(var(--nav-active-color), var(--link-color));
+
+  border-radius: 10px;
+  border-bottom-left-radius: 1px;
+
+  transition: all 0.2s;
+
+  z-index: -1;
+}
+
+.project-drawer-tags .tag:hover::before {
+  height: 100%;
+  width: 100%;
+}
+
+.project-drawer-tags .tag .tag-hashtag {
+  color: #e2e8f046;
+}
+
+/* .project-drawer-tags .tag:hover {
+  background: linear-gradient(var(--nav-active-color), var(--link-color));
+} */
+
+.project-drawer-last-updated {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: rgba(169, 130, 251, 0.75);
+}
+
+.project-drawer-last-updated:hover {
+  color: var(--menu-item-color);
+}
+
+.project-drawer-roles {
+  position: absolute;
+  top: -20px;
+  right: 10px;
+  color: var(--aurora-color-3);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.project-drawer-roles .role {
+  color: #e2e8f0;
+  padding: 5px 10px 5px 10px;
+  font-size: 1.2rem;
+  font-weight: 300;
+  line-height: 1.5;
+
+  background: linear-gradient(var(--highligh-color), var(--aurora-color-2));
+
+  border-radius: 10px;
+  /* make it look 3d */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+}
+
+.project-drawer-roles .role:hover {
+  background: var(--highligh-color);
+  box-shadow: 0 0 5px var(--highligh-color), 0 0 25px var(--highligh-color), 0 0 50px var(--highligh-color), 0 0 100px var(--highligh-color);
+}
+
+@keyframes svg_bounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
