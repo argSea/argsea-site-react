@@ -55,7 +55,7 @@ const Header = () => {
     <header>
       <nav id="main-nav">
         <div id="logo">
-          <Link to="/">{<FaHome size={35} />}</Link>
+          <a href="/">{<FaHome size={35} />}</a>
         </div>
         {/* <div id="user-welcome">{checkLogin()}</div> */}
         <div id="navBar">

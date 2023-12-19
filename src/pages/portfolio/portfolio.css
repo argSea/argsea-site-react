@@ -29,6 +29,13 @@
   }
 }
 
+@media (max-width: 1024px) {
+  #portfolio-info #portfolio-header {
+    margin-left: 0;
+    margin-bottom: -1%;
+  }
+}
+
 #portfolio-info #portfolio-header #portfolio-header-text {
   --link-color: rgba(169, 130, 251, 0.5);
   --menu-item-color: rgba(54, 113, 203, 0.5);
@@ -41,7 +48,8 @@
   -moz-background-clip: text;
   -moz-text-fill-color: transparent;
 
-  font-size: 15rem;
+  /* variable font size for a header */
+  font-size: clamp(3rem, 12vw, 14rem);
   line-height: 1;
 }
 
