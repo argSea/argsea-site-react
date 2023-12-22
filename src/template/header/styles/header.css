@@ -35,16 +35,49 @@ header {
 }
 
 #logo {
-  scale: 0.8;
   flex-direction: left;
   margin-right: auto;
   color: white;
   cursor: pointer;
-  margin: auto 0 auto 40px;
+  margin: auto 0px auto 30px;
+}
+
+#logo svg {
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+  stroke-dasharray: 20;
+  transition: all 0.3s ease-in-out;
+}
+
+#logo svg .home-frame {
+  stroke: var(--highligh-color) !important;
+  z-index: 2;
+}
+
+#logo svg .home-snow {
+  fill: var(--aurora-color-4);
+  stroke: var(--aurora-color-4);
+  z-index: 1;
+  animation: twinkle 2s infinite ease-in-out;
+}
+
+#logo svg .home-window {
+  fill: var(--aurora-color-3) !important;
+  stroke: var(--aurora-color-3) !important;
+}
+
+#logo svg .home-door-knob {
+  fill: var(--highligh-color) !important;
+  stroke: var(--highligh-color) !important;
 }
 
 #logo a {
   color: var(--highligh-color);
+}
+
+#logo:hover svg {
+  stroke-dashoffset: 50;
 }
 
 /* center #user-welcome in the middle of the nav bar */
@@ -241,4 +274,35 @@ header {
   --burger-line-offset: var(--burger-line-bot-offset);
   animation: burger-open var(--burger-anim-2-len) forwards;
   transform-origin: center;
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.75;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  75% {
+    opacity: 0.75;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes make-it-snow {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(100vh);
+  }
 }

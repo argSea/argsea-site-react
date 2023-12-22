@@ -277,7 +277,7 @@ section:not(#hero) {
   z-index: 1;
 }
 
-#aboutme_info #radar-animation-1:hover {
+/* #aboutme_info #radar-animation-1:hover {
   animation-name: radar;
   animation-duration: 2s;
   animation-delay: 0s;
@@ -292,6 +292,27 @@ section:not(#hero) {
 }
 
 #aboutme_info #radar-animation-1:hover::after {
+  animation-name: radar;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-delay: 0.8s;
+} */
+
+#aboutme_info #radar-animation-1 {
+  animation-name: radar;
+  animation-duration: 2s;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+}
+
+#aboutme_info #radar-animation-1::before {
+  animation-name: radar;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-delay: 0.4s;
+}
+
+#aboutme_info #radar-animation-1::after {
   animation-name: radar;
   animation-duration: 2s;
   animation-iteration-count: infinite;

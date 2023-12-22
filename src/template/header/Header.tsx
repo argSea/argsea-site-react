@@ -5,6 +5,7 @@ import "./styles/header.css";
 import React from "react";
 import { LoginContext } from "../../contexts/LoginContext";
 import iLoginContext from "../../interfaces/iLoginContext";
+import { HomeButton } from "./styles/HomeButton";
 
 const Header = () => {
   const { regUser } = React.useContext(LoginContext) as {
@@ -55,7 +56,7 @@ const Header = () => {
     <header>
       <nav id="main-nav">
         <div id="logo">
-          <a href="/">{<FaHome size={35} />}</a>
+          <a href="/">{<HomeButton />}</a>
         </div>
         {/* <div id="user-welcome">{checkLogin()}</div> */}
         <div id="navBar">
