@@ -2,6 +2,7 @@ import React from "react";
 import "./styles/footer.css";
 import iContacts from "../../interfaces/iContacts";
 import { ReactSVG } from "react-svg";
+import { Lighthouse } from "./Lighthouse";
 
 const Footer = ({ user }: { user: any }) => {
   const currentYear = new Date().getFullYear();
@@ -21,6 +22,9 @@ const Footer = ({ user }: { user: any }) => {
               </div>
             );
           })}
+        </div>
+        <div id="footer-logo">
+          <a href="/">{<Lighthouse />}</a>
         </div>
         <div id="footer-legal">
           <p>© {currentYear} argSea</p>

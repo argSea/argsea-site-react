@@ -11,7 +11,7 @@
 :root {
   --background: #f8f8f8;
   --dark: #303032;
-  --nav-height: 50px;
+  --nav-height: 60px;
   --menu-item-color: #3671cb;
   --highligh-color: #5c9ddf;
   --name-color: rgb(107, 132, 255);
@@ -28,6 +28,7 @@
   --gradient-color2: #3671cb;
   --dropshadow-color: #000;
   --glass-color: rgba(255, 255, 255, 0.1);
+  --glass-color-gone: rgba(255, 255, 255, 0.01);
   --glass-color2: rgb(34, 44, 59);
   --nav-active-color: rgb(192, 121, 203);
   --link-color: rgb(169, 130, 251);

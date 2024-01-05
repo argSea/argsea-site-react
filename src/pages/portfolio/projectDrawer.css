@@ -187,11 +187,14 @@
 .project-card-drawer-close {
   position: absolute;
   top: -1.25rem;
-  right: 0;
-  /* padding: 10px; */
+  right: calc(50% - 1.25rem);
   cursor: pointer;
   transition: all 0.3s;
-  width: 100%;
+
+  /* center */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .project-card-drawer-close-button {

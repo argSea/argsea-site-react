@@ -6,6 +6,7 @@ import React from "react";
 import { LoginContext } from "../../contexts/LoginContext";
 import iLoginContext from "../../interfaces/iLoginContext";
 import { HomeButton } from "./styles/HomeButton";
+import { SvgHomeIcon } from "./styles/HomeIcon";
 
 const Header = () => {
   const { regUser } = React.useContext(LoginContext) as {
@@ -56,18 +57,24 @@ const Header = () => {
     <header>
       <nav id="main-nav">
         <div id="logo">
-          <a href="/">{<HomeButton />}</a>
+          <a href="/">{<SvgHomeIcon />}</a>
         </div>
         {/* <div id="user-welcome">{checkLogin()}</div> */}
         <div id="navBar">
           <div className="navItem aboutme">
-            <a href="/#aboutme">.about</a>
+            <a href="/#aboutme" data-text=".about">
+              .about
+            </a>
           </div>
-          <div className="navItem portfolio">
-            <a href="/#portfolio">.portfolio</a>
+          <div className="navItem portfolio" data-text=".portfolio">
+            <a href="/#portfolio" data-text=".portfolio">
+              .portfolio
+            </a>
           </div>
-          <div className="navItem resume">
-            <a href="https://argsea.com/experience/resume/CurrentRes1.pdf">.resume</a>
+          <div className="navItem resume" data-text=".resume">
+            <a href="https://argsea.com/experience/resume/CurrentRes1.pdf" data-text=".resume">
+              .resume
+            </a>
           </div>
           {/* <div className="navItem blog">
             <a href="/blog">.blog</a>

@@ -25,9 +25,9 @@ export const HomeButton = () => {
         <g id="Door-knob">
           <circle cx="512.614" cy="636.501" r="10.114" style={{ fill: "white" }} className="home-door-knob" />
         </g>
-        <g transform="matrix(1,0,0,1,1.38701,0)">
+        {/* <g transform="matrix(1,0,0,1,1.38701,0)">
           <circle cx="311.226" cy="593.212" r="9.709" style={{ fill: "white" }} className="home-snow" />
-        </g>
+        </g> */}
         <g transform="matrix(1,0,0,1,125.293,-55.0179)">
           <circle cx="311.226" cy="593.212" r="9.709" style={{ fill: "white" }} className="home-window" />
         </g>
@@ -37,21 +37,21 @@ export const HomeButton = () => {
         <g transform="matrix(1.08333,0,0,1.08333,249.963,-103.874)">
           <circle cx="311.226" cy="593.212" r="9.709" style={{ fill: "white" }} className="home-window" />
         </g>
-        <g transform="matrix(1.08333,0,0,1.08333,370.793,-48.8564)">
+        {/* <g transform="matrix(1.08333,0,0,1.08333,370.793,-48.8564)">
           <circle cx="311.226" cy="593.212" r="9.709" style={{ fill: "white" }} className="home-snow" />
-        </g>
-        <g transform="matrix(1.08333,0,0,1.08333,365.03,-195.417)">
+        </g> */}
+        {/* <g transform="matrix(1.08333,0,0,1.08333,365.03,-195.417)">
           <circle cx="311.226" cy="593.212" r="9.709" style={{ fill: "white" }} className="home-snow" />
-        </g>
-        <g transform="matrix(1.08333,0,0,1.08333,246.727,-317.935)">
+        </g> */}
+        {/* <g transform="matrix(1.08333,0,0,1.08333,246.727,-317.935)">
           <circle cx="311.226" cy="593.212" r="9.709" style={{ fill: "white" }} className="home-snow" />
-        </g>
-        <g transform="matrix(1.08333,0,0,1.08333,32.6654,-257.832)">
+        </g> */}
+        {/* <g transform="matrix(1.08333,0,0,1.08333,32.6654,-257.832)">
           <circle cx="311.226" cy="593.212" r="9.709" style={{ fill: "white" }} className="home-snow" />
-        </g>
-        <g transform="matrix(1.08333,0,0,1.08333,-20.2875,-194.954)">
+        </g> */}
+        {/* <g transform="matrix(1.08333,0,0,1.08333,-20.2875,-194.954)">
           <circle cx="311.226" cy="593.212" r="9.709" style={{ fill: "white" }} className="home-snow" />
-        </g>
+        </g> */}
       </g>
     </svg>
   );

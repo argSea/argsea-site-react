@@ -10,18 +10,13 @@ header {
   top: 0;
   width: 100%;
   z-index: 300;
-  /* glassy looking */
-  background: var(--glass-color); /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, var(--glass-color), var(--glass-color)); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, var(--glass-color), var(--glass-color)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   vertical-align: middle;
   justify-content: center;
   height: var(--nav-height);
 }
 
 #main-nav {
+  position: relative;
   display: flex;
   height: var(--nav-height);
   width: 100%;
@@ -29,6 +24,21 @@ header {
   justify-content: center;
   align-items: center;
   position: relative;
+
+  /* glassy looking */
+  background: var(--glass-color); /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, var(--glass-color-gone) 10%, var(--glass-color) 80%, var(--glass-color-gone)); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to left,
+    var(--glass-color-gone),
+    15%,
+    var(--glass-color),
+    85%,
+    var(--glass-color-gone)
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
@@ -40,46 +50,166 @@ header {
   color: white;
   cursor: pointer;
   margin: auto 0px auto 30px;
+
+  /* border: 1px solid var(--highligh-color); */
+  border-radius: 30%;
+  overflow: hidden;
 }
 
 #logo svg {
-  width: 40px;
-  height: 40px;
+  height: 50px;
   vertical-align: middle;
-  stroke-dasharray: 20;
   transition: all 0.3s ease-in-out;
+  stroke: var(--highligh-color);
+  fill-opacity: 0%;
+  stroke-width: 10px;
+  fill-rule: nonzero;
+  /* animation: fun-svg-figit 2s infinite ease-in-out; */
 }
 
-#logo svg .home-frame {
+#logo svg path {
+  width: 100%;
+  height: 100%;
+}
+
+#logo svg #logo-1 {
+  stroke: var(--aurora-color-1) !important;
+  fill: black;
+  stroke-width: 1px;
+  fill-opacity: 100;
+}
+
+#logo svg #logo-2 {
+  stroke: rgba(59, 67, 120, 1);
+  fill: var(--aurora-color-2) !important;
+  stroke-width: 7px;
+  fill-opacity: 0 !important;
+
+  stroke-dasharray: 500;
+  stroke-linecap: round;
+  stroke-dashoffset: 250;
+
+  transition: all 0.5s ease-in-out;
+  animation: move-logo-2 10s infinite ease-in-out;
+}
+
+@keyframes move-logo-2 {
+  0% {
+    stroke-dashoffset: 250;
+  }
+
+  33% {
+    stroke-dashoffset: 500;
+  }
+
+  66% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 250;
+  }
+}
+
+#logo:hover svg #logo-2 {
+  stroke: rgb(182, 124, 198);
+}
+
+#logo svg #logo-3 {
+  stroke: rgba(51, 64, 115, 1);
+  /* fill: rgba(93, 43, 192, 0.8); */
+  stroke-width: 7px;
+  fill-opacity: 0% !important;
+
+  /* stroke-dasharray: 500;
+  stroke-dashoffset: 500; */
+  stroke-dasharray: 1000;
+  stroke-linecap: round;
+  stroke-dashoffset: 500;
+
+  transition: all 0.5s ease-in-out;
+  animation: move-logo-3 10s infinite ease-in-out;
+}
+
+@keyframes move-logo-3 {
+  0% {
+    stroke-dashoffset: 500;
+  }
+
+  33% {
+    stroke-dashoffset: 1000;
+  }
+
+  66% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 500;
+  }
+}
+
+#logo:hover svg #logo-3 {
+  stroke: rgb(137, 126, 231);
+}
+
+#logo svg #logo-4 {
+  stroke: rgba(38, 59, 106, 1);
+  fill: rgba(50, 43, 192, 0.8);
+  stroke-width: 7px;
+  fill-opacity: 0 !important;
+
+  /* stroke-dasharray: 500;
+  stroke-dashoffset: -250; */
+  stroke-dasharray: 1000;
+  stroke-linecap: round;
+  stroke-dashoffset: 250;
+
+  transition: all 0.5s ease-in-out;
+  animation: move-logo-4 10s infinite ease-in-out;
+}
+
+@keyframes move-logo-4 {
+  0% {
+    stroke-dashoffset: 250;
+  }
+
+  33% {
+    stroke-dashoffset: 1000;
+  }
+
+  66% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 250;
+  }
+}
+
+#logo:hover svg #logo-4 {
+  stroke: rgb(70, 112, 197);
+}
+
+#logo svg #logo-5 {
+  stroke: var(--highligh-color);
+  fill: var(--highligh-color);
+  stroke-width: 5px;
+  fill-opacity: 100%;
+
+  animation: pulse-stroke 5s infinite ease-in-out;
+}
+
+#logo svg #logo-6 {
   stroke: var(--highligh-color) !important;
-  z-index: 2;
-}
-
-#logo svg .home-snow {
-  fill: var(--aurora-color-4);
-  stroke: var(--aurora-color-4);
-  z-index: 1;
-  animation: twinkle 2s infinite ease-in-out;
-}
-
-#logo svg .home-window {
-  fill: var(--aurora-color-3) !important;
-  stroke: var(--aurora-color-3) !important;
-}
-
-#logo svg .home-door-knob {
   fill: var(--highligh-color) !important;
-  stroke: var(--highligh-color) !important;
+  stroke-width: 5px;
+  fill-opacity: 100%;
 }
 
 #logo a {
   color: var(--highligh-color);
 }
-
-#logo:hover svg {
-  stroke-dashoffset: 50;
-}
-
 /* center #user-welcome in the middle of the nav bar */
 #user-welcome {
   display: flex;
@@ -93,16 +223,40 @@ header {
 #navBar {
   display: flex;
   flex-direction: right;
-  gap: 30px;
+  gap: 50px;
   justify-content: right;
   margin-right: 50px;
   margin-left: auto;
 }
 
 .navItem {
+  position: relative;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.5rem;
   margin: auto;
+}
+
+.navItem a::before {
+  content: attr(data-text);
+  position: absolute;
+  color: var(--menu-item-color);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  overflow: hidden;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.navItem:hover a::before {
+  width: 100%;
+}
+
+.navItem.active a::before {
+  width: 100%;
+  color: var(--nav-active-color);
 }
 
 .navItem a {
@@ -110,14 +264,14 @@ header {
   color: var(--highligh-color);
 }
 
-.navItem a:hover {
+/* .navItem a:hover {
   color: var(--menu-item-color);
-}
+} */
 
 /* change color when .navItem is selected */
-.navItem.active a {
+/* .navItem.active a {
   color: var(--nav-active-color);
-}
+} */
 
 #hamburger {
   display: none;
@@ -276,6 +430,49 @@ header {
   transform-origin: center;
 }
 
+@keyframes pulse-stroke {
+  0% {
+    stroke-width: 5px;
+  }
+
+  50% {
+    stroke-width: 15px;
+  }
+
+  100% {
+    stroke-width: 5px;
+  }
+}
+
+@keyframes fun-svg-twist {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* a cute svg spin */
+@keyframes fun-svg-figit {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(5deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 @keyframes twinkle {
   0% {
     opacity: 1;
@@ -304,5 +501,25 @@ header {
 
   100% {
     transform: translateY(100vh);
+  }
+}
+
+/****************************************************
+   *                                                  *
+   *                  MEDIA QUERIES                   *
+   *                                                  *
+  ****************************************************/
+
+@media screen and (max-width: 768px) {
+  #navBar {
+    display: none;
+  }
+  #hamburger {
+    display: flex;
+  }
+
+  #logo {
+    margin-left: 20px;
+    scale: 1;
   }
 }

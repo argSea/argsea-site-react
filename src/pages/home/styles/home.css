@@ -32,6 +32,7 @@ section:not(#hero) {
   align-items: center;
   font-size: 1.3rem;
   line-height: 1.5;
+  padding-bottom: 300px;
 }
 
 @media screen and (max-width: 768px) {
@@ -435,25 +436,5 @@ section:not(#hero) {
   100% {
     opacity: 0;
     transform: scale(1.5);
-  }
-}
-
-/****************************************************
-   *                                                  *
-   *                  MEDIA QUERIES                   *
-   *                                                  *
-  ****************************************************/
-
-@media screen and (max-width: 768px) {
-  #navBar {
-    display: none;
-  }
-  #hamburger {
-    display: flex;
-  }
-
-  #logo {
-    margin-left: 20px;
-    scale: 1;
   }
 }
