@@ -1,8 +1,8 @@
-@property --aurora-gradient {
+/* @property --aurora-gradient {
   syntax: "<angle>";
   initial-value: 0deg;
   inherits: false;
-}
+} */
 
 /* vars */
 :root {
@@ -38,7 +38,7 @@
 
 @media (max-width: 768px) {
   .project-card {
-    --card-width: 90%;
+    --card-width: 80%;
   }
 }
 
@@ -77,8 +77,19 @@
   position: absolute;
   inset: -0.15rem;
   border-radius: inherit;
-  background: conic-gradient(
-    from var(--aurora-gradient),
+  /* background: conic-gradient(
+    from 120deg,
+    var(--aurora-color-1),
+    var(--aurora-color-2),
+    var(--aurora-color-3),
+    var(--aurora-color-4),
+    var(--aurora-color-3),
+    var(--aurora-color-2),
+    var(--aurora-color-1)
+  ); */
+
+  background: radial-gradient(
+    circle at 50% 50%,
     var(--aurora-color-1),
     var(--aurora-color-2),
     var(--aurora-color-3),
@@ -88,20 +99,23 @@
     var(--aurora-color-1)
   );
 
+  background-size: 400% 400%;
+
   z-index: -1;
 
-  animation: spin 5s linear infinite;
-}
-
-.project-card .project-card-container::before {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+  animation: spin 15s ease infinite;
 }
 
 .project-card .project-card-container::after {
   filter: blur(3.5rem);
   transform: scale(0.9);
+}
+
+@media (max-width: 768px) {
+  .project-card .project-card-container::after {
+    filter: blur(1rem);
+    transform: scale(0.9);
+  }
 }
 
 .project-card .project-card-container .project-card-back {
@@ -554,11 +568,33 @@
 
 @keyframes spin {
   0% {
-    --aurora-gradient: 0deg;
+    /* --aurora-gradient: 0deg; */
+    /* transform: rotate(0deg); */
+    background-position: 0% 0%;
+  }
+
+  25% {
+    /* --aurora-gradient: 360deg; */
+    /* transform: rotate(360deg); */
+    background-position: 0% 100%;
+  }
+
+  50% {
+    /* --aurora-gradient: 0deg; */
+    /* transform: rotate(0deg); */
+    background-position: 100% 0%;
+  }
+
+  75% {
+    /* --aurora-gradient: 360deg; */
+    /* transform: rotate(360deg); */
+    background-position: 100% 100%;
   }
 
   100% {
-    --aurora-gradient: 360deg;
+    /* --aurora-gradient: 0deg; */
+    /* transform: rotate(0deg); */
+    background-position: 0% 0%;
   }
 }
 

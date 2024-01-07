@@ -65,8 +65,18 @@ html::-webkit-scrollbar {
 
 body {
   min-height: 100vh;
-  background: radial-gradient(ellipse at bottom, #19334d 0%, #010314 100%);
   font-family: "Roboto", sans-serif;
+  background: #010314;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  /* background: radial-gradient(ellipse at bottom, #19334d 0%, #010314 75%, #0a142600); */
+  background: linear-gradient(#19334d, #010314);
 }
 
 body.overflow-hidden {

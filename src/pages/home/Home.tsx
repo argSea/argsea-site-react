@@ -1,7 +1,5 @@
 import { useEffect, useContext } from "react";
-import DOMPurify from "dompurify";
 import { Canvas, extend } from "@react-three/fiber";
-import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import AboutMe from "../about/AboutMe";
 import Portfolio from "../portfolio/Portfolio";
 import { Stars } from "@react-three/drei";
@@ -12,8 +10,7 @@ import "./styles/home.css";
 import { UserContext } from "../../contexts/UserContext";
 import iUser from "../../interfaces/iUser";
 import Footer from "../../template/footer/Footer";
-
-extend({ TextGeometry });
+import DOMPurify from "dompurify";
 
 const Home = () => {
   // get value from usercontext
@@ -59,7 +56,7 @@ const Home = () => {
     observer.observe(portfolio!);
   }, []);
 
-  // santizie user.about
+  // // santizie user.about
   useEffect(() => {
     user.about = DOMPurify.sanitize(user.about);
   }, [user.about]);

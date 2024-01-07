@@ -16,6 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "src/pages/home/splash/Splash.jsx", "public/threeTest.js"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

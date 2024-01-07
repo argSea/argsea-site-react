@@ -42,64 +42,79 @@ header {
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  /* overflow: hidden; */
 }
 
 #logo {
-  flex-direction: left;
+  height: var(--nav-height);
+  width: 200px;
   margin-right: auto;
-  color: white;
   cursor: pointer;
-  margin: auto 0px auto 30px;
 
-  /* border: 1px solid var(--highligh-color); */
-  border-radius: 30%;
+  position: relative;
   overflow: hidden;
 }
 
 #logo svg {
-  height: 50px;
-  vertical-align: middle;
   transition: all 0.3s ease-in-out;
-  stroke: var(--highligh-color);
-  fill-opacity: 0%;
-  stroke-width: 10px;
-  fill-rule: nonzero;
-  /* animation: fun-svg-figit 2s infinite ease-in-out; */
+  overflow: hidden;
 }
 
-#logo svg path {
-  width: 100%;
-  height: 100%;
+#logo svg:first-child {
+  height: 65px;
+  width: 70px;
+}
+
+#logo svg:first-child path {
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.75));
+  -webkit-filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.75));
+}
+
+#logo svg:not(:first-child) {
+  height: 80px;
+  width: 80px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transform: rotate(-50deg) scale(2);
+}
+
+#logo svg:not(:first-child) path {
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.75));
+  -webkit-filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.75));
 }
 
 #logo svg #logo-1 {
-  stroke: var(--aurora-color-1) !important;
+  stroke: transparent;
   fill: black;
   stroke-width: 1px;
-  fill-opacity: 100;
+  fill-opacity: 50%;
 }
 
 #logo svg #logo-2 {
-  stroke: rgba(59, 67, 120, 1);
-  fill: var(--aurora-color-2) !important;
-  stroke-width: 7px;
-  fill-opacity: 0 !important;
+  stroke: rgb(50, 57, 102) !important;
+  fill: rgb(50, 57, 102) !important;
+  stroke-width: 3px;
+  fill-opacity: 0% !important;
 
-  stroke-dasharray: 500;
+  stroke-dasharray: 120;
   stroke-linecap: round;
-  stroke-dashoffset: 250;
+  stroke-dashoffset: 25;
 
   transition: all 0.5s ease-in-out;
-  animation: move-logo-2 10s infinite ease-in-out;
+  animation: move-logo-2 20s infinite ease-in-out;
+
+  overflow: visible;
 }
 
 @keyframes move-logo-2 {
   0% {
-    stroke-dashoffset: 250;
+    stroke-dashoffset: 25;
   }
 
   33% {
-    stroke-dashoffset: 500;
+    stroke-dashoffset: 120;
   }
 
   66% {
@@ -107,25 +122,26 @@ header {
   }
 
   100% {
-    stroke-dashoffset: 250;
+    stroke-dashoffset: 25;
   }
 }
 
 #logo:hover svg #logo-2 {
-  stroke: rgb(182, 124, 198);
+  stroke: rgb(182, 124, 198) !important;
 }
 
 #logo svg #logo-3 {
-  stroke: rgba(51, 64, 115, 1);
-  /* fill: rgba(93, 43, 192, 0.8); */
-  stroke-width: 7px;
+  width: 100px;
+  height: 100px;
+  stroke: rgb(54, 69, 126) !important;
+  fill: rgb(54, 69, 126) !important;
+  stroke-width: 5px;
   fill-opacity: 0% !important;
 
   /* stroke-dasharray: 500;
   stroke-dashoffset: 500; */
-  stroke-dasharray: 1000;
-  stroke-linecap: round;
-  stroke-dashoffset: 500;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 200;
 
   transition: all 0.5s ease-in-out;
   animation: move-logo-3 10s infinite ease-in-out;
@@ -133,11 +149,11 @@ header {
 
 @keyframes move-logo-3 {
   0% {
-    stroke-dashoffset: 500;
+    stroke-dashoffset: 200;
   }
 
   33% {
-    stroke-dashoffset: 1000;
+    stroke-dashoffset: 400;
   }
 
   66% {
@@ -145,37 +161,35 @@ header {
   }
 
   100% {
-    stroke-dashoffset: 500;
+    stroke-dashoffset: 200;
   }
 }
 
 #logo:hover svg #logo-3 {
-  stroke: rgb(137, 126, 231);
+  stroke: rgb(137, 126, 231) !important;
 }
 
 #logo svg #logo-4 {
-  stroke: rgba(38, 59, 106, 1);
-  fill: rgba(50, 43, 192, 0.8);
-  stroke-width: 7px;
-  fill-opacity: 0 !important;
+  stroke: rgb(48, 74, 131) !important;
+  fill: rgb(48, 74, 131) !important;
+  stroke-width: 2px;
+  fill-opacity: 0% !important;
 
-  /* stroke-dasharray: 500;
-  stroke-dashoffset: -250; */
-  stroke-dasharray: 1000;
+  stroke-dasharray: 80;
   stroke-linecap: round;
-  stroke-dashoffset: 250;
+  stroke-dashoffset: 10;
 
   transition: all 0.5s ease-in-out;
-  animation: move-logo-4 10s infinite ease-in-out;
+  animation: move-logo-4 15s infinite ease-in-out;
 }
 
 @keyframes move-logo-4 {
   0% {
-    stroke-dashoffset: 250;
+    stroke-dashoffset: 10;
   }
 
   33% {
-    stroke-dashoffset: 1000;
+    stroke-dashoffset: 80;
   }
 
   66% {
@@ -183,21 +197,21 @@ header {
   }
 
   100% {
-    stroke-dashoffset: 250;
+    stroke-dashoffset: 10;
   }
 }
 
 #logo:hover svg #logo-4 {
-  stroke: rgb(70, 112, 197);
+  stroke: rgb(70, 112, 197) !important;
 }
 
 #logo svg #logo-5 {
-  stroke: var(--highligh-color);
-  fill: var(--highligh-color);
+  stroke: var(--menu-item-color) !important;
+  fill: var(--menu-item-color) !important;
   stroke-width: 5px;
-  fill-opacity: 100%;
+  fill-opacity: 50%;
 
-  animation: pulse-stroke 5s infinite ease-in-out;
+  animation: pulse-stroke 5s infinite ease-in-out 1s;
 }
 
 #logo svg #logo-6 {
@@ -205,6 +219,8 @@ header {
   fill: var(--highligh-color) !important;
   stroke-width: 5px;
   fill-opacity: 100%;
+
+  animation: pulse-stroke 5s infinite ease-in-out;
 }
 
 #logo a {
@@ -299,7 +315,6 @@ header {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 
   gap: 1px;
-  z-index: -1;
 
   overflow: hidden;
 
@@ -313,6 +328,7 @@ header {
   top: calc(var(--nav-height));
   width: 50%;
   height: 20vh;
+  z-index: 1000;
 }
 
 #burger-menu #trademark {
@@ -519,7 +535,7 @@ header {
   }
 
   #logo {
-    margin-left: 20px;
+    margin-left: 0px;
     scale: 1;
   }
 }

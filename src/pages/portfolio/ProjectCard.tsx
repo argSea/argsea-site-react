@@ -18,20 +18,12 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
   const [selected, setSelected] = useState(false);
   const [openLightbox, setOpenLightbox] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-  const dataAttribute = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-  let projectDrawerRoot: Root;
-  let projectDrawerDOM: HTMLElement;
   console.log(project);
 
   // check if project.projectType is set, if not, set it to "other"
   if (!project.projectType) {
     project.projectType = "other";
   }
-
-  useEffect(() => {
-    // projectDrawerDOM = document.getElementById("projectDrawerContainer") as HTMLElement;
-    // projectDrawerRoot = createRoot(projectDrawerDOM as HTMLElement);
-  }, []);
 
   const skills = () => {
     if (!project.skills) {
@@ -157,6 +149,7 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
           layout
           className="project-card"
           key={selected ? "selected" : "notSelected"}
+          // key={key}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, zIndex: selected ? 100 : 1 }}
           exit={{ opacity: 0 }}

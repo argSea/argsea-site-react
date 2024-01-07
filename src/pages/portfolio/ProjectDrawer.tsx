@@ -40,12 +40,6 @@ export const ProjectDrawer = ({ project: project }: { project: iProject }) => {
     });
   }
 
-  useEffect(() => {
-    // mark project-card-drawer as active
-    const projectCardDrawer = document.getElementById("project-card-drawer") as HTMLElement;
-    // projectCardDrawer.classList.add("active");
-  }, []);
-
   return (
     <motion.div layout="position" id="project-card-drawer" layoutId={project.slug}>
       <div className="project-card-drawer-content">
