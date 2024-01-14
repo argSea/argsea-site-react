@@ -1,9 +1,3 @@
-/* @property --aurora-gradient {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-} */
-
 /* vars */
 :root {
   --project-card-title-underline-gradient-color1: rgb(169, 130, 251);
@@ -29,8 +23,6 @@
   border-radius: var(--border-radius);
   backface-visibility: hidden;
 
-  /* perspective: 800px; */
-
   transition: all 0.5s ease-in-out;
 
   z-index: 1;
@@ -38,13 +30,8 @@
 
 @media (max-width: 768px) {
   .project-card {
-    --card-width: 80%;
+    --card-width: calc(100% - 0.5rem);
   }
-}
-
-.project-card:hover {
-  /* cursor: pointer; */
-  /* transform: rotate(5deg); */
 }
 
 .project-card.active {
@@ -106,6 +93,13 @@
   animation: spin 15s ease infinite;
 }
 
+@media (max-width: 768px) {
+  .project-card .project-card-container::before,
+  .project-card .project-card-container::after {
+    inset: -0.1rem;
+  }
+}
+
 .project-card .project-card-container::after {
   filter: blur(3.5rem);
   transform: scale(0.9);
@@ -113,198 +107,9 @@
 
 @media (max-width: 768px) {
   .project-card .project-card-container::after {
-    filter: blur(1rem);
+    filter: blur(0rem);
     transform: scale(0.9);
   }
-}
-
-.project-card .project-card-container .project-card-back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  min-height: 100%;
-  min-width: 100%;
-  border-radius: var(--border-radius);
-  overflow: hidden;
-
-  background: linear-gradient(var(--color3), var(--color2) 20%, var(--color1));
-
-  /* display: grid;
-  grid-template-rows: 0.8fr 1fr;
-  justify-items: center;
-  align-items: center; */
-
-  transform: rotateX(180deg);
-}
-
-.project-card .project-card-container .project-card-back .project-card-back-image {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
-
-.project-card .project-card-container .project-card-back .project-card-back-image img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-}
-
-.project-card .project-card-container .project-card-back .project-card-back-close-container {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  height: 25px;
-  width: 25px;
-  background: var(--link-color);
-  border-radius: 20%;
-  z-index: 100;
-  transition: transform 300ms ease-in-out;
-}
-
-.project-card .project-card-container .project-card-back .project-card-back-close-container:hover {
-  transform: scale(1.1);
-  cursor: pointer;
-}
-
-.project-card .project-card-container .project-card-back .project-card-back-close-container .project-card-back-close-button {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.project-card .project-card-container .project-card-back .project-card-back-close-container .project-card-back-close-button svg {
-  height: 15px;
-  width: 15px;
-  fill: white;
-}
-
-.project-card .project-card-container .project-card-back .project-card-back-close-container:hover .project-card-back-close-button svg {
-  /* cool svg hover effect */
-  animation: svg_spin 0.5s linear infinite;
-}
-
-.project-card-back-image-lightbox {
-  width: 100%;
-  height: 100%;
-}
-
-.project-card .project-card-container .project-card-back .project-card-back-image-list {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.project-card .project-card-container .project-card-back .project-card-back-image-list .project-card-back-image-list-item {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
-
-.project-card .project-card-container .project-card-back .project-card-back-image-list .project-card-back-image-list-item:hover {
-  cursor: pointer;
-
-  border: 1px solid var(--link-color);
-  border-radius: 5px;
-}
-
-.project-card .project-card-container .project-card-back .project-card-back-image-list .project-card-back-image-list-item:hover img {
-  /* zoom in */
-  transform: scale(1.1);
-}
-
-.project-card .project-card-container .project-card-back .project-card-back-image-list .project-card-back-image-list-item img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-}
-
-.project-card .project-card-container .project-card-back .project-card-back-details {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  padding: 10px;
-  color: white;
-  font-size: 1.2rem;
-
-  align-self: flex-end;
-
-  display: grid;
-  grid-template-rows: 1fr 4fr 1fr;
-  gap: 5px;
-  justify-items: center;
-  align-items: center;
-  z-index: 1;
-}
-
-.project-card-back-image-overlay-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background: rgba(0, 0, 0, 0.8);
-
-  z-index: 1000;
-}
-
-.project-card-back-image-overlay-container {
-  position: relative;
-  height: 75%;
-  width: 75%;
-  overflow: hidden;
-
-  /* center */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.project-card-back-image-overlay-close-button {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  height: 50px;
-  width: 50px;
-  background: rgba(169, 130, 251, 0.5);
-  border-radius: 20%;
-  z-index: 100;
-  transition: transform 300ms ease-in-out;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.project-card-back-image-overlay-close-button:hover {
-  transform: scale(1.1);
-  cursor: pointer;
-  background: rgba(169, 130, 251, 0.8);
-}
-
-.project-card-back-image-overlay-close-button svg {
-  height: 40px;
-  width: 40px;
-  fill: white;
-}
-
-.project-card-back-image-overlay-close-button:hover svg {
-  /* cool svg hover effect */
-  animation: svg_spin 0.5s linear infinite;
 }
 
 .project-card .project-card-container .project-card-front {
@@ -439,7 +244,7 @@
 }
 
 .project-card .project-card-container .project-card-front .project-details .project-description {
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 400;
   text-align: center;
   width: 100%;
@@ -503,67 +308,23 @@
   margin-top: -0.8ch;
 }
 
-.project-card .project-card-container .project-card-front .project-role-list {
-  position: absolute;
-  bottom: 0.2ch;
-  right: 0.2ch;
-  /* width: 100%; */
+@media (max-width: 768px) {
+  .project-card .project-card-container .project-card-front .project-tag-list .tag {
+    font-size: 0.8rem;
+  }
 
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  align-items: left;
-  text-align: center;
+  .project-card .project-card-container .project-card-front .project-tag-list .tag:not(:first-child) {
+    margin-top: -0.6ch;
+  }
 
-  /* width: 100%; */
-  /* height: 25px; */
-  color: white;
-  writing-mode: vertical-lr;
-  transform: rotate(180deg);
-  margin-bottom: 5px;
-}
+  .project-card .project-card-container .project-card-front .project-tag-list {
+    top: 0.1ch;
+    left: 0.1ch;
+  }
 
-.project-card .project-card-container .project-card-front .project-role-list .role {
-  font-size: 0.9rem;
-  border-radius: 10px;
-  height: auto;
-  /* padding-right: 1.2ch;
-  padding-left: 1.2ch;
-  padding-top: 0.2ch;
-  padding-bottom: 0.2ch; */
-  padding-top: 1.2ch;
-  padding-bottom: 1.2ch;
-  padding-left: 0.2ch;
-  padding-right: 0.2ch;
-
-  background: var(--link-color);
-
-  /* box shadow */
-  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
-}
-
-.project-card .project-card-container .project-card-front .project-role-list .role:not(:first-child) {
-  margin-top: -0.8ch;
-}
-
-.project-card .project-card-container .project-card-front .project-links {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: right;
-  width: 100%;
-  height: 50px;
-  gap: 15px;
-  padding: 10px;
-}
-
-.project-card .project-card-container .project-card-front .project-links a {
-  font-size: 2rem;
+  .project-card .project-card-container .project-card-front .project-details .project-description {
+    font-size: 1.1rem;
+  }
 }
 
 @keyframes spin {

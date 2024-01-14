@@ -36,7 +36,7 @@ const Header = () => {
 
   return (
     <header>
-      <nav id="main-nav">
+      <nav id="main-nav" role="navigation" aria-label="main navigation">
         <div id="logo">
           <a href="/">{<SvgHomeIcon />}</a>
         </div>
@@ -61,13 +61,13 @@ const Header = () => {
             <a href="/blog">.blog</a>
           </div> */}
         </div>
-        <div id="hamburger" aria-expanded="false" onClick={openBurger}>
-          <svg viewBox="0 0 100 100" width={35} preserveAspectRatio={"none"}>
+        <button id="hamburger" aria-expanded="false" onClick={openBurger} style={{ background: "none", border: "none" }}>
+          <svg viewBox="0 0 100 100" width={35} preserveAspectRatio={"none"} aria-hidden="true" focusable="false">
             <line id="line-top" x1={"90"} x2={"10"} y1={"20"} y2={"20"} />
             <line id="line-mid" x1={"90"} x2={"10"} y1={"50"} y2={"50"} />
             <line id="line-bottom" x1={"90"} x2={"10"} y1={"80"} y2={"80"} />
           </svg>
-        </div>
+        </button>
         <div id="burger-menu">
           <div className="burgerItem aboutme">
             <a href="/#aboutme" onClick={openBurger}>

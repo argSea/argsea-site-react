@@ -35,6 +35,11 @@
   --link-final-color: rgb(101, 67, 173);
 }
 
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/Roboto-Regular.ttf");
+}
+
 /****************************************************
  *                                                  *
  *                  ROOT STYLES                     *

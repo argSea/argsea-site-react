@@ -248,7 +248,7 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
                       <div className="project-progress-text">{project.progress}%</div>
                     </div>
                   </div>
-                  <p className="project-description">{parse(project.description)}</p>
+                  <p className="project-description">{parse(project.shortDescription ? project.shortDescription : "")}</p>
                 </div>
               </div>
             </div>

@@ -30,9 +30,17 @@ class Environment {
   createParticles: any;
   text: string;
   titleText: string;
+  fps: number;
+  now: number;
+  then: number;
+  interval: number;
 
   constructor(font: Font, particle: any, container: any, text: string, titleText: string) {
     console.log("Environment");
+    this.fps = 45;
+    this.now = Date.now();
+    this.then = Date.now();
+    this.interval = 1000 / this.fps;
     this.font = font;
     this.particle = particle;
     this.container = container;
@@ -58,16 +66,17 @@ class Environment {
   }
 
   render() {
-    this.createParticles.render();
-    this.renderer.render(this.scene, this.camera);
+    requestAnimationFrame(() => {
+      this.render();
+    });
 
-    //run requestanimationframe at 140fps
-    if (!this.createParticles.pause) {
-      setTimeout(() => {
-        requestAnimationFrame(() => {
-          this.render();
-        });
-      }, 1000 / 140);
+    this.now = Date.now();
+    const delta = this.now - this.then;
+    if (delta > this.interval) {
+      this.then = this.now - (delta % this.interval);
+
+      this.createParticles.render();
+      this.renderer.render(this.scene, this.camera);
     }
   }
 
@@ -120,8 +129,16 @@ class CreateParticles {
   pause: any;
   restore: boolean;
   explode: boolean;
+  explodeTimeout: number;
+  explodeThen: number;
+  swapTextTimeout: number;
+  swapTextThen: number;
 
   constructor(scene: any, font: Font, particleImg: Texture, text: string, titleText: string) {
+    this.explodeTimeout = 200;
+    this.explodeThen = Date.now();
+    this.swapTextTimeout = 2000;
+    this.swapTextThen = Date.now();
     this.scene = scene;
     this.font = font;
     this.particleImg = particleImg;
@@ -297,22 +314,33 @@ class CreateParticles {
 
   render() {
     if (this.startExplode && !this.explode) {
-      setTimeout(() => {
-        this.explode = false;
-        this.restore = true;
-      }, 200);
+      this.explodeThen = Date.now();
       this.startExplode = false;
       this.explode = true;
+    }
+
+    const now = Date.now();
+    const delta = now - this.explodeThen;
+
+    if (delta > this.explodeTimeout && this.explodeThen > 0) {
+      this.explodeThen = -1;
+      this.explode = false;
+      this.restore = true;
+    }
+
+    const delta2 = now - this.swapTextThen;
+
+    if (delta2 > this.swapTextTimeout && this.swapTextThen > 0) {
+      this.swapTextThen = -1;
+      this.swapText();
+      this.startExplode = true;
     }
 
     if (this.restore) {
       this.particles = this.restoreParticles(this.particles, this.geometryCopy);
 
       if (!this.restore) {
-        setTimeout(() => {
-          this.swapText();
-          this.startExplode = true;
-        }, 2000);
+        this.swapTextThen = Date.now();
       }
     }
 
@@ -435,7 +463,7 @@ export default class ParticleGenerator {
   constructor(canvas: any, text: string, titleText: string) {
     console.log("ParticleGenerator");
     const font = new FontLoader().parse(Audiowide);
-    const particle = new TextureLoader().load("https://argsea.com/star.png");
+    const particle = new TextureLoader().load("/star.png");
     this.environment = new Environment(font, particle, canvas, text, titleText);
   }
 

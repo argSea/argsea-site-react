@@ -18,6 +18,7 @@ interface iProject {
   slug: string;
   repoURL: string;
   description: string;
+  shortDescription: string;
   skills: string[];
   roles: string[];
   priority: number;

@@ -118,4 +118,24 @@
   background-size: cover;
   min-height: 95vh;
   min-width: 100vw;
+  background-attachment: fixed;
+}
+
+@media screen and (max-width: 768px) {
+  #hero #hero_background {
+    min-height: 100vh;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: 30%;
+  }
+
+  #hero_bio {
+    margin-top: 0;
+    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+  }
 }
