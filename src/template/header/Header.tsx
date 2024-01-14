@@ -1,18 +1,8 @@
-import { Link } from "react-router-dom";
-import { Squash as Hamburger } from "hamburger-react";
-import { FaBars, FaHamburger, FaHome, FaDochub, FaFolder, FaPortrait, FaPaperPlane } from "react-icons/fa";
+import { FaFolder, FaPortrait, FaPaperPlane } from "react-icons/fa";
 import "./styles/header.css";
-import React from "react";
-import { LoginContext } from "../../contexts/LoginContext";
-import iLoginContext from "../../interfaces/iLoginContext";
-import { HomeButton } from "./styles/HomeButton";
 import { SvgHomeIcon } from "./styles/HomeIcon";
 
 const Header = () => {
-  const { regUser } = React.useContext(LoginContext) as {
-    regUser: iLoginContext;
-  };
-
   const openBurger = (e: any) => {
     // e.preventDefault();
     let target = e.currentTarget;
@@ -26,15 +16,6 @@ const Header = () => {
       menu.classList.toggle("open");
     }
   };
-
-  function checkLogin() {
-    // check if user is logged in
-    if (regUser.loggedIn) {
-      return "Welcome, " + regUser.userName;
-    } else {
-      return "";
-    }
-  }
 
   // close burger menu when clicked outside
   document.addEventListener("click", (e) => {

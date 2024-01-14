@@ -1,5 +1,5 @@
 import { useEffect, useContext } from "react";
-import { Canvas, extend } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import AboutMe from "../about/AboutMe";
 import Portfolio from "../portfolio/Portfolio";
 import { Stars } from "@react-three/drei";
@@ -11,6 +11,7 @@ import { UserContext } from "../../contexts/UserContext";
 import iUser from "../../interfaces/iUser";
 import Footer from "../../template/footer/Footer";
 import DOMPurify from "dompurify";
+import { BrowserView } from "react-device-detect";
 
 const Home = () => {
   // get value from usercontext
@@ -66,9 +67,11 @@ const Home = () => {
       <Hero user={user} />
       <Header />
       <div id="abscanvas">
-        <Canvas>
-          <Stars factor={1} fade={false} count={500} depth={2} />
-        </Canvas>
+        <BrowserView>
+          <Canvas>
+            <Stars factor={1} fade={false} count={250} depth={2} />
+          </Canvas>
+        </BrowserView>
       </div>
       <div id="content">
         <section id="aboutme" className="fadedOut">

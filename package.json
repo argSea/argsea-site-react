@@ -36,6 +36,7 @@
     "jsonwebtoken": "^9.0.2",
     "prettier": "^2.8.7",
     "react": "^18.2.0",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.15.0",
     "react-icons": "^4.7.1",

@@ -1,7 +1,6 @@
 import parse from "html-react-parser";
-import { Root, createRoot } from "react-dom/client";
 import { FaGithubAlt, FaProjectDiagram, FaYoutube, FaLink } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Inline from "yet-another-react-lightbox/plugins/inline";
 import Counter from "yet-another-react-lightbox/plugins/counter";
@@ -79,11 +78,6 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
   };
 
   const activateCard = (e: any) => {
-    // projectDrawerRoot.unmount();
-    // projectDrawerRoot = createRoot(projectDrawerDOM);
-    // projectDrawerRoot.render(<ProjectDrawer project={project} />);
-    // projectDrawerDOM.classList.add("active");
-    // set .project-card to active
     setSelected(true);
   };
 
@@ -119,19 +113,6 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
   const setIndex = ({ index: current }: { index: number }) => {
     setLightboxIndex(current);
   };
-
-  // clicking outside of project-card-drawer closes it
-  // document.addEventListener("click", (e) => {
-  //   const projectCardDrawer = document.getElementsByClassName("project-card-drawer")[0] as HTMLElement;
-  //   if (projectCardDrawer) {
-  //     if (projectCardDrawer.contains(e.target as Node)) {
-  //       // clicked inside
-  //     } else {
-  //       // clicked outside
-  //       closeCard(e);
-  //     }
-  //   }
-  // });
 
   // check if project.images exists and if length > 0
   // if so, create a slider with all images
@@ -251,7 +232,7 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
               <div className="project-card-front">
                 {project.images && project.images.length > 0 ? (
                   <div className="project-card-front-image">
-                    <img src={project.images[0].image.src} alt={project.images[0].image.alt} />{" "}
+                    <img src={project.images[0].image.src} alt={project.images[0].image.alt} loading="lazy" />
                   </div>
                 ) : (
                   <></>

@@ -1,12 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import imageParticles from "../../scripts/imageParticles";
 import iInterests from "../../interfaces/iTechInterest";
+import { isMobile } from "react-device-detect";
 import "./styles/interests.css";
 
 const Interests = ({ interests }: { interests: iInterests[] }) => {
   useEffect(() => {
     // if on mobile, just skip
-    if (window.innerWidth < 768) return;
+    if (isMobile) {
+      return;
+    }
 
     const outerContainer = document.getElementById("root") as HTMLDivElement;
     const container = document.getElementById("interest-canvas-container") as HTMLDivElement;
