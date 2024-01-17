@@ -18,6 +18,7 @@ export const UserProvider = (props: any) => {
   const projectsAPI = fetch(projectsAPIURL);
 
   useEffect(() => {
+    // setLoading(true);
     fetchUserData();
   }, []);
 
@@ -38,15 +39,9 @@ export const UserProvider = (props: any) => {
 
         console.log(user);
         setUser(user);
+        // setLoading(false);
       });
   };
 
-  return (
-    <UserContext.Provider value={[user, setUser]}>
-      {
-        // check if user is loaded, if not, show loading screen
-        user ? props.children : <div>Loading...</div>
-      }
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={[user, setUser]}>{props.children}</UserContext.Provider>;
 };

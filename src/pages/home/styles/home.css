@@ -15,12 +15,6 @@
    *                                                  *
   ****************************************************/
 
-/* make all sections without an id=hero */
-section:not(#hero) {
-  padding-top: 50px;
-  margin-bottom: 200px;
-}
-
 #content {
   padding-top: var(--nav-height);
   width: 50%;
@@ -33,293 +27,278 @@ section:not(#hero) {
   font-size: 1.3rem;
   line-height: 1.5;
   padding-bottom: 300px;
-}
 
-@media screen and (max-width: 768px) {
-  #content {
+  @media screen and (max-width: 768px) {
     width: 100%;
     margin: 0;
   }
-}
 
-#aboutme {
-  padding-top: var(--nav-height);
-  color: #fff;
-}
-
-#aboutme {
-  display: block;
-  justify-content: center;
-  text-align: left;
-  min-height: auto;
-  position: relative;
-  margin-top: 30px;
-}
-
-@media screen and (max-width: 768px) {
   #aboutme {
-    margin-top: 0;
-    font-size: 1rem;
+    display: block;
+    justify-content: center;
+    text-align: left;
+    min-height: auto;
+    position: relative;
+    margin-top: 30px;
+    padding-top: var(--nav-height);
+    color: #fff;
+
+    @media screen and (max-width: 768px) {
+      margin-top: 0;
+      font-size: 1rem;
+    }
+
+    #aboutme-header {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+
+      #aboutme-header-text {
+        --link-color: rgba(169, 130, 251, 0.5);
+        --menu-item-color: rgba(54, 113, 203, 0.5);
+        position: absolute;
+        top: calc(0px - clamp(-25px, 10vw, 100px));
+        right: -15%;
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        /* opacity: 0.08; */
+        z-index: -1;
+        vertical-align: bottom;
+        text-align: right;
+        line-height: 0.8;
+
+        background: linear-gradient(to right, var(--link-color), var(--menu-item-color));
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -moz-background-clip: text;
+        -moz-text-fill-color: transparent;
+
+        font-size: clamp(3rem, 15vw, 14rem);
+
+        filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.75));
+
+        @media screen and (max-width: 768px) {
+          top: -1%;
+          left: 0;
+          text-align: center;
+          font-size: 5rem;
+        }
+      }
+    }
+
+    :is(ul) {
+      margin-bottom: 10px;
+
+      :is(li) {
+        /* margin-bottom: 10px; */
+        list-style-position: inside;
+
+        /* indent multi-line text */
+        text-indent: -1rem;
+        padding-left: 2rem;
+
+        &::marker {
+          color: var(--link-color);
+        }
+
+        &:hover {
+          &::marker {
+            color: var(--menu-item-color);
+          }
+        }
+
+        :is(p) {
+          display: inline;
+        }
+      }
+    }
+
+    :is(p) {
+      margin-bottom: 10px;
+    }
+
+    #aboutme_info {
+      #welcome {
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
+        width: 100%;
+      }
+
+      #aboutme_text {
+        --glass-color: rgba(255, 255, 255, 0.04);
+        /* glass background */
+        background: var(--glass-color);
+        background: -webkit-linear-gradient(to right, var(--glass-color), var(--glass-color));
+        background: linear-gradient(to right, var(--glass-color), var(--glass-color));
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        padding: 50px 50px;
+        z-index: 1;
+        border-radius: 15px;
+
+        /* drop shadow to add 3d */
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+        z-index: 1;
+
+        :is(a) {
+          position: relative;
+          text-decoration: none;
+          display: inline-block;
+
+          &::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            /* horizontal gradient */
+            background: linear-gradient(to right, var(--link-color), var(--menu-item-color));
+            visibility: hidden;
+            transform: scaleX(1);
+            /* fancy slide under */
+            transform-origin: bottom left;
+            transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
+            transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1), visibility 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
+
+            /* change background multiple times during slide under */
+            animation: slideUnderReverse 0.3s ease-in-out;
+          }
+
+          &:hover {
+            &::after {
+              visibility: visible;
+              transform: scaleX(1);
+              transform-origin: bottom left;
+
+              /* fancy slide under */
+              transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
+              transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1), visibility 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
+
+              /* change background multiple times during slide under */
+              animation: slideUnder 0.3s ease-in-out;
+            }
+          }
+        }
+
+        #welcome_text {
+          font-size: 1.5rem;
+          margin-bottom: 25px;
+
+          #big_welcome {
+            font-size: 2.5rem;
+          }
+
+          #colored_name {
+            color: var(--name-color);
+            font-size: 2rem;
+          }
+        }
+
+        #call-to-action {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          margin-top: 50px;
+        }
+
+        #call-to-action-button {
+          background: linear-gradient(to right, var(--link-color), var(--menu-item-color));
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          -moz-background-clip: text;
+          -moz-text-fill-color: transparent;
+          font-size: 1.6rem;
+          cursor: pointer;
+          padding: 20px 50px;
+          border: none;
+          position: relative;
+
+          &::after {
+            content: "";
+            position: absolute;
+            width: calc(100% - 2px);
+            height: calc(100% - 2px);
+            bottom: 0;
+            left: 0;
+
+            /* border gradient */
+            border: 2px solid;
+            border-image-slice: 1;
+            border-width: 2px;
+            border-image-source: linear-gradient(to right, var(--link-color), var(--menu-item-color));
+          }
+        }
+
+        #radar-animation-1 {
+          animation-name: radar;
+          animation-duration: 2s;
+          animation-delay: 0s;
+          animation-iteration-count: infinite;
+
+          &::before {
+            content: "";
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            /* border gradient */
+            border: 2px solid;
+            border-image-slice: 1;
+            border-width: 2px;
+            border-image-source: linear-gradient(to right, var(--link-color), var(--menu-item-color));
+            opacity: 0;
+            filter: blur(2px);
+            z-index: 1;
+
+            animation-name: radar;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-delay: 0.4s;
+          }
+
+          &::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            /* border gradient */
+            border: 2px solid;
+            border-image-slice: 1;
+            border-width: 2px;
+            border-image-source: linear-gradient(to right, var(--link-color), var(--menu-item-color));
+            opacity: 0;
+            filter: blur(2px);
+            z-index: 1;
+
+            animation-name: radar;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-delay: 0.8s;
+          }
+        }
+      }
+    }
   }
-}
-
-#aboutme-header {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
-
-#aboutme-header #aboutme-header-text {
-  --link-color: rgba(169, 130, 251, 0.5);
-  --menu-item-color: rgba(54, 113, 203, 0.5);
-  position: absolute;
-  top: calc(0px - clamp(-25px, 10vw, 100px));
-  right: -15%;
-  width: 100%;
-  height: 100%;
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  /* opacity: 0.08; */
-  z-index: -1;
-  vertical-align: bottom;
-  text-align: right;
-  line-height: 0.8;
-
-  background: linear-gradient(to right, var(--link-color), var(--menu-item-color));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-background-clip: text;
-  -moz-text-fill-color: transparent;
-
-  font-size: clamp(3rem, 15vw, 14rem);
-
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.75));
-}
-
-@media screen and (max-width: 768px) {
-  #aboutme-header #aboutme-header-text {
-    top: -1%;
-    left: 0;
-    text-align: center;
-    font-size: 5rem;
-  }
-}
-
-#aboutme ul {
-  margin-bottom: 10px;
-}
-
-#aboutme li {
-  /* margin-bottom: 10px; */
-  list-style-position: inside;
-
-  /* indent multi-line text */
-  text-indent: -1rem;
-  padding-left: 2rem;
-}
-
-/* change bullet color */
-#aboutme li::marker {
-  color: var(--link-color);
-}
-
-#aboutme li:hover::marker {
-  color: var(--name-color);
-}
-
-/* make sure li marker and p are on the same line */
-#aboutme li p {
-  display: inline;
-}
-
-#aboutme p {
-  margin-bottom: 10px;
-}
-
-#aboutme_info #welcome {
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-  align-items: center;
-  width: 100%;
-}
-
-#aboutme_info #aboutme_text {
-  --glass-color: rgba(255, 255, 255, 0.04);
-  /* glass background */
-  background: var(--glass-color);
-  background: -webkit-linear-gradient(to right, var(--glass-color), var(--glass-color));
-  background: linear-gradient(to right, var(--glass-color), var(--glass-color));
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  padding: 50px 50px;
-  z-index: 1;
-  border-radius: 15px;
-
-  /* drop shadow to add 3d */
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  z-index: 1;
-}
-
-/* do a sliding underline under links using keyframes */
-#aboutme_info #aboutme_text a {
-  position: relative;
-  text-decoration: none;
-  display: inline-block;
-}
-
-#aboutme_info #aboutme_text a::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  /* horizontal gradient */
-  background: linear-gradient(to right, var(--link-color), var(--menu-item-color));
-  visibility: hidden;
-  transform: scaleX(1);
-  /* fancy slide under */
-  transform-origin: bottom left;
-  transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
-  transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1), visibility 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
-
-  /* change background multiple times during slide under */
-  animation: slideUnderReverse 0.3s ease-in-out;
-}
-
-#aboutme_info #aboutme_text a:hover::after {
-  visibility: visible;
-  transform: scaleX(1);
-  transform-origin: bottom left;
-
-  /* fancy slide under */
-  transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
-  transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1), visibility 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
-
-  /* change background multiple times during slide under */
-  animation: slideUnder 0.3s ease-in-out;
-}
-
-#aboutme_info #welcome_text {
-  font-size: 1.5rem;
-  margin-bottom: 25px;
-}
-
-#aboutme_info #welcome_text #big_welcome {
-  font-size: 2.5rem;
-}
-
-#aboutme_info #welcome_text #colored_name {
-  color: var(--name-color);
-  font-size: 2rem;
-}
-
-#aboutme_info #call-to-action {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
-}
-
-#aboutme_info #call-to-action #call-to-action-button {
-  background: linear-gradient(to right, var(--link-color), var(--menu-item-color));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-background-clip: text;
-  -moz-text-fill-color: transparent;
-  font-size: 1.6rem;
-  cursor: pointer;
-  padding: 20px 50px;
-  border: none;
-  position: relative;
-}
-
-#aboutme_info #call-to-action #call-to-action-button::after {
-  content: "";
-  position: absolute;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
-  bottom: 0;
-  left: 0;
-
-  /* border gradient */
-  border: 2px solid;
-  border-image-slice: 1;
-  border-width: 2px;
-  border-image-source: linear-gradient(to right, var(--link-color), var(--menu-item-color));
-}
-
-#aboutme_info #radar-animation-1,
-#aboutme_info #radar-animation-1::before,
-#aboutme_info #radar-animation-1::after {
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  /* border gradient */
-  border: 2px solid;
-  border-image-slice: 1;
-  border-width: 2px;
-  border-image-source: linear-gradient(to right, var(--link-color), var(--menu-item-color));
-  opacity: 0;
-  filter: blur(2px);
-  z-index: 1;
-}
-
-/* #aboutme_info #radar-animation-1:hover {
-  animation-name: radar;
-  animation-duration: 2s;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
-}
-
-#aboutme_info #radar-animation-1:hover::before {
-  animation-name: radar;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-delay: 0.4s;
-}
-
-#aboutme_info #radar-animation-1:hover::after {
-  animation-name: radar;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-delay: 0.8s;
-} */
-
-#aboutme_info #radar-animation-1 {
-  animation-name: radar;
-  animation-duration: 2s;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
-}
-
-#aboutme_info #radar-animation-1::before {
-  animation-name: radar;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-delay: 0.4s;
-}
-
-#aboutme_info #radar-animation-1::after {
-  animation-name: radar;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-delay: 0.8s;
 }
 
 .fadedOut {
@@ -330,7 +309,7 @@ section:not(#hero) {
   opacity: 1;
 
   /* fancy fade in */
-  animation: fadeIn 0.75s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 /****************************************************

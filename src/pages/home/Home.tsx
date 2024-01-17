@@ -1,25 +1,68 @@
-import { useEffect, useContext } from "react";
-import { Canvas } from "@react-three/fiber";
-import AboutMe from "../about/AboutMe";
-import Portfolio from "../portfolio/Portfolio";
-import { Stars } from "@react-three/drei";
+import { Suspense, useEffect, useState } from "react";
 import Hero from "../../template/hero/Hero";
-import Header from "../../template/header/Header";
-import Interests from "../../template/interests/Interests";
 import "./styles/home.css";
-import { UserContext } from "../../contexts/UserContext";
 import iUser from "../../interfaces/iUser";
-import Footer from "../../template/footer/Footer";
 import DOMPurify from "dompurify";
 import { BrowserView } from "react-device-detect";
+import iProject from "../../interfaces/iProject";
+import API from "../../lib/API";
+import React from "react";
+import Header from "../../template/header/Header";
 
 const Home = () => {
   // get value from usercontext
-  const [user, setUser] = useContext(UserContext) as [iUser, any];
+  const [user, setUser] = useState<iUser>();
   console.log(user);
 
-  // mark aboutme class as active when scrolled to
+  var userID = "6396d88feafa14a262f9915c";
+  const userAPIURL = API.BASE_URL + API.GET_USER.replace("{id}", userID);
+  const projectsAPIURL = API.BASE_URL + API.GET_USER_PROJECTS.replace("{id}", userID);
+
+  const userAPI = fetch(userAPIURL);
+  const projectsAPI = fetch(projectsAPIURL);
+
+  // lazy imports
+  const AboutMe = React.lazy(() => import("../about/AboutMe"));
+  const Portfolio = React.lazy(() => import("../portfolio/Portfolio"));
+  const Interests = React.lazy(() => import("../../template/interests/Interests"));
+  const Footer = React.lazy(() => import("../../template/footer/Footer"));
+  const Canvas = React.lazy(() => import("@react-three/fiber").then((module) => ({ default: module.Canvas })));
+  const Stars = React.lazy(() => import("@react-three/drei").then((module) => ({ default: module.Stars })));
+
   useEffect(() => {
+    // setLoading(true);
+    fetchUserData();
+  }, []);
+
+  // setup observer after AboutMe, and Portfolio are loaded
+  useEffect(() => {
+    setupObserver();
+  }, [user]);
+
+  const fetchUserData = async () => {
+    Promise.all([userAPI, projectsAPI])
+      .then((values) => {
+        return Promise.all(values.map((r) => r.json()));
+      })
+      .then((data) => {
+        console.log(data);
+        let user = data[0];
+        user.about = DOMPurify.sanitize(user.about);
+        // user.projects = data[1] as iProject[];
+        // add projects to user unless isHidden = true and sort projects by priority, higher priority being first
+        user.projects = data[1]
+          .filter((project: iProject) => !project.isHidden)
+          .sort((a: iProject, b: iProject) => (a.priority > b.priority ? -1 : 1)) as iProject[];
+
+        console.log(user);
+        setUser(user);
+        // setLoading(false);
+      });
+  };
+
+  const setupObserver = () => {
+    if (!user) return;
+
     const aboutMe = document.getElementById("aboutme");
     const aboutMeNav = document.getElementsByClassName("aboutme")[0];
     const portfolio = document.getElementById("portfolio");
@@ -43,6 +86,10 @@ const Home = () => {
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
+        // if entry is not in navMap, skip
+        console.log(entry.target.id);
+        if (!navMap[entry.target.id]) return;
+
         if (entry.isIntersecting) {
           navMap[entry.target.id].classList.add("active");
           fadeMap[entry.target.id].classList.remove("fadedOut");
@@ -55,34 +102,47 @@ const Home = () => {
 
     observer.observe(aboutMe!);
     observer.observe(portfolio!);
-  }, []);
-
-  // // santizie user.about
-  useEffect(() => {
-    user.about = DOMPurify.sanitize(user.about);
-  }, [user.about]);
+  };
 
   return (
     <>
-      <Hero user={user} />
-      <Header />
-      <div id="abscanvas">
-        <BrowserView>
-          <Canvas>
-            <Stars factor={1} fade={false} count={250} depth={2} />
-          </Canvas>
-        </BrowserView>
-      </div>
-      <div id="content">
-        <section id="aboutme" className="fadedOut">
-          {<AboutMe user={user} />}
-        </section>
-        <section id="portfolio" className="fadedOut">
-          <Portfolio projects={user.projects} />
-        </section>
-        <Interests interests={user.techInterests} />
-      </div>
-      <Footer user={user} />
+      {user ? (
+        <>
+          <Hero user={user} />
+          <Header />
+          <BrowserView>
+            <div id="abscanvas">
+              <Suspense>
+                <Canvas>
+                  <Stars factor={1} fade={false} count={250} depth={2} />
+                </Canvas>
+              </Suspense>
+            </div>
+          </BrowserView>
+          <div id="content">
+            <section id="aboutme" className="fadedOut">
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <AboutMe user={user} />
+              </React.Suspense>
+            </section>
+            <section id="portfolio" className="fadedOut">
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <Portfolio projects={user.projects} />
+              </React.Suspense>
+            </section>
+            <Suspense>
+              <Interests interests={user.techInterests} />
+            </Suspense>
+          </div>
+          <Suspense>
+            <Footer user={user} />
+          </Suspense>
+        </>
+      ) : (
+        <div className="loading">
+          <h1>Loading...</h1>
+        </div>
+      )}
     </>
   );
 };

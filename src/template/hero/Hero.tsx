@@ -1,7 +1,7 @@
 import { FaChevronDown } from "react-icons/fa";
 import ParticleGenerator from "../../scripts/hero";
 import { useEffect } from "react";
-import { isMobile } from "react-device-detect";
+import { isMobile, MobileView } from "react-device-detect";
 import "./styles/hero.css";
 
 interface iHero {
@@ -39,11 +39,18 @@ const Hero = ({ user = null }: iHero) => {
     canvas.id = "introcanvas";
     starStuff?.appendChild(canvas);
     const partGen = new ParticleGenerator(canvas, user.firstName + " " + user.lastName, user.title);
-  }, []);
+  }, [user]);
 
   return (
     <section id="hero">
-      <div id="starStuff"></div>
+      <div id="starStuff">
+        <MobileView>
+          <div id="hero_title">
+            <h1>{user.firstName + " " + user.lastName}</h1>
+            <h2>{user.title}</h2>
+          </div>
+        </MobileView>
+      </div>
       <div id="hero_down_arrow_container">
         <a href="#aboutme">
           <FaChevronDown size={75} id="hero_down_arrow" />
