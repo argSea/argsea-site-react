@@ -10,7 +10,6 @@ import React from "react";
 import Header from "../../template/header/Header";
 
 const Home = () => {
-  // get value from usercontext
   const [user, setUser] = useState<iUser>();
   console.log(user);
 
