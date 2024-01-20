@@ -1,46 +1,161 @@
-* {
+:root {
   --social-icon-size: 50px;
+  --water-color-1: #0077be;
+  --water-color-2: #0099cc;
+  --water-color-3: #00a8e8;
+  --water-color-4: #00bfff;
+  --water-color-5: #33ccff;
+  --water-color-6: #66d9ff;
+  --water-color-7: #99e6ff;
+  --water-color-8: #b3f0ff;
+  --water-color-9: #ccf5ff;
+  --water-color-10: #e6faff;
+  --blue-light: #0077be;
+  --blue-dark: #003d6b;
+  --purple-light: #9b59b6;
+  --purple-dark: #6c3483;
+  --purple-accent: #8e44ad;
+  --purple-shadow: #4a235a;
+  --woodsy-green-light: #2ecc71;
+  --woodsy-green-dark: #27ae60;
+  --woodsy-green-accent: #16a085;
+  --woodsy-green-shadow: #145a32;
 }
 
+/* BEGIN: Footer Elements */
 footer {
   position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
+  height: 200px;
 
-  min-height: 300px;
-  background-color: var(--glass-color);
+  /* make background a dark gray */
+  background: rgba(10, 10, 10, 0.9);
+
   color: #fff;
-  padding: 20px;
+  /* padding: 10px; */
   text-align: center;
   font-size: 12px;
   font-weight: 300;
-  line-height: 1.5;
+  line-height: 1.2;
   margin-top: 20px;
+  border-radius: 5px;
 
   /* box shadow on top */
-  box-shadow: 0 -10px 10px -10px rgba(0, 0, 0, 0.5);
+  /* box-shadow: 0 -10px 10px -10px rgba(0, 0, 0, 0.5); */
+
+  /* soften edges using box-shadow */
+  box-shadow: 0 0 10px 50px rgba(10, 10, 10, 0.9);
 }
 
-footer #footer-content {
+footer * {
+  border: none;
+}
+
+footer::before {
+  content: "";
+  position: absolute;
+  top: calc(-50px - 0.5rem);
+  left: 0;
+  z-index: -1;
   width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at bottom, var(--name-color) 0%, var(--aurora-color-3) 75%, var(--aurora-color-4) 100%);
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+
+  filter: blur(30px);
 }
 
+/* BEGIN: #footer-content Styles */
+footer #footer-content {
+  width: 65%;
+  height: 225px;
+  margin: auto;
+  margin-top: -25px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 2fr 1fr 1fr;
+  backdrop-filter: blur(10px);
+}
+
+footer #footer-content hr {
+  grid-row: 2;
+  grid-column: 1 / span 3;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  margin: auto;
+  opacity: 25%;
+  border-top-color: rgb(200, 200, 200);
+}
+
+/* BEGIN: #footer-tech-interests Styles */
+footer #footer-content #footer-tech-interests {
+  height: 100%;
+  grid-row: 1;
+  grid-column: 3;
+  display: flex;
+  flex-direction: column;
+  justify-self: right;
+  align-items: center;
+  justify-content: center;
+}
+
+footer #footer-content #footer-tech-interests #footer-tech-interests-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+footer #footer-content #footer-tech-interests .footer-tech-interest {
+  font-size: 0.8rem;
+  color: rgb(200, 200, 200);
+}
+
+/* BEGIN: #footer-short-bio Styles */
+footer #footer-content #footer-short-bio {
+  height: 100%;
+  grid-row: 1;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+
+  /* center vertical text */
+  justify-content: center;
+  align-items: center;
+}
+
+footer #footer-content #footer-short-bio p {
+  font-size: 0.8rem;
+  color: rgb(200, 200, 200);
+}
+
+footer #footer-content #footer-short-bio h1 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* BEGIN: #footer-social Styles */
 footer #footer-content #footer-social {
   position: absolute;
-  top: calc(-1 * var(--social-icon-size) / 2);
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: calc(250px - var(--social-icon-size) / 2 + 1rem);
+  right: 50%;
+  transform: translateX(50%);
+  justify-self: end;
+  width: 250px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
+  justify-content: space-evenly;
 }
 
 footer #footer-content #footer-social .footer-social-icon {
-  width: auto;
+  /* width: auto; */
+  width: var(--social-icon-size);
   height: var(--social-icon-size);
+  /* background: white; */
   max-height: 100px;
 }
 
@@ -66,47 +181,332 @@ footer #footer-content #footer-social .footer-social-icon a {
   height: var(--social-icon-size);
 }
 
+/* BEGIN: #footer-logo Styles */
 footer #footer-content #footer-logo {
-  width: 100%;
+  position: relative;
+  grid-row: 1;
+  grid-column: 1;
+  /* center vertically */
   height: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
+
+  justify-self: left;
+  /* margin-left: 15px; */
+
+  z-index: 1;
+}
+
+footer #footer-content #footer-logo::after {
+  --yellow-1: #ffffcc;
+  --yellow-2: #ffff99;
+  --yellow-3: #ffff66;
+  --yellow-4: #ffff33;
+  --yellow-5: #ffff00;
+
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: 10%;
+  left: calc(50% - 22px);
+  /* yellow radial gradient */
+  background: radial-gradient(ellipse at center, var(--yellow-1) 0%, var(--yellow-2) 25%, var(--yellow-3) 50%, var(--yellow-4) 75%, var(--yellow-5) 100%);
+  background-size: 400% 400%;
+  z-index: -1;
+
+  filter: blur(25px);
+  animation: gradient 5s ease infinite;
+}
+
+footer #footer-content #footer-logo a {
+  position: relative;
+  display: grid;
+  height: fit-content;
+  width: fit-content;
+  z-index: 1;
 }
 
 footer #footer-content #footer-logo svg {
-  height: 150px;
-  fill: white;
-  stroke: white;
+  grid-area: 1 / 1;
+  height: 175px;
+
   transition: 0.2s ease-in-out;
 }
 
-footer #footer-content #footer-logo svg:hover {
+footer #footer-content #footer-logo svg:nth-child(1) {
+  z-index: 5;
+}
+
+footer #footer-content #footer-logo svg:nth-child(2) {
+  z-index: 4;
+}
+
+footer #footer-content #footer-logo svg:nth-child(3) {
+  z-index: 1;
+  fill-opacity: 0;
+}
+
+/* BEGIN: lighthouse light styles */
+footer #footer-content #footer-logo svg:nth-child(1) path {
+  stroke-width: 1px;
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke: #ffff00 !important;
+}
+
+footer #footer-content #footer-logo svg:nth-child(1) path:nth-child(1) {
+  /* fill: blue !important;
+  stroke: blue !important; */
+}
+
+footer #footer-content #footer-logo svg:nth-child(1) path:nth-child(2) {
+  /* fill: red !important;
+  stroke: red !important; */
+}
+
+footer #footer-content #footer-logo svg:nth-child(1) path:nth-child(3) {
+  /* fill: green !important;
+  stroke: green !important; */
+}
+
+footer #footer-content #footer-logo svg:nth-child(1) path:nth-child(4) {
+  /* fill: yellow !important;
+  stroke: yellow !important; */
+}
+
+footer #footer-content #footer-logo svg:nth-child(1) path:nth-child(5) {
+  /* fill: orange !important;
+  stroke: orange !important; */
+}
+
+footer #footer-content #footer-logo svg:nth-child(1) path:nth-child(6) {
+  /* q: what is a good yellow for a light beam? */
+  fill: #ffff00 !important;
+}
+
+footer #footer-content #footer-logo svg:nth-child(2) path {
+  /* stroke: var(--name-color); */
+  /* fill: var(--name-color) !important; */
+  /* fill-opacity: 0; */
+
+  stroke-width: 0.05rem;
+  /* stroke-dasharray: 50 100; */
+  stroke: rgba(255, 255, 255, 1);
+  /* stroke: var(--link-final-color); */
+  /* stroke-dasharray: 200 100; */
+  stroke-opacity: 0.1;
+  /* stroke-dashoffset: 10; */
+  /* fill: white !important; */
+  fill-opacity: 1;
+
+  /* animation: dash 7s linear infinite; */
+}
+
+footer #footer-content #footer-logo svg:nth-child(2) path:nth-child(1) {
+  fill: rgb(14, 77, 249) !important;
+  stroke-opacity: 1;
+  fill-opacity: 0.1;
+}
+
+footer #footer-content #footer-logo svg:nth-child(2) path:nth-child(2) {
+  fill: rgb(60, 110, 248) !important;
+  fill-opacity: 0.2;
+}
+
+footer #footer-content #footer-logo svg:nth-child(2) path:nth-child(3) {
+  fill: rgb(103, 143, 253) !important;
+  fill-opacity: 0.4;
+}
+
+footer #footer-content #footer-logo svg:nth-child(2) path:nth-child(4) {
+  fill: rgb(131, 117, 254) !important;
+  fill-opacity: 0.6;
+}
+
+footer #footer-content #footer-logo svg:nth-child(2) path:nth-child(5) {
+  fill: rgb(150, 139, 254) !important;
+  fill-opacity: 0.8;
+}
+
+footer #footer-content #footer-logo svg:nth-child(2) path:nth-child(6) {
+  /* fill: rgb(209, 165, 251) !important; */
+  fill-opacity: 0.45;
+}
+
+footer #footer-content #footer-logo svg:nth-child(3) path {
+  stroke-width: 3px;
+  stroke-dasharray: 100 50;
+  /* stroke-dashoffset: 10; */
+
+  animation: dash 7s linear infinite;
+}
+
+/* BEGIN: svg lighthouse colors */
+/* footer #footer-content #footer-logo svg:first-child path:nth-child(1) {
+  stroke: var(--woodsy-green-shadow) !important;
+  fill: var(--woodsy-green-shadow) !important;
+  fill-opacity: 0.1;
+}
+
+footer #footer-content #footer-logo svg:first-child path:nth-child(2) {
+  stroke: var(--blue-light) !important;
+  fill: var(--blue-light) !important;
+  fill-opacity: 0.15;
+}
+
+footer #footer-content #footer-logo svg:first-child path:nth-child(3) {
+  stroke: var(--woodsy-green-dark) !important;
+  fill: var(--woodsy-green-dark) !important;
+  fill-opacity: 0.2;
+}
+
+footer #footer-content #footer-logo svg:first-child path:nth-child(4) {
+  stroke: var(--blue-dark) !important;
+  fill: var(--blue-dark) !important;
+  fill-opacity: 0.25;
+}
+
+footer #footer-content #footer-logo svg:first-child path:nth-child(5) {
+  stroke: var(--woodsy-green-accent) !important;
+  fill: var(--woodsy-green-accent) !important;
+  fill-opacity: 0.3;
+}
+
+footer #footer-content #footer-logo svg:first-child path:nth-child(6) {
+  stroke: var(--blue-light) !important;
+  fill: var(--blue-light) !important;
+  fill-opacity: 0.35;
+} */
+
+/* BEGIN: svg water colors */
+footer #footer-content #footer-logo svg:last-child path:nth-child(1) {
+  stroke: var(--water-color-1) !important;
+  fill: var(--water-color-1) !important;
+  fill-opacity: 0.3;
+}
+
+footer #footer-content #footer-logo svg:last-child path:nth-child(2) {
+  stroke: var(--water-color-2) !important;
+  fill: var(--water-color-2) !important;
+  fill-opacity: 0.25;
+}
+
+footer #footer-content #footer-logo svg:last-child path:nth-child(3) {
+  stroke: var(--water-color-3) !important;
+  fill: var(--water-color-3) !important;
+  fill-opacity: 0.2;
+}
+
+footer #footer-content #footer-logo svg:last-child path:nth-child(4) {
+  stroke: var(--water-color-4) !important;
+  fill: var(--water-color-4) !important;
+  fill-opacity: 0.15;
+}
+
+footer #footer-content #footer-logo svg:last-child path:nth-child(5) {
+  stroke: var(--water-color-5) !important;
+  fill: var(--water-color-5) !important;
+  fill-opacity: 0.1;
+}
+
+footer #footer-content #footer-logo svg:last-child path:nth-child(6) {
+  stroke: var(--water-color-6) !important;
+  fill: var(--water-color-6) !important;
+  fill-opacity: 0;
+}
+
+footer #footer-content #footer-logo:hover svg {
   stroke: var(--menu-item-color);
 }
 
-footer #footer-content #footer-legal {
+/* BEGIN: #footer-separator Styles */
+footer #footer-content #footer-separator {
+  grid-row: 2;
+  grid-column: 1 / span 3;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
 }
 
-footer #footer-content #footer-admin-login {
+/* BEGIN: #footer-legal Styles */
+footer #footer-content #footer-legal {
+  grid-row: 3;
+  grid-column: 1 / span 3;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: left;
+  justify-content: center;
 }
 
-footer #footer-content #footer-admin-login a {
-  color: #fff;
-  text-decoration: none;
+/* BEGIN: Footer Media Queries */
+@media (max-width: 768px) {
+  footer #footer-content {
+    grid-template-columns: 1fr 1.5fr 1fr;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  footer #footer-content #footer-logo::after {
+    width: 15px;
+    height: 15px;
+    top: 15%;
+    left: calc(50% - 12px);
+    filter: blur(10px);
+  }
+}
+
+@media (max-width: 768px) {
+  footer #footer-content #footer-tech-interests #footer-tech-interests-title {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  footer #footer-content #footer-tech-interests .footer-tech-interest {
+    font-size: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  footer #footer-content #footer-short-bio p {
+    font-size: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  footer #footer-content #footer-short-bio h1 {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  footer #footer-content #footer-logo svg {
+    height: 75px;
+  }
+}
+
+/* BEGIN: Footer Animations */
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  33% {
+    stroke-dashoffset: 100;
+  }
+  66% {
+    stroke-dashoffset: 200;
+  }
+  100% {
+    stroke-dashoffset: 300;
+  }
 }
 
 @keyframes bounce {
@@ -118,5 +518,27 @@ footer #footer-content #footer-admin-login a {
   }
   100% {
     transform: translateY(0px);
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  25% {
+    background-position: 0% 100%;
+  }
+
+  50% {
+    background-position: 100% 0%;
+  }
+
+  75% {
+    background-position: 100% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%;
   }
 }
