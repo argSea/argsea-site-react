@@ -8,7 +8,7 @@ header {
   position: sticky;
   display: flex;
   top: 0;
-  width: 100%;
+  max-width: 100%;
   z-index: 300;
   vertical-align: middle;
   justify-content: center;

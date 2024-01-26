@@ -35,9 +35,10 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
         return <></>;
       }
       return (
-        <span key={index} className="tag">
+        <div key={index} className="tag">
+          <span>#</span>
           {tag}
-        </span>
+        </div>
       );
     });
 
@@ -241,7 +242,15 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
                   <div className="project-icon">
                     <FaProjectDiagram size={30} />
                   </div>
-                  <div className="project-tag-list">{skills()}</div>
+                  <div className="project-tag-list">
+                    <div className="tag-slider">
+                      <div className="tag-slider-inner">
+                        {skills()}
+                        {skills()}
+                      </div>
+                    </div>
+                    <div className="tag-fade" />
+                  </div>
                   <div className="project-title">{project.name}</div>
                   <div className="project-progress">
                     <div className="project-progress-bar" style={{ width: project.progress + "%" }}>

@@ -9,7 +9,12 @@ interface iUser {
   lastName: string;
   email: string;
   title: string;
-  picture: string;
+  pictures: {
+    image: {
+      src: string;
+      alt: string;
+    };
+  }[];
   about: string;
   techInterests: iTechInterest[];
   projects: iProject[];

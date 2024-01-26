@@ -3,25 +3,28 @@ import ParticleGenerator from "../../scripts/hero";
 import { useEffect } from "react";
 import { isMobile, MobileView } from "react-device-detect";
 import "./styles/hero.css";
-
-interface iHero {
-  user?: any;
-}
+import iUser from "../../interfaces/iUser";
 
 // set bgOnly to false by default
-const Hero = ({ user = null }: iHero) => {
-  const backgroundImagesMobile = [
-    "/argsea_home1.webp",
-    // "/argsea_home2.png",
-    // "/argsea_home3.png",
-    // "/argsea_home4.png",
-    // "/argsea_home5.png",
-    "/argsea_mobile_home2.webp",
-    // "/argsea_mobile_home3.png",
-  ];
+const Hero = ({ user: user }: { user: iUser }) => {
+  // const backgroundImagesMobile = [
+  //   "/argsea_home1.webp",
+  //   // "/argsea_home2.png",
+  //   // "/argsea_home3.png",
+  //   // "/argsea_home4.png",
+  //   // "/argsea_home5.png",
+  //   "/argsea_mobile_home2.webp",
+  //   // "/argsea_mobile_home3.png",
+  // ];
+
+  const backgroundImagesMobile = user?.pictures.map((picture) => picture.image.src) || [];
 
   const imageSeed = Math.round(Math.random() * (backgroundImagesMobile.length - 1));
   const homeBackground = backgroundImagesMobile[imageSeed];
+  const backgroundSizes = {
+    "1x": homeBackground + "/900/0",
+    "2x": homeBackground,
+  };
 
   //useEffect to run at start of page load
   useEffect(() => {
@@ -57,7 +60,12 @@ const Hero = ({ user = null }: iHero) => {
         </a>
       </div>
       <div id="background_container">
-        <div id="hero_background" style={{ backgroundImage: "url(" + homeBackground + ")" }}></div>
+        <div
+          id="hero_background"
+          style={{
+            backgroundImage: "image-set(" + backgroundSizes["1x"] + " 1x, " + backgroundSizes["2x"] + " 2x)",
+          }}
+        ></div>
       </div>
     </section>
   );

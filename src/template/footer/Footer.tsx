@@ -39,7 +39,7 @@ const Footer = ({ user }: { user: iUser }) => {
             reliable news to our audience.
           </p>
         </div>
-        <hr></hr>
+
         <div id="footer-legal">
           <p>© Copyright {currentYear}. Made by Justin Smith</p>
         </div>

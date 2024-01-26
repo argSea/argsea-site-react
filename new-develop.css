@@ -27,7 +27,7 @@
   --gradient-color: #032e58;
   --gradient-color2: #3671cb;
   --dropshadow-color: #000;
-  --glass-color: rgba(255, 255, 255, 0.1);
+  --glass-color: rgba(5, 5, 5, 0.2);
   --glass-color-gone: rgba(255, 255, 255, 0.01);
   --glass-color2: rgb(34, 44, 59);
   --nav-active-color: rgb(192, 121, 203);
@@ -66,9 +66,6 @@ html::-webkit-scrollbar {
 }
 
 body {
-  display: block;
-  width: 100%;
-  min-height: 100%;
   overflow-x: hidden;
   overscroll-behavior-y: none;
   background: #010314;
@@ -89,7 +86,6 @@ body.overflow-hidden {
 }
 
 #root {
-  min-height: 100vh;
   position: relative;
   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
 }
@@ -100,12 +96,12 @@ a {
 }
 
 section {
-  width: 100%;
+  max-width: 100%;
 }
 
 section:not(#hero) {
   padding-top: 50px;
-  margin-bottom: 200px;
+  margin-bottom: 100px;
 }
 
 #loading-splash {
