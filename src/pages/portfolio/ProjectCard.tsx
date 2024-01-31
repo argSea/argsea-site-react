@@ -233,7 +233,7 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
               <div className="project-card-front">
                 {project.images && project.images.length > 0 ? (
                   <div className="project-card-front-image">
-                    <img src={project.images[0].image.src} alt={project.images[0].image.alt} loading="lazy" />
+                    <img src={project.images[0].image.src + "/300/0"} alt={project.images[0].image.alt} loading="lazy" />
                   </div>
                 ) : (
                   <></>

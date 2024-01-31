@@ -150,32 +150,17 @@ class CreateParticles {
     this.data = {
       text: this.textString,
       titleText: titleText,
-      amount: 1000,
-      particleSize: 0.5,
+      amount: 200,
+      particleSize: 1.5,
       particleScale: window.innerHeight / 2,
       particleColor: 0xffffff,
       textSize: 12,
       area: 10000,
-      ease: 0.2,
-      radius: 500,
+      ease: 0.25,
+      radius: 300,
     };
 
-    // set textsize based on window width
-    if (window.innerWidth < 500) {
-      this.data.textSize = 4;
-    } else if (window.innerWidth < 800) {
-      this.data.textSize = 5;
-    } else if (window.innerWidth < 1100) {
-      this.data.textSize = 6;
-    } else if (window.innerWidth < 1200) {
-      this.data.textSize = 7;
-    } else if (window.innerWidth < 1500) {
-      this.data.textSize = 8;
-    } else if (window.innerWidth < 1800) {
-      this.data.textSize = 9;
-    } else {
-      this.data.textSize = 12;
-    }
+    this.data.textSize = this.getTextSize(window.innerWidth);
 
     this.setup();
 
@@ -200,11 +185,16 @@ class CreateParticles {
     this.particles = this.randomizeParticles(this.particles, this.data.radius);
   }
 
-  onMouseDown(event: any) {
-    if (!this.restore) {
-      this.swapText();
-      this.startExplode = true;
-    }
+  getTextSize(width: number) {
+    // set textsize based on window width
+    if (width < 500) return 4;
+    if (width < 800) return 5;
+    if (width < 1100) return 6;
+    if (width < 1200) return 7;
+    if (width < 1500) return 8;
+    if (width < 1800) return 9;
+
+    return 12;
   }
 
   swapText() {

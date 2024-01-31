@@ -8,6 +8,7 @@ import { Lighthouse2 } from "./Lighthouse2";
 import { Lighthouse3 } from "./Lighthouse3";
 import { Lighthouse4 } from "./Lighthouse4";
 import { Lighthouse5 } from "./Lighthouse5";
+import { SvgLighthouseFinal } from "./LighthouseFinal";
 
 const Footer = ({ user }: { user: iUser }) => {
   const currentYear = new Date().getFullYear();
@@ -29,7 +30,7 @@ const Footer = ({ user }: { user: iUser }) => {
           })}
         </div>
         <div id="footer-logo">
-          <a href="/">{<Lighthouse5 />}</a>
+          <a href="/">{<SvgLighthouseFinal />}</a>
         </div>
         <div id="footer-short-bio">
           <h1>Justin Smith</h1>
