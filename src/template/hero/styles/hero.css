@@ -8,40 +8,381 @@
   position: absolute;
   top: 0;
   left: 0;
-  max-height: 100vh;
-  max-width: 100vw;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
 }
 
 #introcanvas {
   min-width: 100vw;
   min-height: 100vh;
-  height: 100vh;
-  width: 100vw;
+  min-width: 100svw;
+  min-height: 100svh;
+  height: 100svh;
+  width: 100svw;
 }
 
 #hero {
   position: relative;
   min-height: 100vh;
-  height: 100vh;
   min-width: 100vw;
+  height: 100vh;
   width: 100vw;
+  min-height: 100svh;
+  height: 100svh;
+  min-width: 100svw;
+  width: 100svw;
   overflow: hidden;
   justify-content: center;
 }
 
 #hero_title {
-  width: 100vw;
-  height: 100vh;
+  min-width: 100%;
+  min-height: 100%;
   z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  color: white;
-  font-size: 1.5rem;
   margin: auto;
+}
+
+#hero_title h1 {
+  position: relative;
+  z-index: 1;
+
+  text-shadow: 2px 4px 10px rgba(13, 106, 237, 0.5);
+  will-change: contents, width;
+
+  /* make the text look old dos style */
+  font-family: JetBrainsMono-Regular, monospace;
+  /* responsize font-size */
+  font-size: 6vw;
+  /* font-weight: 900; */
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 1);
+  padding: 30px;
+}
+
+#hero_title h1::after,
+#hero_title h1::before {
+  content: attr(data-gw-string);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--gradient-color);
+
+  will-change: contents, width;
+}
+
+#hero_title h1::before {
+  z-index: -1;
+  color: var(--link-color);
+}
+
+#hero_title h1.gw-writing {
+  animation: glitch-skew 1s steps(10, end) infinite alternate-reverse;
+}
+
+#hero_title h1.gw-writing::after,
+#hero_title h1.gw-writing::before {
+  opacity: 1;
+}
+
+#hero_title h1.gw-writing::after {
+  animation: glitch-animation-1 1.5s steps(20, end) infinite alternate-reverse;
+}
+
+#hero_title h1.gw-writing::before {
+  animation: glitch-animation-2 2s steps(20, end) infinite alternate-reverse;
+}
+
+#hero_title h1.gw-writing .gw-ghosts,
+#hero_title h1.gw-writing .gw-glitched {
+  opacity: 0.6;
+  animation: glitch-blink 1s steps(20, end) infinite alternate-reverse;
+}
+
+@keyframes glitch-skew {
+  0% {
+    transform: skew(4deg);
+  }
+  10% {
+    transform: skew(5deg);
+  }
+  20% {
+    transform: skew(-1deg);
+  }
+  30% {
+    transform: skew(5deg);
+  }
+  40% {
+    transform: skew(5deg);
+  }
+  50% {
+    transform: skew(2deg);
+  }
+  60% {
+    transform: skew(-1deg);
+  }
+  70% {
+    transform: skew(1deg);
+  }
+  80% {
+    transform: skew(-1deg);
+  }
+  90% {
+    transform: skew(-1deg);
+  }
+  100% {
+    transform: skew(1deg);
+  }
+}
+
+@keyframes glitch-blink {
+  0% {
+    opacity: 0.7;
+  }
+  5% {
+    opacity: 0.4;
+  }
+  10% {
+    opacity: 0.1;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  20% {
+    opacity: 0.3;
+  }
+  25% {
+    opacity: 0.6;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  35% {
+    opacity: 0.9;
+  }
+  40% {
+    opacity: 0.7;
+  }
+  45% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  55% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 0.1;
+  }
+  65% {
+    opacity: 0.9;
+  }
+  70% {
+    opacity: 0.7;
+  }
+  75% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  85% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.1;
+  }
+  95% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes glitch-animation-1 {
+  0% {
+    clip: rect(15px, 1000px, 50px, 0);
+    transform: skew(4deg) translatex(-9px);
+  }
+  5% {
+    clip: rect(82px, 1000px, 88px, 0);
+    transform: skew(3deg) translatex(-4px);
+  }
+  10% {
+    clip: rect(5px, 1000px, 60px, 0);
+    transform: skew(7deg) translatex(-12px);
+  }
+  15% {
+    clip: rect(19px, 1000px, 49px, 0);
+    transform: skew(8deg) translatex(10px);
+  }
+  20% {
+    clip: rect(24px, 1000px, 18px, 0);
+    transform: skew(6deg) translatex(13px);
+  }
+  25% {
+    clip: rect(78px, 1000px, 56px, 0);
+    transform: skew(2deg) translatex(-7px);
+  }
+  30% {
+    clip: rect(48px, 1000px, 67px, 0);
+    transform: skew(6deg) translatex(-2px);
+  }
+  35% {
+    clip: rect(15px, 1000px, 41px, 0);
+    transform: skew(8deg) translatex(-4px);
+  }
+  40% {
+    clip: rect(90px, 1000px, 10px, 0);
+    transform: skew(6deg) translatex(-6px);
+  }
+  45% {
+    clip: rect(74px, 1000px, 24px, 0);
+    transform: skew(2deg) translatex(6px);
+  }
+  50% {
+    clip: rect(89px, 1000px, 100px, 0);
+    transform: skew(-4deg) translatex(14px);
+  }
+  55% {
+    clip: rect(55px, 1000px, 50px, 0);
+    transform: skew(-3deg) translatex(-14px);
+  }
+  60% {
+    clip: rect(5px, 1000px, 35px, 0);
+    transform: skew(-6deg) translatex(15px);
+  }
+  65% {
+    clip: rect(72px, 1000px, 78px, 0);
+    transform: skew(0deg) translatex(-13px);
+  }
+  70% {
+    clip: rect(90px, 1000px, 66px, 0);
+    transform: skew(5deg) translatex(4px);
+  }
+  75% {
+    clip: rect(43px, 1000px, 84px, 0);
+    transform: skew(0deg) translatex(8px);
+  }
+  80% {
+    clip: rect(36px, 1000px, 45px, 0);
+    transform: skew(8deg) translatex(-8px);
+  }
+  85% {
+    clip: rect(37px, 1000px, 58px, 0);
+    transform: skew(8deg) translatex(7px);
+  }
+  90% {
+    clip: rect(99px, 1000px, 11px, 0);
+    transform: skew(3deg) translatex(3px);
+  }
+  95% {
+    clip: rect(34px, 1000px, 69px, 0);
+    transform: skew(-3deg) translatex(-14px);
+  }
+  100% {
+    clip: rect(73px, 1000px, 88px, 0);
+    transform: skew(-2deg) translatex(3px);
+  }
+}
+
+@keyframes glitch-animation-2 {
+  0% {
+    clip: rect(75px, 1000px, 52px, 0);
+    transform: skew(-4deg) translatex(3px);
+  }
+  5% {
+    clip: rect(84px, 1000px, 45px, 0);
+    transform: skew(4deg) translatex(6px);
+  }
+  10% {
+    clip: rect(52px, 1000px, 89px, 0);
+    transform: skew(4deg) translatex(1px);
+  }
+  15% {
+    clip: rect(33px, 1000px, 6px, 0);
+    transform: skew(-2deg) translatex(-1px);
+  }
+  20% {
+    clip: rect(3px, 1000px, 94px, 0);
+    transform: skew(-1deg) translatex(-6px);
+  }
+  25% {
+    clip: rect(82px, 1000px, 88px, 0);
+    transform: skew(2deg) translatex(4px);
+  }
+  30% {
+    clip: rect(60px, 1000px, 64px, 0);
+    transform: skew(-4deg) translatex(6px);
+  }
+  35% {
+    clip: rect(7px, 1000px, 94px, 0);
+    transform: skew(-4deg) translatex(9px);
+  }
+  40% {
+    clip: rect(82px, 1000px, 60px, 0);
+    transform: skew(-1deg) translatex(-7px);
+  }
+  45% {
+    clip: rect(46px, 1000px, 58px, 0);
+    transform: skew(5deg) translatex(-8px);
+  }
+  50% {
+    clip: rect(80px, 1000px, 73px, 0);
+    transform: skew(2deg) translatex(0px);
+  }
+  55% {
+    clip: rect(93px, 1000px, 26px, 0);
+    transform: skew(4deg) translatex(-6px);
+  }
+  60% {
+    clip: rect(37px, 1000px, 41px, 0);
+    transform: skew(3deg) translatex(-2px);
+  }
+  65% {
+    clip: rect(32px, 1000px, 76px, 0);
+    transform: skew(-1deg) translatex(-6px);
+  }
+  70% {
+    clip: rect(18px, 1000px, 23px, 0);
+    transform: skew(3deg) translatex(-4px);
+  }
+  75% {
+    clip: rect(21px, 1000px, 23px, 0);
+    transform: skew(1deg) translatex(10px);
+  }
+  80% {
+    clip: rect(51px, 1000px, 77px, 0);
+    transform: skew(2deg) translatex(8px);
+  }
+  85% {
+    clip: rect(6px, 1000px, 95px, 0);
+    transform: skew(-3deg) translatex(-7px);
+  }
+  90% {
+    clip: rect(21px, 1000px, 67px, 0);
+    transform: skew(3deg) translatex(-6px);
+  }
+  95% {
+    clip: rect(29px, 1000px, 52px, 0);
+    transform: skew(-1deg) translatex(0px);
+  }
+  100% {
+    clip: rect(64px, 1000px, 8px, 0);
+    transform: skew(1deg) translatex(6px);
+  }
 }
 
 #bio_wrap {

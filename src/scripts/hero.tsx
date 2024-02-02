@@ -62,7 +62,15 @@ class Environment {
   }
 
   setup() {
-    this.createParticles = new CreateParticles(this.scene, this.font, this.particle, this.text, this.titleText);
+    this.createParticles = new CreateParticles(
+      this.scene,
+      this.font,
+      this.container.clientWidth,
+      this.container.clientHeight,
+      this.particle,
+      this.text,
+      this.titleText
+    );
   }
 
   render() {
@@ -107,6 +115,7 @@ class Environment {
     this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+    this.createParticles.setTextSize(this.container.clientWidth, this.container.clientHeight);
   }
 }
 
@@ -134,7 +143,7 @@ class CreateParticles {
   swapTextTimeout: number;
   swapTextThen: number;
 
-  constructor(scene: any, font: Font, particleImg: Texture, text: string, titleText: string) {
+  constructor(scene: any, font: Font, width: number, height: number, particleImg: Texture, text: string, titleText: string) {
     this.explodeTimeout = 200;
     this.explodeThen = Date.now();
     this.swapTextTimeout = 2000;
@@ -160,7 +169,7 @@ class CreateParticles {
       radius: 300,
     };
 
-    this.data.textSize = this.getTextSize(window.innerWidth);
+    this.data.textSize = 12; //this.getTextSize(width, height);
 
     this.setup();
 
@@ -185,16 +194,28 @@ class CreateParticles {
     this.particles = this.randomizeParticles(this.particles, this.data.radius);
   }
 
-  getTextSize(width: number) {
-    // set textsize based on window width
-    if (width < 500) return 4;
-    if (width < 800) return 5;
-    if (width < 1100) return 6;
-    if (width < 1200) return 7;
-    if (width < 1500) return 8;
-    if (width < 1800) return 9;
+  setTextSize(width: number, height: number) {
+    this.data.text = this.getTextSize(width, height);
+  }
 
-    return 12;
+  getTextSize(width: number, height: number) {
+    const baseFontSize = 4; // Adjust this based on what you consider a good starting point
+    const minFontSize = 2; // Minimum readable font size
+    const maxFontSize = 12; // Maximum reasonable font size
+    const dpi = window.devicePixelRatio; // Get the device pixel ratio
+    const aspect = width / height; // Get the aspect ratio of the canvas
+    const textLength = Math.max(this.data.text.length, this.data.titleText.length); // Get the length of the longer text
+
+    // Calculate a scaling factor - this may require tuning based on your specific needs
+    const scalingFactor = Math.max(1, Math.min(1.5, (aspect * textLength) / 100));
+
+    // Apply the scaling factor to the base font size
+    let fontSize = baseFontSize * scalingFactor;
+
+    // Ensure the font size is within the set bounds
+    fontSize = Math.max(minFontSize, Math.min(fontSize, maxFontSize));
+
+    return fontSize;
   }
 
   swapText() {
