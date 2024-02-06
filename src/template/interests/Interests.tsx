@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import imageParticles from "../../scripts/imageParticles";
+import createInterestParticles from "../../scripts/imageParticles";
 import iInterests from "../../interfaces/iTechInterest";
 import { isMobile } from "react-device-detect";
 import "./styles/interests.css";
@@ -26,10 +26,13 @@ const Interests = ({ interests }: { interests: iInterests[] }) => {
 
     // get view height
     const vh = window.innerHeight * 0.01;
-    // set container height to body minus 101vh
-    container.style.height = outerContainer.clientHeight - 101 * vh + "px";
+    // set container height to body minus hero
+    container.style.height = outerContainer.clientHeight - 50 * vh + "px";
+    // set canvas to size of container
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
 
-    const partGen = imageParticles(interests, canvas);
+    const partGen = createInterestParticles(interests, canvas);
 
     // rObserver.observe(outerContainer);
 

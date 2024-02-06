@@ -1,0 +1,40 @@
+@keyframes glitch-skew {
+  $steps: 10;
+
+  @for $i from 0 through $steps {
+    #{percentage($i * 1 / $steps)} {
+      transform: skew(random(10) - 5 + deg);
+    }
+  }
+}
+
+@keyframes glitch-blink {
+  $steps: 20;
+
+  @for $i from 0 through $steps {
+    #{percentage($i * 1 / $steps)} {
+      opacity: random(10) / 10;
+    }
+  }
+}
+
+@keyframes glitch-animation-1 {
+    $steps: 20;
+
+    @for $i from 0 through $steps {
+      #{percentage($i * 1 / $steps)} {
+        clip: rect(random(200) + px, 1000px, random(200) + px, 30px);
+        transform: skew(random(6) - 3 + deg) translatex(random(14) - 7 + px);
+      }
+    }
+  }
+  @keyframes glitch-animation-2 {
+    $steps: 20;
+
+    @for $i from 0 through $steps {
+      #{percentage($i * 1 / $steps)} {
+        clip: rect(random(200) + px, 1000px, random(200) + px, 30px);
+        transform: skew(random(4) - 2 + deg) translatex(random(10) - 5 + px);
+      }
+    }
+  }

@@ -2,6 +2,7 @@ import { FaChevronDown } from "react-icons/fa";
 import ParticleGenerator from "../../scripts/hero";
 import { useEffect, useState, useRef } from "react";
 import { isMobile, MobileView, isDesktop } from "react-device-detect";
+import "./styles/hero_animations.scss";
 import "./styles/hero.css";
 import iUser from "../../interfaces/iUser";
 import React from "react";

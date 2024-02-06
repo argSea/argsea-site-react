@@ -1,0 +1,214 @@
+@keyframes glitch-animation-1 {
+  0% {
+    -webkit-clip-path: inset(60px 79px 77px 61px);
+            clip-path: inset(60px 79px 77px 61px);
+    transform: skew(8deg) translatex(4px);
+  }
+  5% {
+    -webkit-clip-path: inset(28px 54px 65px 38px);
+            clip-path: inset(28px 54px 65px 38px);
+    transform: skew(-5deg) translatex(-8px);
+  }
+  10% {
+    -webkit-clip-path: inset(100px 31px 58px 51px);
+            clip-path: inset(100px 31px 58px 51px);
+    transform: skew(1deg) translatex(-8px);
+  }
+  15% {
+    -webkit-clip-path: inset(29px 70px 61px 58px);
+            clip-path: inset(29px 70px 61px 58px);
+    transform: skew(3deg) translatex(-10px);
+  }
+  20% {
+    -webkit-clip-path: inset(17px 71px 42px 82px);
+            clip-path: inset(17px 71px 42px 82px);
+    transform: skew(5deg) translatex(8px);
+  }
+  25% {
+    -webkit-clip-path: inset(9px 67px 27px 62px);
+            clip-path: inset(9px 67px 27px 62px);
+    transform: skew(-7deg) translatex(-12px);
+  }
+  30% {
+    -webkit-clip-path: inset(46px 1px 4px 42px);
+            clip-path: inset(46px 1px 4px 42px);
+    transform: skew(2deg) translatex(12px);
+  }
+  35% {
+    -webkit-clip-path: inset(99px 17px 98px 78px);
+            clip-path: inset(99px 17px 98px 78px);
+    transform: skew(0deg) translatex(-7px);
+  }
+  40% {
+    -webkit-clip-path: inset(71px 28px 95px 94px);
+            clip-path: inset(71px 28px 95px 94px);
+    transform: skew(2deg) translatex(15px);
+  }
+  45% {
+    -webkit-clip-path: inset(49px 49px 98px 55px);
+            clip-path: inset(49px 49px 98px 55px);
+    transform: skew(-1deg) translatex(10px);
+  }
+  50% {
+    -webkit-clip-path: inset(55px 17px 46px 29px);
+            clip-path: inset(55px 17px 46px 29px);
+    transform: skew(-1deg) translatex(1px);
+  }
+  55% {
+    -webkit-clip-path: inset(55px 84px 1px 56px);
+            clip-path: inset(55px 84px 1px 56px);
+    transform: skew(6deg) translatex(-14px);
+  }
+  60% {
+    -webkit-clip-path: inset(75px 86px 60px 39px);
+            clip-path: inset(75px 86px 60px 39px);
+    transform: skew(6deg) translatex(-10px);
+  }
+  65% {
+    -webkit-clip-path: inset(10px 9px 31px 42px);
+            clip-path: inset(10px 9px 31px 42px);
+    transform: skew(-3deg) translatex(10px);
+  }
+  70% {
+    -webkit-clip-path: inset(11px 75px 29px 50px);
+            clip-path: inset(11px 75px 29px 50px);
+    transform: skew(7deg) translatex(14px);
+  }
+  75% {
+    -webkit-clip-path: inset(54px 19px 85px 26px);
+            clip-path: inset(54px 19px 85px 26px);
+    transform: skew(4deg) translatex(14px);
+  }
+  80% {
+    -webkit-clip-path: inset(59px 68px 46px 25px);
+            clip-path: inset(59px 68px 46px 25px);
+    transform: skew(-3deg) translatex(7px);
+  }
+  85% {
+    -webkit-clip-path: inset(16px 18px 54px 72px);
+            clip-path: inset(16px 18px 54px 72px);
+    transform: skew(5deg) translatex(6px);
+  }
+  90% {
+    -webkit-clip-path: inset(56px 50px 92px 83px);
+            clip-path: inset(56px 50px 92px 83px);
+    transform: skew(-2deg) translatex(-6px);
+  }
+  95% {
+    -webkit-clip-path: inset(65px 55px 63px 42px);
+            clip-path: inset(65px 55px 63px 42px);
+    transform: skew(3deg) translatex(-5px);
+  }
+  100% {
+    -webkit-clip-path: inset(13px 11px 6px 32px);
+            clip-path: inset(13px 11px 6px 32px);
+    transform: skew(8deg) translatex(11px);
+  }
+}
+@keyframes glitch-animation-2 {
+  0% {
+    -webkit-clip-path: inset(87px 38px 34px 96px);
+            clip-path: inset(87px 38px 34px 96px);
+    transform: skew(-4deg) translatex(-2px);
+  }
+  5% {
+    -webkit-clip-path: inset(56px 36px 54px 68px);
+            clip-path: inset(56px 36px 54px 68px);
+    transform: skew(0deg) translatex(8px);
+  }
+  10% {
+    -webkit-clip-path: inset(83px 75px 7px 28px);
+            clip-path: inset(83px 75px 7px 28px);
+    transform: skew(1deg) translatex(-4px);
+  }
+  15% {
+    -webkit-clip-path: inset(1px 82px 78px 63px);
+            clip-path: inset(1px 82px 78px 63px);
+    transform: skew(-1deg) translatex(8px);
+  }
+  20% {
+    -webkit-clip-path: inset(85px 83px 26px 27px);
+            clip-path: inset(85px 83px 26px 27px);
+    transform: skew(1deg) translatex(-5px);
+  }
+  25% {
+    -webkit-clip-path: inset(5px 23px 54px 66px);
+            clip-path: inset(5px 23px 54px 66px);
+    transform: skew(5deg) translatex(-1px);
+  }
+  30% {
+    -webkit-clip-path: inset(70px 64px 65px 56px);
+            clip-path: inset(70px 64px 65px 56px);
+    transform: skew(1deg) translatex(5px);
+  }
+  35% {
+    -webkit-clip-path: inset(86px 16px 63px 98px);
+            clip-path: inset(86px 16px 63px 98px);
+    transform: skew(-1deg) translatex(-4px);
+  }
+  40% {
+    -webkit-clip-path: inset(63px 4px 71px 81px);
+            clip-path: inset(63px 4px 71px 81px);
+    transform: skew(0deg) translatex(4px);
+  }
+  45% {
+    -webkit-clip-path: inset(8px 25px 16px 85px);
+            clip-path: inset(8px 25px 16px 85px);
+    transform: skew(1deg) translatex(9px);
+  }
+  50% {
+    -webkit-clip-path: inset(50px 64px 53px 11px);
+            clip-path: inset(50px 64px 53px 11px);
+    transform: skew(5deg) translatex(-5px);
+  }
+  55% {
+    -webkit-clip-path: inset(40px 48px 55px 37px);
+            clip-path: inset(40px 48px 55px 37px);
+    transform: skew(-1deg) translatex(-3px);
+  }
+  60% {
+    -webkit-clip-path: inset(86px 70px 13px 71px);
+            clip-path: inset(86px 70px 13px 71px);
+    transform: skew(1deg) translatex(10px);
+  }
+  65% {
+    -webkit-clip-path: inset(44px 84px 17px 60px);
+            clip-path: inset(44px 84px 17px 60px);
+    transform: skew(4deg) translatex(-2px);
+  }
+  70% {
+    -webkit-clip-path: inset(78px 65px 47px 98px);
+            clip-path: inset(78px 65px 47px 98px);
+    transform: skew(3deg) translatex(-2px);
+  }
+  75% {
+    -webkit-clip-path: inset(1px 59px 14px 55px);
+            clip-path: inset(1px 59px 14px 55px);
+    transform: skew(5deg) translatex(-7px);
+  }
+  80% {
+    -webkit-clip-path: inset(51px 13px 40px 52px);
+            clip-path: inset(51px 13px 40px 52px);
+    transform: skew(-4deg) translatex(8px);
+  }
+  85% {
+    -webkit-clip-path: inset(57px 85px 86px 16px);
+            clip-path: inset(57px 85px 86px 16px);
+    transform: skew(-1deg) translatex(-1px);
+  }
+  90% {
+    -webkit-clip-path: inset(4px 61px 56px 75px);
+            clip-path: inset(4px 61px 56px 75px);
+    transform: skew(0deg) translatex(4px);
+  }
+  95% {
+    -webkit-clip-path: inset(37px 33px 31px 67px);
+            clip-path: inset(37px 33px 31px 67px);
+    transform: skew(1deg) translatex(1px);
+  }
+  100% {
+    -webkit-clip-path: inset(64px 1px 51px 88px);
+            clip-path: inset(64px 1px 51px 88px);
+    transform: skew(0deg) translatex(6px);
+  }
+}/*# sourceMappingURL=hero_animations.css.map */
