@@ -113,7 +113,7 @@ const Home = () => {
             <div id="abscanvas">
               <Suspense>
                 <Canvas>
-                  <Stars factor={1} fade={false} count={250} depth={2} />
+                  <Stars factor={1} fade={false} count={1000} depth={2} />
                 </Canvas>
               </Suspense>
             </div>

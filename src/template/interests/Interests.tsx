@@ -27,10 +27,7 @@ const Interests = ({ interests }: { interests: iInterests[] }) => {
     // get view height
     const vh = window.innerHeight * 0.01;
     // set container height to body minus hero
-    container.style.height = outerContainer.clientHeight - 50 * vh + "px";
-    // set canvas to size of container
-    canvas.width = container.clientWidth;
-    canvas.height = container.clientHeight;
+    container.style.height = outerContainer.clientHeight - 101 * vh + "px";
 
     const partGen = createInterestParticles(interests, canvas);
 

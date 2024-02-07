@@ -10,6 +10,7 @@ import {
   Vector3,
   Float32BufferAttribute,
   MathUtils,
+  Color,
 } from "three";
 import iInterests from "../interfaces/iTechInterest";
 
@@ -74,8 +75,7 @@ function createInterestParticles(interests: iInterests[], canvas: HTMLElement) {
   const heightAtZ = visibleHeightAtZDepth(zDepth, camera);
 
   let offsets = [] as Vector3[];
-
-  const tempCanvas = document.createElement("canvas");
+  const worker = new Worker(new URL("./particleWorker.ts", import.meta.url), { type: "module" });
   for (const interest of interests) {
     const offset = generateOffset(widthAtZ, heightAtZ, offsets, 600);
     offsets.push(offset);
@@ -83,9 +83,37 @@ function createInterestParticles(interests: iInterests[], canvas: HTMLElement) {
     console.log(interest);
     const image = interest.icon.src;
     const sizeMod = interest.interestLevel;
-    const scale = (canvas.clientWidth / 20000) * sizeMod;
-    createParticleImage(image, material, scene, tempCanvas, scale, offset.x, offset.y);
+    const scale = (canvas.clientWidth / 8000) * sizeMod;
+
+    var offsetX = offset.x;
+    var offsetY = offset.y;
+
+    // create a web worker to generate the particles
+    worker.postMessage({ image, offsetX, offsetY, scale });
   }
+
+  worker.onmessage = (e) => {
+    console.log("worker finished", e.data);
+    const vertices = e.data.vertices as number[];
+    const colors = e.data.customColor as number[];
+    const times = e.data.time as number[];
+    const offsetX = e.data.offsetX as number;
+    const offsetY = e.data.offsetY as number;
+    const scale = e.data.scale as number;
+
+    const geometry = new BufferGeometry();
+    geometry.setAttribute("position", new Float32BufferAttribute(vertices, 3));
+    geometry.setAttribute("customColor", new Float32BufferAttribute(colors, 4));
+    geometry.setAttribute("time", new Float32BufferAttribute(times, 1));
+    geometry.rotateZ(Math.random() * Math.PI * 2);
+    geometry.scale(scale, scale, scale);
+
+    // move to offset
+    geometry.translate(offsetX, offsetY, 0);
+    geometry.computeBoundingSphere();
+    const points = new Points(geometry, material);
+    scene.add(points);
+  };
 
   const animate = () => {
     // increment time for twinkle effect
@@ -95,77 +123,6 @@ function createInterestParticles(interests: iInterests[], canvas: HTMLElement) {
   };
 
   animate();
-}
-
-function createParticleImage(
-  image: string,
-  material: ShaderMaterial,
-  scene: Scene,
-  tempCanvas: HTMLCanvasElement,
-  scale: number,
-  offsetX: number,
-  offsetY: number
-) {
-  new TextureLoader().load(image, (texture) => {
-    const image = texture.image;
-    const context = tempCanvas.getContext("2d") as CanvasRenderingContext2D;
-    // shrink the width to 128px, and adjust the height to maintain aspect ratio
-    const aspect = image.width / image.height;
-    const width = 128;
-    const height = width / aspect;
-
-    tempCanvas.width = width;
-    tempCanvas.height = height;
-    context.imageSmoothingEnabled = true;
-    context.clearRect(0, 0, width, height);
-    context.drawImage(image, 0, 0, width, height);
-    const imageData = context.getImageData(0, 0, width, height);
-
-    const vertices = [];
-    const colors = [];
-    const times = [];
-
-    // create particles from image, adding the offset
-    for (let y = 0, y2 = imageData.height; y < y2; y += 2) {
-      for (let x = 0, x2 = imageData.width; x < x2; x += 2) {
-        const i = y * 4 * x2 + x * 4;
-        const r = imageData.data[i];
-        const g = imageData.data[i + 1];
-        const b = imageData.data[i + 2];
-        const a = imageData.data[i + 3];
-
-        const weirdNess = Math.random() * 10;
-
-        // if pixel is mostly opaque, create a particle
-        if (a > 0 && weirdNess > 4) {
-          const positionX = x - width / 2;
-          const positionY = -y + height / 2;
-          const positionZ = Math.random() * -20 + 20;
-          vertices.push(positionX, positionY, positionZ);
-          colors.push(r / 255, g / 255, b / 255, a / 255);
-          // add time for twinkle effect
-          times.push(Math.random() * 10);
-        }
-      }
-    }
-
-    // const geometry = new BufferGeometry().setFromPoints(vertices);
-    const geometry = new BufferGeometry();
-    geometry.setAttribute("position", new Float32BufferAttribute(vertices, 3));
-    geometry.setAttribute("customColor", new Float32BufferAttribute(colors, 4));
-    geometry.setAttribute("time", new Float32BufferAttribute(times, 1));
-
-    // random rotation
-    geometry.rotateZ(Math.random() * Math.PI * 2);
-    geometry.scale(scale, scale, scale);
-
-    // move to offset
-    geometry.translate(offsetX, offsetY, 0);
-
-    const points = new Points(geometry, material);
-
-    scene.add(points);
-  });
 }
 
 function generateOffset(visibleWidth: number, visibleHeight: number, offsets: Vector3[], minDistance = 100) {
