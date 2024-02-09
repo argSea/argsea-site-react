@@ -1,5 +1,5 @@
 // Import any dependencies you need here
-import { ImageBitmapLoader, Color, Vector3, BufferGeometry, Float32BufferAttribute, CanvasTexture } from "three";
+import { ImageBitmapLoader, Color, CanvasTexture } from "three";
 
 // get message from main thread
 self.onmessage = (e) => {
