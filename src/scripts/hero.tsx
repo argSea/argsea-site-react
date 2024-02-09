@@ -22,8 +22,13 @@ const particleGenerator = (canvas: HTMLElement, words: string[]) => {
 
   // functions
   const onWindowResize = () => {
+    // set canvas size to window size
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
     camera.updateProjectionMatrix();
+    // move camera further away the smaller the screen gets
+    setCameraZed();
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
   };
 
@@ -148,6 +153,14 @@ const particleGenerator = (canvas: HTMLElement, words: string[]) => {
     return newParticles;
   };
 
+  const setCameraZed = () => {
+    // responsive camera z
+    camera.position.z = window.innerWidth > 1200 ? 100 : 100 * (1200 / window.innerWidth);
+    console.log("Inner width:" + window.innerWidth);
+  };
+
+  window.addEventListener("resize", onWindowResize);
+
   // global settings
   const fps = 45;
   const font = new FontLoader().parse(Jetbrains);
@@ -155,12 +168,12 @@ const particleGenerator = (canvas: HTMLElement, words: string[]) => {
 
   // particle settings
   var shapeGeometry: ShapeGeometry = new ShapeGeometry();
-  const pAmount = 400;
+  const pAmount = 500;
   const pSize = 1;
   const pScale = window.innerHeight / 2;
   const pColor = new Color(0xffffff);
   const pTextSize = 12;
-  const pArea = 10000;
+  const pArea = 2000;
   const pAnimationEase = 0.25;
   const pRadius = 300;
   var xMid = 0;
@@ -172,7 +185,8 @@ const particleGenerator = (canvas: HTMLElement, words: string[]) => {
   renderer.setSize(canvas.clientWidth, canvas.clientHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.outputEncoding = sRGBEncoding;
-  camera.position.set(0, 0, 100);
+  camera.position.set(0, 5, 0);
+  setCameraZed();
 
   // geo settings
   const geometry = new BufferGeometry();
