@@ -1,3 +1,7 @@
+/*********************************************
+ * Project Drawer
+ *********************************************/
+
 #project-card-drawer-container {
   position: fixed;
   bottom: 0;
@@ -32,21 +36,8 @@
   overflow: none;
 }
 
-@media screen and (max-width: 768px) {
-  .project-card-drawer {
-    width: calc(100% - 0.5rem);
-    margin: 0;
-  }
-}
-
 .project-card-drawer.active {
   height: 80%;
-}
-
-@media screen and (max-width: 768px) {
-  .project-card-drawer.active {
-    height: 80%;
-  }
 }
 
 .project-card-drawer::before,
@@ -78,16 +69,9 @@
   transform: scale(0.9);
 }
 
-@media screen and (max-width: 768px) {
-  .project-card-drawer::after {
-    filter: blur(0rem);
-  }
-
-  .project-card-drawer::before,
-  .project-card-drawer::after {
-    inset: -0.1rem;
-  }
-}
+/*********************************************
+ * Project Drawer Content
+ *********************************************/
 
 .project-card-drawer-content {
   height: 100%;
@@ -113,22 +97,18 @@
   padding-bottom: 75px;
 }
 
-@media screen and (max-width: 768px) {
-  .project-card-drawer-content {
-    padding-left: 5%;
-    padding-right: 5%;
-    font-size: 0.5rem;
-  }
-}
-
+/*********************************************
+ * Project Drawer Title
+ *********************************************/
 .project-card-drawer-title {
   padding-top: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   position: relative;
   font-size: 3rem;
   font-weight: 600;
   grid-column: span 3;
   grid-row: span 1;
+  text-align: center;
 
   background: linear-gradient(to right, var(--aurora-color-4), var(--menu-item-color));
   background-clip: text;
@@ -138,19 +118,14 @@
   -moz-text-fill-color: transparent;
 }
 
-@media screen and (max-width: 768px) {
-  .project-card-drawer-title {
-    font-size: 1.5rem;
-  }
-}
-
+/*********************************************
+ * Project Drawer Progress
+ *********************************************/
 .project-card-drawer-progress {
-  position: absolute;
-  top: -20px;
-  left: 10px;
-  font-size: 1.2rem;
-  font-weight: 300;
-  line-height: 1.5;
+  font-size: 0.8rem;
+  margin-top: -2rem;
+  grid-column: span 3;
+  grid-row: span 1;
 
   display: flex;
   justify-content: center;
@@ -158,46 +133,23 @@
   gap: 5px;
 }
 
-@media screen and (max-width: 768px) {
-  .project-card-drawer-progress {
-    top: -15px;
-    font-size: 0.8rem;
-  }
-
-  /* only show first div */
-  .project-card-drawer-progress div:not(:nth-child(-n + 1)) {
-    display: none;
-  }
-
-  .project-card-drawer-progress div:first-child::after {
-    content: "...";
-  }
-}
-
 .project-card-drawer-progress div {
-  padding: 5px 10px 5px 10px;
-  border-radius: 10px;
+  padding: 2px 8px;
+  border-radius: 5px;
 
-  background: linear-gradient(var(--name-color), var(--aurora-color-2));
+  background: var(--name-color);
 
   /* make it look 3d */
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
 }
 
 .project-card-drawer-progress div:not(:first-child) {
-  background: linear-gradient(var(--link-color), var(--aurora-color-4));
+  background: var(--aurora-color-3);
 }
 
-.project-card-drawer-progress div:first-child:hover {
-  background: var(--name-color);
-  box-shadow: 0 0 5px var(--name-color), 0 0 25px var(--name-color), 0 0 50px var(--name-color), 0 0 100px var(--name-color);
-}
-
-.project-card-drawer-progress div:not(:first-child):hover {
-  background: var(--link-color);
-  box-shadow: 0 0 5px var(--link-color), 0 0 25px var(--link-color), 0 0 50px var(--link-color), 0 0 100px var(--link-color);
-}
-
+/*********************************************
+ * Project Drawer Close Button
+ *********************************************/
 .project-card-drawer-close {
   position: absolute;
   top: -1.25rem;
@@ -238,6 +190,9 @@
   box-shadow: 0 0 5px var(--name-color), 0 0 25px var(--name-color), 0 0 50px var(--name-color), 0 0 100px var(--name-color);
 }
 
+/*********************************************
+ * Project Drawer Lightbox
+ *********************************************/
 .project-drawer-image-lightbox {
   width: 70%;
   height: 100%;
@@ -248,13 +203,9 @@
   margin: 0 auto;
 }
 
-@media screen and (max-width: 768px) {
-  .project-drawer-image-lightbox {
-    width: 100%;
-    grid-row: span 4;
-  }
-}
-
+/*********************************************
+ * Project Drawer Description
+ *********************************************/
 .project-drawer-description {
   grid-column: span 3;
   grid-row: span 4;
@@ -270,12 +221,6 @@
   -ms-overflow-style: none;
 }
 
-@media screen and (max-width: 768px) {
-  .project-drawer-description {
-    font-size: 0.8rem;
-  }
-}
-
 .project-drawer-description li {
   margin-left: 20px;
 }
@@ -284,6 +229,9 @@
   width: 0 !important;
 }
 
+/*********************************************
+ * Project Drawer Links
+ *********************************************/
 .project-drawer-links {
   /* put at bottom */
   position: absolute;
@@ -295,13 +243,6 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
-}
-
-@media screen and (max-width: 768px) {
-  .project-drawer-links {
-    gap: 10px;
-    bottom: 50px;
-  }
 }
 
 .project-drawer-links a {
@@ -320,6 +261,9 @@
   fill: var(--aurora-color-3);
 }
 
+/*********************************************
+ * Project Drawer Tags
+ *********************************************/
 .project-drawer-tags {
   position: absolute;
   bottom: 5px;
@@ -329,13 +273,6 @@
   justify-content: center;
   align-items: center;
   gap: 5px;
-}
-
-@media screen and (max-width: 768px) {
-  .project-drawer-tags {
-    font-size: 0.5rem;
-    bottom: 10px;
-  }
 }
 
 .project-drawer-tags .tag {
@@ -360,7 +297,7 @@
   transition: all 0.3s;
 }
 
-.project-drawer-tags .tag::before {
+/* .project-drawer-tags .tag::before {
   content: "";
   position: absolute;
   bottom: 0;
@@ -375,22 +312,11 @@
   transition: all 0.2s;
 
   z-index: -1;
-}
+} */
 
 .project-drawer-tags .tag:hover::before {
   height: 100%;
   width: 100%;
-}
-
-@media screen and (max-width: 768px) {
-  .project-drawer-tags .tag {
-    padding: 2px;
-  }
-
-  /* only show first 3 tags */
-  .project-drawer-tags .tag:not(:nth-child(-n + 5)) {
-    display: none;
-  }
 }
 
 .project-drawer-tags .tag .tag-hashtag {
@@ -401,9 +327,12 @@
   background: linear-gradient(var(--nav-active-color), var(--link-color));
 } */
 
+/*********************************************
+ * Project Drawer Last Updated
+ *********************************************/
 .project-drawer-last-updated {
   position: absolute;
-  bottom: 0;
+  top: 0;
   right: 0;
   padding: 10px;
   font-size: 1rem;
@@ -412,63 +341,45 @@
   color: rgba(169, 130, 251, 0.75);
 }
 
-@media screen and (max-width: 768px) {
-  .project-drawer-last-updated {
-    font-size: 0.7rem;
-  }
-}
-
 .project-drawer-last-updated:hover {
   color: var(--menu-item-color);
 }
 
+/*********************************************
+ * Project Drawer Roles
+ *********************************************/
 .project-drawer-roles {
   position: absolute;
-  top: -20px;
+  bottom: 5px;
   right: 10px;
-  color: var(--aurora-color-3);
-  font-size: 1.2rem;
-
+  font-size: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 5px;
 }
 
-@media screen and (max-width: 768px) {
-  .project-drawer-roles {
-    top: -15px;
-    font-size: 0.8rem;
-  }
-
-  /* only show first role */
-  .project-drawer-roles .role:not(:nth-child(-n + 1)) {
-    display: none;
-  }
-
-  .project-drawer-roles .role:first-child::after {
-    content: "...";
-  }
-}
-
 .project-drawer-roles .role {
+  position: relative;
   color: #e2e8f0;
-  padding: 5px 10px 5px 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
   font-weight: 300;
   line-height: 1.5;
-
-  background: linear-gradient(var(--highligh-color), var(--aurora-color-2));
-
   border-radius: 10px;
-  /* make it look 3d */
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+
+  border: 1px solid var(--highligh-color);
+
+  border-bottom-right-radius: 1px;
+
+  transition: all 0.3s;
 }
 
-.project-drawer-roles .role:hover {
-  background: var(--highligh-color);
-  box-shadow: 0 0 5px var(--highligh-color), 0 0 25px var(--highligh-color), 0 0 50px var(--highligh-color), 0 0 100px var(--highligh-color);
-}
-
+/*********************************************
+ * Project Drawer Keyframes
+ *********************************************/
 @keyframes svg_bounce {
   0% {
     transform: translateY(0);
@@ -478,5 +389,85 @@
   }
   100% {
     transform: translateY(0);
+  }
+}
+
+/*********************************************
+ * Media Queries
+ *********************************************/
+@media screen and (max-width: 768px) {
+  .project-card-drawer {
+    width: calc(100% - 0.5rem);
+    margin: 0;
+  }
+
+  .project-card-drawer.active {
+    height: 80%;
+  }
+
+  .project-card-drawer::after {
+    filter: blur(0rem);
+  }
+
+  .project-card-drawer::before,
+  .project-card-drawer::after {
+    inset: -0.1rem;
+  }
+
+  .project-card-drawer-content {
+    padding-left: 5%;
+    padding-right: 5%;
+    font-size: 0.5rem;
+  }
+
+  .project-card-drawer-title {
+    font-size: 1.5rem;
+  }
+
+  .project-card-drawer-progress {
+    font-size: 0.6rem;
+  }
+
+  .project-drawer-image-lightbox {
+    width: 100%;
+    grid-row: span 4;
+  }
+  .project-drawer-description {
+    font-size: 0.8rem;
+  }
+  .project-drawer-links {
+    gap: 10px;
+    bottom: 50px;
+  }
+  .project-drawer-tags {
+    font-size: 0.5rem;
+    bottom: 10px;
+  }
+
+  .project-drawer-tags .tag {
+    padding: 2px;
+  }
+
+  /* only show first 3 tags */
+  .project-drawer-tags .tag:not(:nth-child(-n + 5)) {
+    display: none;
+  }
+
+  .project-drawer-last-updated {
+    font-size: 0.7rem;
+  }
+
+  .project-drawer-roles {
+    font-size: 0.5rem;
+    bottom: 10px;
+  }
+
+  .project-drawer-roles .role {
+    padding: 2px;
+  }
+
+  /* only show first 2 roles */
+  .project-drawer-roles .role:not(:nth-child(-n + 3)) {
+    display: none;
   }
 }

@@ -20,7 +20,7 @@ const Hero = ({ user: user }: { user: iUser }) => {
     "1x": homeBackground + "/900/0",
     "2x": homeBackground,
   };
-  const ghostItems = [user.firstName + " " + user.lastName, user.title, "Software Engineer", "Software Architect", "Systems Admin", "DevOps Engineer"];
+  const ghostItems = [user.firstName + " " + user.lastName, user.title, "Software Engineer", "Systems Admin", "Software Architect", "DevOps Engineer"];
 
   var finalBackground = `url(${backgroundSizes["2x"]})`;
   if (isMobile) {

@@ -143,9 +143,15 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
                 <div className="project-card-drawer-content">
                   <div className="project-card-drawer-title">{project.name}</div>
                   <div className="project-card-drawer-progress">
-                    <div className="project-card-drawer-type">{project.projectType.replace(/\b\w/g, (l) => l.toUpperCase())}</div>
-                    <div className="project-card-drawer-active">{project.isActive ? "Active" : "Inactive"}</div>
-                    <div className="project-card-drawer-released">{project.isReleased ? "Released" : "Unreleased"}</div>
+                    <div className="project-card-drawer-type" aria-label="Project Type">
+                      {project.projectType.replace(/\b\w/g, (l) => l.toUpperCase())}
+                    </div>
+                    <div className="project-card-drawer-active" aria-label="Is Project Active?">
+                      {project.isActive ? "In Development" : "Not in Development"}
+                    </div>
+                    {/* <div className="project-card-drawer-released" aria-label="Is Project Released?">
+                      {project.isReleased ? "Live" : "Unreleased"}
+                    </div> */}
                   </div>
                   <div className="project-card-drawer-close">
                     <div className="project-card-drawer-close-button" onClick={closeCard}>
@@ -206,6 +212,7 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
                       <></>
                     )}
                   </div>
+                  <div className="project-drawer-roles">{getRoles()}</div>
                   <div className="project-drawer-description">{parse(project.description)}</div>
                   <div className="project-drawer-links">
                     <a href={project.repoURL} target="_blank" rel="noopener noreferrer">
@@ -224,7 +231,6 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
                   </div>
                   <div className="project-drawer-tags">{skillsCapitalize()}</div>
                   <div className="project-drawer-last-updated">{new Date(project.updatedDate).toLocaleString()}</div>
-                  <div className="project-drawer-roles">{getRoles()}</div>
                 </div>
               </div>
             </div>
