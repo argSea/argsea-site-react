@@ -40,7 +40,7 @@ function createParticleImage(image: string, offsetX: number, offsetY: number, sc
         const colorCopy = new Color(imgData.data[i] / 255, imgData.data[i + 1] / 255, imgData.data[i + 2] / 255);
 
         // randomly skip some particles to create a more sparse effect
-        if (Math.random() > 0.6) {
+        if (Math.random() > 0.5) {
           continue;
         }
 

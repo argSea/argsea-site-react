@@ -83,7 +83,7 @@ function createInterestParticles(interests: iInterests[], canvas: HTMLElement) {
     console.log(interest);
     const image = interest.icon.src;
     const sizeMod = interest.interestLevel;
-    const scale = (canvas.clientWidth / 10000) * sizeMod;
+    const scale = (canvas.clientWidth / 9000) * sizeMod;
 
     var offsetX = offset.x;
     var offsetY = offset.y;
