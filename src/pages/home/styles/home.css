@@ -89,8 +89,8 @@
 }
 
 #aboutme-header-text {
-  --link-color: rgba(169, 130, 251, 0.5);
-  --menu-item-color: rgba(54, 113, 203, 0.5);
+  --link-color: rgba(149, 110, 231, 1);
+  --menu-item-color: rgba(34, 93, 183, 1);
   display: inline-block;
   margin: 0;
   padding: 0;

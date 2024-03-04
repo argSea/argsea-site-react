@@ -144,7 +144,11 @@
 }
 
 .project-card-drawer-progress div:not(:first-child) {
-  background: var(--aurora-color-3);
+  background: var(--link-color);
+}
+
+.project-card-drawer-abandoned {
+  background: var(--aurora-color-4);
 }
 
 /*********************************************

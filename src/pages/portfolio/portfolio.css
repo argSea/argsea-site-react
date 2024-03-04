@@ -11,7 +11,7 @@
   position: absolute;
   top: calc(0px - clamp(-25px, 10vw, 100px));
   left: 0;
-  z-index: -1;
+  z-index: 0;
 }
 
 @media (max-width: 768px) {
@@ -29,8 +29,8 @@
 }
 
 #portfolio-info #portfolio-header #portfolio-header-text {
-  --link-color: rgba(169, 130, 251, 0.5);
-  --menu-item-color: rgba(54, 113, 203, 0.5);
+  --link-color: rgba(149, 110, 231, 1);
+  --menu-item-color: rgba(34, 93, 183, 1);
   display: inline-block;
   margin: 0;
   padding: 0;

@@ -146,9 +146,16 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
                     <div className="project-card-drawer-type" aria-label="Project Type">
                       {project.projectType.replace(/\b\w/g, (l) => l.toUpperCase())}
                     </div>
-                    <div className="project-card-drawer-active" aria-label="Is Project Active?">
-                      {project.isActive ? "In Development" : "Not in Development"}
-                    </div>
+                    {project.isActive || project.isReleased ? (
+                      <div className="project-card-drawer-active" aria-label="Is Project Active?">
+                        {project.isActive ? "In Development" : "Completed"}
+                      </div>
+                    ) : (
+                      // project is abandoned
+                      <div className="project-card-drawer-abandoned" aria-label="Is Project Abandoned?">
+                        Abandoned
+                      </div>
+                    )}
                     {/* <div className="project-card-drawer-released" aria-label="Is Project Released?">
                       {project.isReleased ? "Live" : "Unreleased"}
                     </div> */}

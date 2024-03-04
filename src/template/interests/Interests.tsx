@@ -11,7 +11,10 @@ const Interests = ({ interests }: { interests: iInterests[] }) => {
       return;
     }
 
-    const outerContainer = document.getElementById("root") as HTMLDivElement;
+    // const outerContainer = document.getElementById("root") as HTMLDivElement;
+    // const outerContainer = document.getElementsByName("body")[0] as HTMLDivElement;
+    // get body element
+    const outerContainer = document.getElementsByTagName("body")[0] as HTMLElement;
     const container = document.getElementById("interest-canvas-container") as HTMLDivElement;
     // add canvas to root with an id of interests-canvas
     const canvas = document.createElement("canvas");
@@ -26,8 +29,8 @@ const Interests = ({ interests }: { interests: iInterests[] }) => {
 
     // get view height
     const vh = window.innerHeight * 0.01;
-    // set container height to body minus hero
-    container.style.height = outerContainer.clientHeight - 101 * vh + "px";
+    // set container height to body minus #content
+    container.style.height = outerContainer.clientHeight - 10 * vh + "px";
 
     const partGen = createInterestParticles(interests, canvas);
 
