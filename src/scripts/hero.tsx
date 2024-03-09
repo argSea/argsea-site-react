@@ -173,9 +173,9 @@ const particleGenerator = (canvas: HTMLElement, words: string[]) => {
   const pScale = window.innerHeight / 2;
   const pColor = new Color(0xffffff);
   const pTextSize = 12;
-  const pArea = 2000;
+  const pArea = 40000;
   const pAnimationEase = 0.25;
-  const pRadius = 300;
+  const pRadius = 1000;
   var xMid = 0;
   var yMid = 0;
 
