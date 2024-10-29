@@ -7,6 +7,13 @@ class API {
 
   static PUT_USER = "/user/{id}/";
 
+  // skills
+  static GET_SKILLS = "/skill/";
+  static GET_A_SKILL = "/skill/{id}/";
+  static POST_SKILL = "/skill/";
+  static PUT_SKILL = "/skill/{id}/";
+  static DELETE_SKILL = "/skill/{id}/";
+
   static LOGIN = "/auth/login/";
   static VALIDATE = "/auth/validate/";
   static LOGOUT = "/auth/logout/";

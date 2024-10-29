@@ -24,7 +24,7 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
     project.projectType = "other";
   }
 
-  const skills = () => {
+  const skills = (capitalize: boolean = false) => {
     if (!project.skills) {
       return <></>;
     }
@@ -34,28 +34,17 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
       if (index > 6) {
         return <></>;
       }
+
+      let tagName = tag.name.toLowerCase();
+
+      if (capitalize) {
+        tagName = tag.name;
+      }
       return (
         <div key={index} className="tag">
           <span>#</span>
-          {tag}
+          {tagName}
         </div>
-      );
-    });
-
-    return skills;
-  };
-
-  // do what skills does but get the skill choices from the global variable
-  const skillsCapitalize = () => {
-    if (!project.skills) {
-      return <></>;
-    }
-
-    var skills = project.skills.map((tag, index) => {
-      return (
-        <span key={index} className="tag">
-          {getSkillChoices().find((skill) => skill.id === tag)?.name}
-        </span>
       );
     });
 
@@ -222,21 +211,26 @@ const ProjectCard = ({ project: project }: { project: iProject }) => {
                   <div className="project-drawer-roles">{getRoles()}</div>
                   <div className="project-drawer-description">{parse(project.description)}</div>
                   <div className="project-drawer-links">
-                    <a href={project.repoURL} target="_blank" rel="noopener noreferrer">
-                      <FaGithubAlt />
-                    </a>
+                    {/* if project.repuURL is not empty */}
+                    {project.repoURL ? (
+                      <a href={project.repoURL} target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository">
+                        <FaGithubAlt />
+                      </a>
+                    ) : (
+                      <></>
+                    )}
                     {/* iterate through project.links */}
                     {project.links &&
                       project.links.map((link, index) => {
                         return (
-                          <a href={link.url} target="_blank" rel="noopener noreferrer" key={index}>
+                          <a href={link.url} target="_blank" rel="noopener noreferrer" key={index} aria-label={link.type}>
                             {/* check if link type is YouTube, case insensitive */}
                             {link.type.toLowerCase() === "youtube" ? <FaYoutube /> : <FaLink />}
                           </a>
                         );
                       })}
                   </div>
-                  <div className="project-drawer-tags">{skillsCapitalize()}</div>
+                  <div className="project-drawer-tags">{skills(true)}</div>
                   <div className="project-drawer-last-updated">{new Date(project.updatedDate).toLocaleString()}</div>
                 </div>
               </div>

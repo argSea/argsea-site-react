@@ -19,7 +19,7 @@ interface iProject {
   repoURL: string;
   description: string;
   shortDescription: string;
-  skills: string[];
+  skills: { id: string; name: string; description: string }[];
   roles: string[];
   priority: number;
   progress: number;

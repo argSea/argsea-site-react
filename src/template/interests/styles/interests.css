@@ -3,8 +3,8 @@
   top: calc(100vh + var(--nav-height));
   left: 0;
   min-width: 100vw;
-  /* height: calc(100% - 101vh); */
-  /* max-height: calc(100% - 101vh); */
+  height: calc(100% - 101vh - var(--nav-height));
+  max-height: calc(100% - 101vh - var(--nav-height));
   width: 100vw;
   /* min-height: 100vh; */
   z-index: -1;
@@ -12,7 +12,6 @@
 }
 
 #interest-canvas {
-  min-width: 100vw;
-  min-height: 100%;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 }

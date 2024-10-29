@@ -30,6 +30,7 @@
   font-size: 1.3rem;
   line-height: 1.5;
   padding-bottom: 300px;
+  overflow: hidden;
 }
 
 /* BEGIN: aboutme base styles */

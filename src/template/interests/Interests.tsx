@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import createInterestParticles from "../../scripts/imageParticles";
 import iInterests from "../../interfaces/iTechInterest";
 import { isMobile } from "react-device-detect";
+import { Canvas } from "@react-three/fiber";
 import "./styles/interests.css";
 
 const Interests = ({ interests }: { interests: iInterests[] }) => {
@@ -14,21 +15,18 @@ const Interests = ({ interests }: { interests: iInterests[] }) => {
     const outerContainer = document.getElementById("root") as HTMLDivElement;
     const container = document.getElementById("interest-canvas-container") as HTMLDivElement;
     // add canvas to root with an id of interests-canvas
+    // const canvas = document.getElementById("interest-canvas")?.getElementsByTagName("canvas")[0] as HTMLCanvasElement;
     const canvas = document.createElement("canvas");
     canvas.id = "interest-canvas";
-    // set canvas to size of root minus view height
-    // const rObserver = new ResizeObserver((entries) => {
-    //   canvas.width = (hookRef.current as HTMLDivElement).clientWidth;
-    //   canvas.height = (hookRef.current as HTMLDivElement).clientHeight - window.innerHeight - 5;
-    // });
-    // set canvas height to window height minus 100vh
+    canvas.setAttribute("style", "width: 100%; height: 100%;");
+    console.log(canvas);
 
-    container?.appendChild(canvas);
+    container.appendChild(canvas);
 
     // get view height
     const vh = window.innerHeight * 0.01;
     // set container height to body minus #content
-    container.style.height = outerContainer.clientHeight - 50 * vh + "px";
+    // container.style.height = outerContainer.clientHeight - 50 * vh + "px";
 
     const partGen = createInterestParticles(interests, canvas);
 
@@ -39,7 +37,16 @@ const Interests = ({ interests }: { interests: iInterests[] }) => {
     // };
   }, []);
 
-  return <div id="interest-canvas-container"></div>;
+  return (
+    <div id="interest-canvas-container">
+      {/* <Canvas id="interest-canvas">
+        <mesh visible={false}>
+          <sphereGeometry args={[1, 16, 16]} />
+          <meshBasicMaterial color="red" />
+        </mesh>
+      </Canvas> */}
+    </div>
+  );
 };
 
 export default Interests;

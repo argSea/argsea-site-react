@@ -82,7 +82,15 @@ const particleGenerator = (canvas: HTMLElement, words: string[]) => {
   const lerpParticles = (particles: any, particlesCopy: any, area: number, ease: number) => {
     let newParticles: any[] = [];
     let lerped = true;
+
+    if (particlesCopy == undefined) {
+      return { particles: particles, lerped: false };
+    }
+
     for (var i = 0; i < particles.length; i += 3) {
+      if (particlesCopy[i] == undefined) {
+        break;
+      }
       let initX = particlesCopy[i];
       let initY = particlesCopy[i + 1];
       let initZ = particlesCopy[i + 2];
